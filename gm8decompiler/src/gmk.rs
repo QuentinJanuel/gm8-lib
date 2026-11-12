@@ -1,10 +1,10 @@
 use crate::{collision, zlib::ZlibWriter};
-use byteorder::{WriteBytesExt, LE};
-use flate2::{write::ZlibEncoder, Compression};
+use byteorder::{LE, WriteBytesExt};
+use flate2::{Compression, write::ZlibEncoder};
 use gm8exe::{
-    asset::{self, included_file::ExportSetting, PascalString, WritePascalString},
-    settings::{GameHelpDialog, Settings},
     GameAssets, GameVersion,
+    asset::{self, PascalString, WritePascalString, included_file::ExportSetting},
+    settings::{GameHelpDialog, Settings},
 };
 use rayon::prelude::*;
 use std::{io, u32};
@@ -535,8 +535,16 @@ where
         for tile in &room.tiles {
             compat += &format!(
                 "{}{}",
-                if tile.xscale != 1.0 || tile.yscale != 1.0 { format!("tile_set_scale({},{},{});\r\n", tile.id, tile.xscale, tile.yscale) } else { String::new() },
-                if tile.blend != u32::MAX { format!("tile_set_blend({},{});\r\n", tile.id, tile.blend) } else { String::new() },
+                if tile.xscale != 1.0 || tile.yscale != 1.0 {
+                    format!("tile_set_scale({},{},{});\r\n", tile.id, tile.xscale, tile.yscale)
+                } else {
+                    String::new()
+                },
+                if tile.blend != u32::MAX {
+                    format!("tile_set_blend({},{});\r\n", tile.id, tile.blend)
+                } else {
+                    String::new()
+                },
             );
         }
     }

@@ -1,11 +1,1 @@
-**/target/
-**/*.rs.bk
-**/*.exe
-**/*.bin
-**/*.gmk
-**/*.gm81
-
-# editor stuff
-/.idea/
-/.vscode/
-/.project/
+target/

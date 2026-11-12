@@ -6,8 +6,8 @@
 
 use crate::mappings;
 use gm8exe::{
-    asset::{CodeAction, PascalString},
     GameAssets,
+    asset::{CodeAction, PascalString},
 };
 use gml_parser::{
     ast::{self, AST},
@@ -725,6 +725,13 @@ impl<'a, 'b, 'c> ExprWriter<'a, 'b, 'c> {
                 self.is_gml_expr = false;
                 push_str!(";\r\n");
             },
+            // A span wrapper around an ordinary statement, so write the statement and ignore the
+            // span. The decompiler parses with `AST::new`, which never produces one of these -- only
+            // `AST::new_with_spans` does, for the mod loader -- so this arm is unreachable today.
+            // It recurses rather than panicking anyway: unwrapping is what the node *means*, so this
+            // stays correct if the decompiler ever wants spans, and an `unreachable!()` here would
+            // be a crash waiting on a change made somewhere else entirely.
+            ast::Expr::At(expr) => self.process_expr(&expr.stmt),
         }
     }
 

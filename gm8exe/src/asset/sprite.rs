@@ -1,10 +1,10 @@
 use crate::{
-    asset::{
-        assert_ver, assert_ver_multiple, Asset, Error, PascalString, ReadChunk, ReadPascalString, WritePascalString,
-    },
     GameVersion,
+    asset::{
+        Asset, Error, PascalString, ReadChunk, ReadPascalString, WritePascalString, assert_ver, assert_ver_multiple,
+    },
 };
-use byteorder::{ReadBytesExt, WriteBytesExt, LE};
+use byteorder::{LE, ReadBytesExt, WriteBytesExt};
 use std::io::{self, Read};
 
 pub const VERSION: u32 = 800;
@@ -160,6 +160,11 @@ impl Asset for Sprite {
             }
         } else {
             writer.write_u32::<LE>(0)?;
+            // GameMaker writes the per-frame-collider flag even for a sprite with no frames, and the
+            // real runner reads it. The deserialiser above never notices it missing -- an asset is
+            // length-delimited, so trailing bytes are simply ignored -- which is exactly why a
+            // writer can drop it and still round-trip through our own reader.
+            writer.write_u32::<LE>(self.per_frame_colliders.into())?;
         }
         Ok(())
     }

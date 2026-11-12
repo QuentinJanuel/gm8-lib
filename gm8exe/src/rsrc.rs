@@ -1,5 +1,5 @@
 use crate::reader::PESection;
-use byteorder::{ReadBytesExt, WriteBytesExt, LE};
+use byteorder::{LE, ReadBytesExt, WriteBytesExt};
 use std::io::{self, Seek, SeekFrom};
 
 /*

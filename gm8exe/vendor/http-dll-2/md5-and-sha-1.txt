@@ -1,0 +1,246 @@
+Maarten Baert's website
+
+Game Maker / C++ projects
+
+ | 
+
+Home | 
+Model Creator | 
+ExtremePhysics | 
+Game Maker DLLs | 
+SimpleScreenRecorder | 
+AlterPCB | 
+Quadcopters | 
+  | 
+Recent comments | 
+Search | 
+
+Navigation
+
+• Main page
+• GM-GMP
+• Http Dll 2
+   • Buffers
+   • MD5 and SHA-1
+   • Sockets
+   • UDP sockets
+   • Http requests
+• ds_bin
+
+• Offline version
+
+Log in
+
+Username:
+
+Password:
+
+No account yet? Register!
+
+ | 
+
+Last modified: Thu, 16 Jun 2011
+
+Refresh
+
+MD5 and SHA-1
+
+What are MD5 and SHA-1?
+
+Applications
+
+Usage example
+
+Functions
+
+md5_begin/sha1_begin
+
+md5_end/sha1_end
+
+md5_read_file/sha1_read_file
+
+md5_read_string/sha1_read_string
+
+md5_read_buffer/sha1_read_buffer
+
+md5_read_buffer_part/sha1_read_buffer_part
+
+md5_result/sha1_result
+
+What are MD5 and SHA-1?
+
+MD5 and SHA-1 are hash algorithms. They take any amount of data and produce a hash (usually displayed as a hexadecimal number). For example, when applied to this string:
+
+hello world
+
+the MD5 algorithm generates this hash:
+
+5eb63bbbe01eeed093cb22bb8f5acdc3
+
+A hash algorithm is not an encryption algorithm. It is not reversible, i.e. you can't decrypt the hash to get the original data back (except by applying the algorithm to every possible input until the hash matches the hash you're trying to decode). Furthermore, if you make a small change to the input data, the hash will be completely different. For example, when applied to this string:
+
+hello woRld
+
+the MD5 algorithm generates this hash:
+
+b7c989e31e148adad3232e7c73d94692
+
+SHA-1 is said to be more secure than MD5, but MD5 is also good enough for most purposes. MD5 generates a 16-byte hash (32 hexadecimal characters), SHA-1 generates a 20-byte hash (40 hexadecimal characters).
+
+Applications
+
+Validating files: You can use MD5 or SHA-1 to find out whether a file has been damaged or modified by comparing the hash to the correct hash. If the hash is different, the file is not the same. Theoretically two files could have the same hash, but the odds are extremely small. It is very difficult to generate two files that have the same hash and still contain meaningful data.
+
+Storing passwords: MD5 or SHA-1 is often used to store passwords in a database. When the user enters his password, the server calculates the MD5 or SHA-1 hash of the password and compares it to the hash that is stored in the database. If the hash matches, the password is correct. Because the actual passwords are not stored in the database, the passwords can't be stolen by a hacker who gains access to the database. This is especially important because many users use the same password for different accounts (e.g. different websites).
+
+Signing data: MD5 or SHA-1 can be used to sign data that should not be modified, e.g. saved games, high score entries, etc. To do this, the program will calculate the hash of a string that is based on the data, but also contains characters that are not known to the user (for example: data+"o8bd72"). This hash will be saved/sent along with the original data. When the data is loaded/received, the same procedure is used, and the hash will be compared to the original hash. If the data was modified, the hashes won't match and the application will reject the data.
+
+Usage example
+
+Calculating the MD5 and SHA-1 hash of a string:
+
+md5_begin();
+md5_read_string("hello world");
+md5_end();
+show_message("MD5: "+md5_result());
+
+sha1_begin();
+sha1_read_string("hello world");
+sha1_end();
+show_message("SHA-1: "+sha1_result());
+
+Signing data, saving:
+
+var buffer, hash;
+
+buffer = buffer_create();
+
+buffer_write_uint8(buffer, 42);
+buffer_write_uint8(buffer, 77);
+buffer_write_float32(buffer, 3.14);
+buffer_write_string(buffer, "hello world");
+
+md5_begin();
+md5_read_buffer(buffer);
+md5_read_string("5s0u5g2p1x4"); // append a secret string
+md5_end();
+hash = md5_result();
+
+buffer_write_string(buffer, hash);
+
+buffer_write_to_file(buffer, "data.txt");
+
+buffer_destroy(buffer);
+
+Signing data, loading:
+
+var buffer, a, b, c, d, hash1, hash2;
+
+// create a buffer
+buffer = buffer_create();
+
+// read the data from the file
+if !buffer_read_from_file(buffer, "data.txt") {
+ buffer_destroy(buffer);
+ show_message("Error: Reading data.txt failed! Make sure the file exists.");
+ exit;
+}
+
+// read data from the buffer
+// this should be done in exactly the same order
+a = buffer_read_uint8(buffer);
+b = buffer_read_uint8(buffer);
+c = buffer_read_float32(buffer);
+d = buffer_read_string(buffer);
+
+md5_begin();
+// only hash the data that was read to this point
+md5_read_buffer_part(buffer, 0, buffer_get_pos(buffer));
+md5_read_string("5s0u5g2p1x4"); // append the same secret string
+md5_end();
+hash1 = md5_result();
+
+hash2 = buffer_read_string(buffer);
+
+if hash1!=hash2 {
+ buffer_destroy(buffer);
+ show_message("Error: The file was modified!");
+ exit;
+}
+
+show_message("a = "+string(a)+"#b = "+string(b)+"#c = "+string(c)+"#d = "+d);
+
+buffer_destroy(buffer);
+
+Functions
+
+md5_begin/sha1_begin
+
+md5_begin()
+sha1_begin()
+
+Initializes the MD5/SHA-1 algorithm.
+
+md5_end/sha1_end
+
+md5_end()
+sha1_end()
+
+Finishes the MD5 algorithm.
+
+md5_read_file/sha1_read_file
+
+md5_read_file(filename)
+sha1_read_file(filename)
+
+Reads data from a file and hashes it.
+
+filename: The path to the file.
+
+md5_read_string/sha1_read_string
+
+md5_read_string(string)
+sha1_read_string(string)
+
+Reads data from a string and hashes it.
+
+string: The string.
+
+md5_read_buffer/sha1_read_buffer
+
+md5_read_buffer(id)
+sha1_read_buffer(id)
+
+Reads data from a buffer and hashes it.
+
+id: The id of the buffer.
+
+md5_read_buffer_part/sha1_read_buffer_part
+
+md5_read_buffer_part(id, pos, len)
+sha1_read_buffer_part(id, pos, len)
+
+Reads data from a part of a buffer and hashes it.
+
+id: The id of the buffer.
+
+pos: The starting position.
+
+len: The length.
+
+md5_result/sha1_result
+
+md5_result()
+sha1_result()
+
+Returns the MD5/SHA-1 hash (call md5_end/sha1_end first).
+
+Comments
+
+There are no comments yet.
+
+Write a comment
+
+ | 
+
+Copyright 2009-2026 Maarten Baert

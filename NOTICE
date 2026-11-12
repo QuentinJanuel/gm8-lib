@@ -1,0 +1,25 @@
+gm8-lib
+=======
+
+Reads, patches and writes GameMaker 8 game files.
+
+Built on gm8exe and gml-parser, extracted from OpenGMK
+<https://github.com/OpenGMK/OpenGMK>, which are licensed GPL-2.0-only. This
+library is therefore GPL-2.0-only; see LICENSE. Copyright in the original work
+is retained by the OpenGMK authors and contributors.
+
+New work in this repository is Copyright (C) 2026 Dapper Mink, licensed
+GPL-2.0-only on the same terms.
+
+GPL-2.0-only is incompatible with GPL-3.0: this library cannot be linked into a
+work that also contains GPL-3.0 code.
+
+Third-party component
+---------------------
+
+`gm8exe/vendor/http_dll8` embeds Http Dll 2.3 by Maarten Baert, a GameMaker extension DLL
+distributed under the GNU Lesser General Public License. Its documentation is saved under
+`gm8exe/vendor/http-dll-2/`, and its source and licence are published at
+<https://www.maartenbaert.be/game-maker-dlls/http-dll-2/>. It is a separate work: it is not
+covered by this library's GPL-2.0-only licence, and is redistributed inside every game that
+`gm8exe::mods::patch_exe` produces.

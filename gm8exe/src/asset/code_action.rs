@@ -1,9 +1,9 @@
 use crate::{
-    asset::{assert_ver, Error, PascalString, ReadPascalString, WritePascalString},
-    def::ID,
     GameVersion,
+    asset::{Error, PascalString, ReadPascalString, WritePascalString, assert_ver},
+    def::ID,
 };
-use byteorder::{ReadBytesExt, WriteBytesExt, LE};
+use byteorder::{LE, ReadBytesExt, WriteBytesExt};
 use std::io::{self, Read};
 
 pub const VERSION: u32 = 440;

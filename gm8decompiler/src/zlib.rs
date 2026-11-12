@@ -1,6 +1,6 @@
-use flate2::{write::ZlibEncoder, Compression};
+use flate2::{Compression, write::ZlibEncoder};
 
-use byteorder::{WriteBytesExt, LE};
+use byteorder::{LE, WriteBytesExt};
 use std::io::{self, Write};
 
 /// Takes some data and writes the compressed data to the cursor in GM8 format.

@@ -2,7 +2,7 @@ pub mod antidec;
 pub mod gm80;
 pub mod gm81;
 
-use crate::{reader::ReaderError, upx, GameVersion};
+use crate::{GameVersion, reader::ReaderError, upx};
 use std::io::{self, Seek, SeekFrom};
 
 /// Identifies the game version and start of gamedata header, given a data cursor.

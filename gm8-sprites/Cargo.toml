@@ -1,0 +1,13 @@
+[package]
+name = "gm8-sprites"
+version = "0.1.0"
+license = "GPL-2.0-only"
+edition = "2021"
+rust-version = "1.77"
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+gm8exe = { path = "../gm8exe" }

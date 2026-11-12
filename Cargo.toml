@@ -1,16 +1,17 @@
 [workspace]
 resolver = "2"
-exclude = ["gm8emulator-wow64"]
-members = [
-    # main projects
-    "gm8emulator",
-    "gm8decompiler",
-    "gml-parser",
-    "gm8exe",
-]
+members = ["gml-parser", "gm8exe", "gm8patch", "gm8decompiler", "gm8-detect", "gm8-sprites"]
 
 [profile.release]
 codegen-units = 1
 opt-level = 3
 lto = 'thin'
 strip = true
+
+# The small wasm modules' profile: each answers one question per file, so size over speed. A trap
+# from a panic just means "unreadable" to a host that uses a fresh instance per file.
+[profile.wasm-small]
+inherits = "release"
+opt-level = "z"
+lto = true
+panic = "abort"

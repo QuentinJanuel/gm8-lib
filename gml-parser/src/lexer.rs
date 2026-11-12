@@ -14,6 +14,11 @@ pub struct Lexer<'a> {
 
     line_hint: usize,
 
+    /// Byte offset where the token most recently returned by `next` begins, past the whitespace
+    /// and comments skipped to reach it. With `offset`, this is what gives a statement a span --
+    /// which is how a mod points at one. See `TokenStream`.
+    token_start: usize,
+
     /// Iterator over the source code as raw bytes.
     iter: Peekable<Enumerate<Copied<slice::Iter<'a, u8>>>>,
 }
@@ -21,12 +26,26 @@ pub struct Lexer<'a> {
 impl<'a> Lexer<'a> {
     /// Creates a new Lexer over GML source code.
     pub fn new(src: &'a [u8]) -> Self {
-        Lexer { src, line_hint: 1, iter: src.iter().copied().enumerate().peekable() }
+        Lexer { src, line_hint: 1, token_start: 0, iter: src.iter().copied().enumerate().peekable() }
     }
 
     /// Returns the current line number in the source code.
     pub fn line(&self) -> usize {
         self.line_hint
+    }
+
+    /// Where the token most recently returned by `next` began.
+    pub fn token_start(&self) -> usize {
+        self.token_start
+    }
+
+    /// Byte offset of the next byte not yet lexed, i.e. just past the last token returned.
+    ///
+    /// Read straight after `next`, this is that token's end -- before the whitespace following it,
+    /// which is what a statement's span wants: text inserted there lands against the statement
+    /// rather than in the middle of the next line's indentation.
+    pub fn offset(&mut self) -> usize {
+        self.iter.peek().map_or(self.src.len(), |&(index, _)| index)
     }
 
     /// Fast-forwards the internal iterator to the next token, skipping over whitespace.
@@ -47,6 +66,85 @@ impl<'a> Lexer<'a> {
     }
 }
 
+/// A lexer with one token of lookahead that also knows where its tokens are.
+///
+/// The parser needs both, and `Peekable<Lexer>` can only give the first: peeking pulls a token out
+/// of the lexer, so the lexer's own position is then past a token the parser has not consumed yet,
+/// and a span taken at that moment is wrong by exactly one token. Keeping the peeked token's start
+/// beside the token fixes that -- `start` answers for the next token whether or not anything has
+/// looked at it, and `end` for the last one handed out.
+#[derive(Clone)]
+pub struct TokenStream<'a> {
+    lexer: Lexer<'a>,
+    /// The token pulled from the lexer but not yet handed out, and where it begins.
+    peeked: Option<(Token<'a>, usize)>,
+    /// Just past the last token `next` returned.
+    end: usize,
+    /// Whether the parser should record a span for each statement it reads.
+    spans: bool,
+}
+
+impl<'a> TokenStream<'a> {
+    pub fn new(src: &'a [u8]) -> Self {
+        TokenStream { lexer: Lexer::new(src), peeked: None, end: 0, spans: false }
+    }
+
+    /// A stream whose parser wraps every statement in `Expr::At`. See `AST::new_with_spans`.
+    ///
+    /// The flag rides on the stream rather than being an argument, because it would otherwise have
+    /// to be threaded through every one of the parser's recursive reads to reach the three places
+    /// that act on it.
+    pub fn with_spans(src: &'a [u8]) -> Self {
+        TokenStream { spans: true, ..TokenStream::new(src) }
+    }
+
+    pub fn spans(&self) -> bool {
+        self.spans
+    }
+
+    pub fn peek(&mut self) -> Option<&Token<'a>> {
+        if self.peeked.is_none() {
+            let token = self.lexer.next()?;
+            self.peeked = Some((token, self.lexer.token_start()));
+        }
+        self.peeked.as_ref().map(|(token, _)| token)
+    }
+
+    /// Where the next token begins, or the end of the source when there is none.
+    ///
+    /// The start of a statement is this, read before parsing it.
+    pub fn start(&mut self) -> usize {
+        if self.peek().is_none() {
+            return self.lexer.offset();
+        }
+        self.peeked.as_ref().map_or(self.end, |&(_, start)| start)
+    }
+
+    /// Just past the last token handed out. The end of a statement is this, read after parsing it.
+    pub fn end(&self) -> usize {
+        self.end
+    }
+
+    pub fn line(&self) -> usize {
+        self.lexer.line()
+    }
+}
+
+impl<'a> Iterator for TokenStream<'a> {
+    type Item = Token<'a>;
+
+    fn next(&mut self) -> Option<Token<'a>> {
+        let token = match self.peeked.take() {
+            // The lexer already ran past this one when it was peeked, so its position is this
+            // token's end either way.
+            Some((token, _)) => token,
+            None => self.lexer.next()?,
+        };
+        self.end = self.lexer.offset();
+        Some(token)
+    }
+}
+
 impl<'a> Iterator for Lexer<'a> {
     type Item = Token<'a>;
 
@@ -63,6 +161,10 @@ impl<'a> Iterator for Lexer<'a> {
         }
 
         let head = *self.iter.peek()?;
+        // Before any branch, so every token records it. A comment restarts this function with
+        // `return self.next()`, which overwrites it with the real token's start -- which is right:
+        // a statement's span should not begin at a comment above it.
+        self.token_start = head.0;
 
         #[allow(clippy::match_overlapping_arm)] // quotes overlap with the catch-all ASCII
         Some(match head.1 {

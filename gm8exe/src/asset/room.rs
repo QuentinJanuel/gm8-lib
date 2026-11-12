@@ -1,13 +1,17 @@
 use crate::{
-    asset::{assert_ver_multiple, Asset, Error, PascalString, ReadPascalString, WritePascalString},
+    GameVersion,
+    asset::{Asset, Error, PascalString, ReadPascalString, WritePascalString, assert_ver_multiple},
     colour::Colour,
     def::ID,
-    GameVersion,
 };
-use byteorder::{ReadBytesExt, WriteBytesExt, LE};
+use byteorder::{LE, ReadBytesExt, WriteBytesExt};
 use std::io::{self, Read};
 
 pub const VERSION: u32 = 541;
+/// GameMaker 8.2's room entry versions: 810 adds a scale and blend to every instance and tile, and
+/// 811 adds an angle to every instance.
+pub const VERSION_810: u32 = 810;
+pub const VERSION_811: u32 = 811;
 
 pub struct Room {
     /// The asset name present in GML and the editor.
@@ -247,7 +251,16 @@ impl Asset for Room {
 
     fn serialize_exe(&self, mut writer: impl io::Write, version: GameVersion) -> io::Result<()> {
         writer.write_pas_string(&self.name)?;
-        writer.write_u32::<LE>(VERSION)?;
+        // The version this room came in as, not this crate's own. 810 and 811 are GameMaker 8.2's,
+        // and each adds fields below; writing 541 over one of those drops them and produces a room
+        // several kilobytes shorter than it was, which is a game that does not load.
+        writer.write_u32::<LE>(if self.uses_811_features {
+            VERSION_811
+        } else if self.uses_810_features {
+            VERSION_810
+        } else {
+            VERSION
+        })?;
         writer.write_pas_string(&self.caption)?;
         writer.write_u32::<LE>(self.width)?;
         writer.write_u32::<LE>(self.height)?;
@@ -299,6 +312,14 @@ impl Asset for Room {
             writer.write_i32::<LE>(instance.object)?;
             writer.write_i32::<LE>(instance.id)?;
             writer.write_pas_string(&instance.creation_code)?;
+            if self.uses_810_features {
+                writer.write_f64::<LE>(instance.xscale)?;
+                writer.write_f64::<LE>(instance.yscale)?;
+                writer.write_u32::<LE>(instance.blend)?;
+            }
+            if self.uses_811_features {
+                writer.write_f64::<LE>(instance.angle)?;
+            }
         }
         writer.write_u32::<LE>(self.tiles.len() as u32)?;
         for tile in &self.tiles {
@@ -311,6 +332,11 @@ impl Asset for Room {
             writer.write_u32::<LE>(tile.height)?;
             writer.write_i32::<LE>(tile.depth)?;
             writer.write_i32::<LE>(tile.id)?;
+            if self.uses_810_features {
+                writer.write_f64::<LE>(tile.xscale)?;
+                writer.write_f64::<LE>(tile.yscale)?;
+                writer.write_u32::<LE>(tile.blend)?;
+            }
         }
         Ok(())
     }

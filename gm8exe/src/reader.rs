@@ -1,12 +1,15 @@
 use crate::{
+    AssetList, GameAssets, GameVersion,
     asset::*,
     gamedata::{self, gm80},
     rsrc,
     settings::{GameHelpDialog, Settings},
-    AssetList, GameAssets, GameVersion,
 };
-use byteorder::{ReadBytesExt, LE};
-use flate2::bufread::ZlibDecoder;
+use byteorder::{LE, ReadBytesExt};
+use flate2::{
+    Compression,
+    bufread::{ZlibDecoder, ZlibEncoder},
+};
 use rayon::prelude::{IntoParallelRefIterator, ParallelIterator};
 use std::{
     fmt::{self, Display},
@@ -57,6 +60,18 @@ where
     ZlibDecoder::new(data.as_ref())
 }
 
+/// Helper function for deflating zlib data, the counterpart to [`inflate`].
+///
+/// Default compression, which is what GM8 itself emits -- the reader recognises an empty asset by
+/// the exact bytes a default-level deflate of four zeroes produces, so a different level here would
+/// quietly stop that check from matching.
+pub(crate) fn deflate<I>(data: &I) -> ZlibEncoder<&[u8]>
+where
+    I: AsRef<[u8]> + ?Sized,
+{
+    ZlibEncoder::new(data.as_ref(), Compression::default())
+}
+
 /// A windows PE Section header
 /// Just read this: https://docs.microsoft.com/en-us/windows/win32/debug/pe-format#section-table-section-headers
 pub struct PESection {
@@ -66,16 +81,25 @@ pub struct PESection {
     pub disk_address: u32,
 }
 
-pub fn from_exe<I, F>(mut exe: I, logger: Option<F>, strict: bool, multithread: bool) -> Result<GameAssets, ReaderError>
+/// A parsed PE header, as far as loading a GM8 game needs one.
+pub struct PeHeader {
+    pub sections: Vec<PESection>,
+    /// Disk address of the `.rsrc` section, for icon extraction.
+    pub rsrc_location: Option<u32>,
+    /// `(max_size, offset_on_disk)` when the executable is UPX-packed, which is what
+    /// [`gamedata::find`] switches on. `None` means no UPX.
+    pub upx_data: Option<(u32, u32)>,
+}
+
+/// Verifies this is a 32-bit Windows executable and reads its section table.
+///
+/// Split out of [`from_exe`] so that a caller which only wants to *identify* a file -- rather than
+/// load every asset in it -- can reach `upx_data` without reproducing this walk. `from_exe` is the
+/// other caller and behaves exactly as before.
+pub fn read_pe_header<F>(exe: &mut io::Cursor<&mut [u8]>, logger: Option<F>) -> Result<PeHeader, ReaderError>
 where
     F: Copy + Fn(&str),
-    I: AsRef<[u8]> + AsMut<[u8]>,
 {
-    let exe = exe.as_mut();
-
-    // comfy wrapper for byteorder I/O
-    let mut exe = io::Cursor::new(exe);
-
     // verify executable header
     // Windows EXE must always start with "MZ"
     if exe.get_ref().get(0..2).unwrap_or(b"XX") != b"MZ" {
@@ -137,6 +161,28 @@ where
         sections.push(PESection { virtual_size, virtual_address, disk_size, disk_address })
     }
 
+    // Decide if UPX is in use based on PE section names
+    // This is None if there is no UPX, obviously, otherwise it's (max_size, offset_on_disk)
+    let upx_data: Option<(u32, u32)> = match upx0_virtual_len {
+        Some(len0) => upx1_data.map(|(len1, offset)| (len0 + len1, offset)),
+        None => None,
+    };
+
+    Ok(PeHeader { sections, rsrc_location, upx_data })
+}
+
+pub fn from_exe<I, F>(mut exe: I, logger: Option<F>, strict: bool, multithread: bool) -> Result<GameAssets, ReaderError>
+where
+    F: Copy + Fn(&str),
+    I: AsRef<[u8]> + AsMut<[u8]>,
+{
+    let exe = exe.as_mut();
+
+    // comfy wrapper for byteorder I/O
+    let mut exe = io::Cursor::new(exe);
+
+    let PeHeader { sections, rsrc_location, upx_data } = read_pe_header(&mut exe, logger)?;
+
     let ico_file_raw = rsrc_location
         .map(|x| {
             let temp_pos = exe.position();
@@ -147,13 +193,6 @@ where
         })
         .transpose()?
         .flatten();
-
-    // Decide if UPX is in use based on PE section names
-    // This is None if there is no UPX, obviously, otherwise it's (max_size, offset_on_disk)
-    let upx_data: Option<(u32, u32)> = match upx0_virtual_len {
-        Some(len0) => upx1_data.map(|(len1, offset)| (len0 + len1, offset)),
-        None => None,
-    };
 
     // Identify the game version in use and locate the gamedata header
     let game_ver = gamedata::find(&mut exe, logger, upx_data)?;
@@ -187,10 +226,7 @@ where
         fn read_data_maybe(cfg: &mut impl Read) -> Result<Option<Box<[u8]>>, ReaderError> {
             if cfg.read_u32::<LE>()? != 0 {
                 let len = cfg.read_u32::<LE>()? as usize;
-                let mut output = Vec::with_capacity(len);
-                unsafe {
-                    output.set_len(len);
-                }
+                let mut output = vec![0u8; len];
                 cfg.read_exact(&mut output)?;
                 Ok(Some(output.into_boxed_slice()))
             } else {
@@ -238,9 +274,10 @@ where
             (GameVersion::GameMaker8_0, x) => (x != 0, false),
             (GameVersion::GameMaker8_1, x) => ((x & 1) != 0, (x & 2) != 0),
         };
-        let swap_creation_events = match cfg.read_u32::<LE>() {
-            Ok(_webgl) => cfg.read_u32::<LE>()? != 0,
-            Err(_) => false,
+        // Builds before 8.1.141 stop the chunk here rather than writing these two dwords.
+        let (webgl, swap_creation_events) = match cfg.read_u32::<LE>() {
+            Ok(webgl) => (Some(webgl), cfg.read_u32::<LE>()? != 0),
+            Err(_) => (None, false),
         };
 
         log!(logger, " + Loaded settings structure");
@@ -378,6 +415,7 @@ where
             always_abort,
             zero_uninitialized_vars,
             error_on_uninitialized_args,
+            webgl,
             swap_creation_events,
         }
     };
@@ -385,14 +423,10 @@ where
     // Embedded DirectX DLL
     // we obviously don't need this, so we skip over it
     // if we're verbose logging, read the dll name (usually D3DX8.dll, but...)
-    if logger.is_some() {
-        let dllname = exe.read_pas_string()?;
-        log!(logger, "Skipping embedded DLL '{}'", dllname);
-    } else {
-        // otherwise, skip dll name string
-        let dllname_len = exe.read_u32::<LE>()? as i64;
-        exe.seek(SeekFrom::Current(dllname_len))?;
-    }
+    // Read rather than skipped even when not logging: the writer needs it back, and the runner
+    // extracts the DLL under this exact name before loading it by name.
+    let dx_dll_name = exe.read_pas_string()?;
+    log!(logger, "Skipping embedded DLL '{}'", dx_dll_name);
 
     // skip or dump embedded dll data chunk
     let dll_len = exe.read_u32::<LE>()? as i64;
@@ -400,7 +434,8 @@ where
     exe.read_exact(&mut dx_dll)?;
 
     // yeah
-    gm80::decrypt(&mut exe, logger)?;
+    let body_len = gm80::decrypt(&mut exe, logger)?;
+    let body_end = exe.position() as usize + body_len;
 
     // Garbage field - random bytes
     let garbage_dwords = exe.read_u32::<LE>()?;
@@ -725,7 +760,17 @@ where
         room_order
     };
 
+    // Everything in the body past the last section read above. In an 8.0 or 8.1 game this is the
+    // random padding GameMaker leaves there and nothing reads; in a GameMaker 8.2 game it is a
+    // length-prefixed section of 8.2's own, which this crate does not parse. Kept whole either way,
+    // because the writer has to put it back: dropping it costs nothing on 8.0 and 8.1 and produces
+    // an 8.2 game that will not start.
+    let trailing = exe.get_ref().get(exe.position() as usize..body_end).unwrap_or_default().to_vec();
+    log!(logger, "Keeping {} trailing bytes the reader does not parse", trailing.len());
+
     Ok(GameAssets {
+        dx_dll_name,
+        pro_flag,
         extensions,
         sprites,
         sounds,
@@ -748,6 +793,7 @@ where
         last_tile_id,
         library_init_strings,
         room_order,
+        trailing,
 
         settings,
         game_id,

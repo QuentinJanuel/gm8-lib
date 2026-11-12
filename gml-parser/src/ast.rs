@@ -1,11 +1,11 @@
 use crate::{
-    lexer::Lexer,
+    lexer::TokenStream,
     token::{Keyword, Operator, Separator, Token},
 };
 
 use std::{
     error, fmt,
-    iter::{IntoIterator, Peekable},
+    iter::IntoIterator,
     ops::{Deref, DerefMut},
 };
 
@@ -40,6 +40,30 @@ pub enum Expr<'a> {
     Break,
     Exit,
     Return(Box<Expr<'a>>),
+
+    /// One statement, with the bytes of source it came from.
+    ///
+    /// **Only `AST::new_with_spans` ever produces this**, so every existing consumer -- the
+    /// emulator's compiler, the decompiler's deobfuscator -- goes on seeing exactly the tree it saw
+    /// before. It exists for the mod loader, which has to name a statement so that a mod can ask for
+    /// its own GML to run around it, and which is the only caller that wants spans.
+    ///
+    /// A wrapper rather than a field on each statement kind, because a statement here is an `Expr`
+    /// like any other and there is no one place to put it -- and because wrapping is what keeps it
+    /// opt-in.
+    At(Box<AtExpr<'a>>),
+}
+
+/// A statement and where it is: `source[start..end]` is its text.
+///
+/// `end` is past the statement's trailing `;` when it had one, which is what makes a splice legal:
+/// `if (x) a = 1; else ...` with the `;` left outside would become `if (x) {a = 1;}; else`, and
+/// that no longer compiles.
+#[derive(Debug, PartialEq)]
+pub struct AtExpr<'a> {
+    pub start: usize,
+    pub end: usize,
+    pub stmt: Expr<'a>,
 }
 
 #[derive(Debug, PartialEq)]
@@ -188,6 +212,10 @@ impl<'a> fmt::Display for Expr<'a> {
             Expr::Break => write!(f, "(break)"),
             Expr::Exit => write!(f, "(exit)"),
             Expr::Return(e) => write!(f, "(return {})", e),
+
+            // The span is not printed: this is how the parser's own tests read a tree, and they
+            // compare against trees written by hand, which carry no offsets.
+            Expr::At(at) => write!(f, "{}", at.stmt),
         }
     }
 }
@@ -251,12 +279,29 @@ impl<'a> IntoIterator for AST<'a> {
 
 impl<'a> AST<'a> {
     pub fn new(source: &'a [u8]) -> Result<Self, Error> {
-        let mut lex = Lexer::new(source).peekable();
+        AST::parse(TokenStream::new(source))
+    }
+
+    /// The same tree, with every statement wrapped in `Expr::At` carrying its byte span.
+    ///
+    /// For the mod loader, which has to be able to name a statement. Kept apart from `new` so that
+    /// the emulator and the decompiler are provably unaffected: they call `new`, which produces no
+    /// `At` node at all.
+    ///
+    /// Statement means what a mod can insert around: the lines of a script, of a `{}` block, and a
+    /// braceless body. The two halves of a `for` header are read the same way by the parser but are
+    /// deliberately left unwrapped -- they are not statements of the mod-facing tree, and text
+    /// spliced into `for (i = 0; ...)` would not compile.
+    pub fn new_with_spans(source: &'a [u8]) -> Result<Self, Error> {
+        AST::parse(TokenStream::with_spans(source))
+    }
+
+    fn parse(mut lex: TokenStream<'a>) -> Result<Self, Error> {
         let mut expressions = Vec::new();
 
         loop {
             // Get the first token from the iterator, or exit the loop if there are no more
-            match AST::read_line(&mut lex) {
+            match AST::read_stmt(&mut lex) {
                 Ok(Some(expr)) => expressions.push(expr),
                 Ok(None) => break,
                 Err(e) => return Err(e),
@@ -266,12 +311,32 @@ impl<'a> AST<'a> {
         Ok(Self(expressions))
     }
 
+    /// One statement, wrapped with its span when this stream was asked for spans.
+    ///
+    /// Everywhere the parser reads something a mod could point at goes through here; everywhere it
+    /// reads something a mod could not -- a `for` header's two halves -- calls `read_line` directly.
+    fn read_stmt(lex: &mut TokenStream<'a>) -> Result<Option<Expr<'a>>, Error> {
+        if !lex.spans() {
+            return AST::read_line(lex);
+        }
+        // Read before the statement, so it begins at its first token rather than at the whitespace
+        // or the comment above it.
+        let start = lex.start();
+        match AST::read_line(lex)? {
+            None => Ok(None),
+            Some(stmt) => {
+                let end = lex.end();
+                Ok(Some(Expr::At(Box::new(AtExpr { start, end, stmt }))))
+            },
+        }
+    }
+
     pub fn expression(source: &'a [u8]) -> Result<Expr<'a>, Error> {
-        let mut lex = Lexer::new(source).peekable();
+        let mut lex = TokenStream::new(source);
         if lex.peek().is_some() { AST::read_binary_tree(&mut lex, None, false) } else { Ok(Expr::LiteralReal(0.0)) }
     }
 
-    fn read_line(lex: &mut Peekable<Lexer<'a>>) -> Result<Option<Expr<'a>>, Error> {
+    fn read_line(lex: &mut TokenStream<'a>) -> Result<Option<Expr<'a>>, Error> {
         let token = loop {
             match lex.next() {
                 Some(Token::Separator(Separator::Semicolon)) => continue,
@@ -481,7 +546,7 @@ impl<'a> AST<'a> {
                                     lex.next();
                                     break Ok(Some(Expr::Group(inner_expressions)))
                                 },
-                                _ => match AST::read_line(lex) {
+                                _ => match AST::read_stmt(lex) {
                                     Ok(Some(e)) => inner_expressions.push(e),
                                     Ok(None) => break Err(Error::new("Unclosed brace at EOF".to_string())),
                                     Err(e) => break Err(e),
@@ -513,7 +578,7 @@ impl<'a> AST<'a> {
         ret
     }
 
-    fn read_group(lex: &mut Peekable<Lexer<'a>>) -> Result<Option<Expr<'a>>, Error> {
+    fn read_group(lex: &mut TokenStream<'a>) -> Result<Option<Expr<'a>>, Error> {
         match lex.peek() {
             Some(Token::Separator(Separator::Semicolon)) => {
                 while lex.peek() == Some(&Token::Separator(Separator::Semicolon)) {
@@ -521,13 +586,13 @@ impl<'a> AST<'a> {
                 }
                 Ok(Some(Expr::Group(vec![])))
             },
-            Some(_) => Self::read_line(lex),
+            Some(_) => Self::read_stmt(lex),
             None => Ok(None),
         }
     }
 
     fn read_binary_tree(
-        lex: &mut Peekable<Lexer<'a>>,
+        lex: &mut TokenStream<'a>,
         first_token: Option<Token<'a>>, // Sometimes we've already parsed the first token, so it should be put here.
         expect_assignment: bool,        // Do we expect the first op to be an assignment?
     ) -> Result<Expr<'a>, Error> {
@@ -540,7 +605,7 @@ impl<'a> AST<'a> {
     }
 
     fn read_binary_tree_recursive(
-        lex: &mut Peekable<Lexer<'a>>,
+        lex: &mut TokenStream<'a>,
         first_token: Option<Token<'a>>, // Sometimes we've already parsed the first token, so it should be put here.
         expect_assignment: bool,        // Do we expect the first op to be an assignment?
         lowest_prec: u8,                // We are not allowed to go below this operator precedence in this tree.
@@ -631,7 +696,7 @@ impl<'a> AST<'a> {
         }
     }
 
-    fn read_btree_expression(lex: &mut Peekable<Lexer<'a>>, first_token: Option<Token<'a>>) -> Result<Expr<'a>, Error> {
+    fn read_btree_expression(lex: &mut TokenStream<'a>, first_token: Option<Token<'a>>) -> Result<Expr<'a>, Error> {
         // Get first token and match it
         let mut lhs = match if first_token.is_some() { first_token } else { lex.next() } {
             Some(Token::Separator(ref sep)) if *sep == Separator::ParenLeft => {
@@ -721,7 +786,7 @@ impl<'a> AST<'a> {
         Ok(lhs)
     }
 
-    fn read_function_call(lex: &mut Peekable<Lexer<'a>>, function_name: &'a [u8]) -> Result<Expr<'a>, Error> {
+    fn read_function_call(lex: &mut TokenStream<'a>, function_name: &'a [u8]) -> Result<Expr<'a>, Error> {
         expect_token!(lex.next(), Separator(Separator::ParenLeft));
 
         let mut params = Vec::new();
@@ -805,6 +870,100 @@ mod tests {
     fn nothing() {
         // Empty string
         assert_ast("", Some(vec![]))
+    }
+
+    /// Every statement's span, as the text it covers, in the order the parser reached them.
+    ///
+    /// Slicing the source back out is the whole point: a span is only useful if the bytes it names
+    /// are exactly the statement, since the loader splices text around them.
+    fn spans_of(input: &str) -> Vec<String> {
+        let ast = AST::new_with_spans(input.as_bytes()).expect("parse");
+        let mut out = Vec::new();
+        fn walk(expr: &Expr, src: &str, out: &mut Vec<String>) {
+            match expr {
+                Expr::At(at) => {
+                    out.push(src[at.start..at.end].to_string());
+                    walk(&at.stmt, src, out);
+                },
+                Expr::Group(lines) => lines.iter().for_each(|line| walk(line, src, out)),
+                Expr::If(e) => {
+                    walk(&e.body, src, out);
+                    if let Some(els) = &e.else_body {
+                        walk(els, src, out);
+                    }
+                },
+                Expr::With(e) => walk(&e.body, src, out),
+                Expr::While(e) => walk(&e.body, src, out),
+                Expr::Repeat(e) => walk(&e.body, src, out),
+                Expr::DoUntil(e) => walk(&e.body, src, out),
+                Expr::For(e) => walk(&e.body, src, out),
+                Expr::Switch(e) => walk(&e.body, src, out),
+                _ => {},
+            }
+        }
+        for expr in ast.iter() {
+            walk(expr, input, &mut out);
+        }
+        out
+    }
+
+    #[test]
+    fn spans_cover_each_statement() {
+        assert_eq!(spans_of("a = 1;\nb = 2;"), vec!["a = 1;", "b = 2;"]);
+    }
+
+    /// The trailing `;` has to be inside the span. Without it, wrapping a braceless `if` body in
+    /// braces would leave the `;` outside and produce `if (x) {a = 1;}; else`, which is a syntax
+    /// error -- so this is the test that stands between a mod and a game that will not compile.
+    #[test]
+    fn spans_take_the_trailing_semicolon() {
+        assert_eq!(spans_of("if (x) a = 1; else b = 2;"), vec!["if (x) a = 1; else b = 2;", "a = 1;", "b = 2;"],);
+    }
+
+    /// Every level is a statement: the `with` itself, the block that is its body, and each line in
+    /// it. A mod can point at any of them, and "after the `with`" means after the last instance.
+    #[test]
+    fn spans_reach_statements_nested_in_blocks() {
+        assert_eq!(spans_of("with (player) { x = 1; if (y) { z = 2; } }"), vec![
+            "with (player) { x = 1; if (y) { z = 2; } }",
+            "{ x = 1; if (y) { z = 2; } }",
+            "x = 1;",
+            "if (y) { z = 2; }",
+            "{ z = 2; }",
+            "z = 2;",
+        ],);
+    }
+
+    /// A statement with no `;` at all is legal GML, and its span simply ends at its last token.
+    #[test]
+    fn spans_survive_a_missing_semicolon() {
+        assert_eq!(spans_of("a = 1\nb = 2"), vec!["a = 1", "b = 2"]);
+    }
+
+    /// The two halves of a `for` header are read by the same function as a statement, and must not
+    /// come out as ones: text spliced into `for (i = 0; ...)` would not compile. Note what is
+    /// absent below -- `i = 0` and `i += 1`. The loop itself and its body are statements as usual.
+    #[test]
+    fn spans_skip_the_parts_of_a_for_header() {
+        assert_eq!(spans_of("for (i = 0; i < 3; i += 1) { a = i; }"), vec![
+            "for (i = 0; i < 3; i += 1) { a = i; }",
+            "{ a = i; }",
+            "a = i;"
+        ],);
+    }
+
+    /// A comment above a statement is not part of it, and neither is the whitespace.
+    #[test]
+    fn spans_start_at_the_statement_not_the_comment_above_it() {
+        assert_eq!(spans_of("// save it\n  a = 1;"), vec!["a = 1;"]);
+    }
+
+    /// The tree the emulator and the decompiler read is untouched, which is what makes the wrapper
+    /// safe to add: they call `new`, and `new` produces no `At` at all.
+    #[test]
+    fn spans_are_opt_in() {
+        let plain = AST::new(b"a = 1;").expect("parse");
+        assert!(!matches!(plain.first(), Some(Expr::At(_))));
     }
 
     #[test]

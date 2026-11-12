@@ -1,8 +1,8 @@
 use crate::{
-    asset::{assert_ver, Asset, Error, PascalString, ReadChunk, ReadPascalString, WritePascalString},
     GameVersion,
+    asset::{Asset, Error, PascalString, ReadChunk, ReadPascalString, WritePascalString, assert_ver},
 };
-use byteorder::{ReadBytesExt, WriteBytesExt, LE};
+use byteorder::{LE, ReadBytesExt, WriteBytesExt};
 use std::io::{self, Read};
 
 pub const VERSION: u32 = 800;
@@ -121,6 +121,13 @@ impl Asset for Font {
                 .write_u32::<LE>(self.range_start | ((self.aa_level % 0x100) << 24) | ((self.charset % 0x100) << 16))?,
         }
         writer.write_u32::<LE>(self.range_end)?;
+        // The character lookup table: six values for each of 256 characters, and the thing that
+        // tells the runner where in the pixel map each glyph lives. Omitting it costs 6144 bytes and
+        // leaves every later field misaligned -- invisible to our own reader, which is handed a
+        // length-delimited blob and simply reads the wrong numbers.
+        for value in self.dmap.iter() {
+            writer.write_u32::<LE>(*value)?;
+        }
         writer.write_u32::<LE>(self.map_width)?;
         writer.write_u32::<LE>(self.map_height)?;
         writer.write_u32::<LE>(self.pixel_map.len() as u32)?; // TODO: len as u32

@@ -1,4 +1,4 @@
-use byteorder::{ReadBytesExt, LE};
+use byteorder::{LE, ReadBytesExt};
 use std::{
     cmp::max,
     io::{self, Read, Seek, SeekFrom},
@@ -140,8 +140,12 @@ where
     }
 }
 
-/// Removes GameMaker 8.0 protection in-place.
-pub fn decrypt<F>(data: &mut io::Cursor<&mut [u8]>, logger: Option<F>) -> io::Result<()>
+/// Removes GameMaker 8.0 protection in-place, returning the length of the section it decrypted.
+///
+/// The length is what tells a caller where the game data *ends*, which is not the same as where the
+/// reader stops: a real game leaves bytes after the last section it parses, and for GameMaker 8.2
+/// those bytes are a section of its own rather than padding.
+pub fn decrypt<F>(data: &mut io::Cursor<&mut [u8]>, logger: Option<F>) -> io::Result<usize>
 where
     F: Copy + Fn(&str),
 {
@@ -170,7 +174,12 @@ where
 
     // decryption: first pass
     //   in reverse, data[i-1] = rev[data[i-1]] - (data[i-2] + (i - (pos+1)))
-    for i in ((pos + 2)..=(pos + len)).rev() {
+    //
+    // Down to `pos + 1`, so the section's *first* byte is decrypted too -- it is chained from the
+    // byte before the section, which is the length field's own top byte. Stopping at `pos + 2` left
+    // that byte untouched, which no real game ever noticed because it lands inside the thousands of
+    // garbage dwords one ships; it shows up the moment anything writes a game without that padding.
+    for i in ((pos + 1)..=(pos + len)).rev() {
         data[i - 1] =
             reverse_table[data[i - 1] as usize].wrapping_sub(data[i - 2].wrapping_add((i.wrapping_sub(pos + 1)) as u8));
     }
@@ -182,5 +191,5 @@ where
         data.swap(i, b as usize);
     }
 
-    Ok(())
+    Ok(len)
 }

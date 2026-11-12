@@ -1,0 +1,335 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+<link rel="shortcut icon" href="https://www.maartenbaert.be/favicon.ico">
+<link rel="stylesheet" href="https://www.maartenbaert.be/stylesheet.css" type="text/css">
+<link rel="alternate" href="https://www.maartenbaert.be/feed-comments.php" type="application/atom+xml" title="Atom feed (comments)">
+
+<title>MD5 and SHA-1 - Game Maker DLLs - Maarten Baert's website</title>
+
+</head>
+
+<body>
+
+<table class="header" cellspacing="0">
+<tr>
+<td class="headertitle" colspan="10">
+<h1>Maarten Baert's website</h1>
+<p>Game Maker / C++ projects</p>
+</td>
+</tr>
+<tr>
+<td class="headerbuttonleft"><a href="https://www.maartenbaert.be/"><span>Home</span></a></td>
+<td class="headerbuttonleft"><a href="https://www.maartenbaert.be/model-creator/"><span>Model Creator</span></a></td>
+<td class="headerbuttonleft"><a href="https://www.maartenbaert.be/extremephysics/"><span>ExtremePhysics</span></a></td>
+<td class="headerbuttonleftactive"><a href="https://www.maartenbaert.be/game-maker-dlls/"><span>Game Maker DLLs</span></a></td>
+<td class="headerbuttonleft"><a href="https://www.maartenbaert.be/simplescreenrecorder/"><span>SimpleScreenRecorder</span></a></td>
+<td class="headerbuttonleft"><a href="https://www.maartenbaert.be/alterpcb/"><span>AlterPCB</span></a></td>
+<td class="headerbuttonleft"><a href="https://www.maartenbaert.be/quadcopters/"><span>Quadcopters</span></a></td>
+<td class="headerbuttonempty">&nbsp;</td>
+<td class="headerbuttonright"><a href="https://www.maartenbaert.be/recentcomments.php"><span>Recent comments</span></a></td>
+<td class="headerbuttonright"><a href="https://www.maartenbaert.be/search.php"><span>Search</span></a></td>
+</tr>
+</table>
+
+<table class="main">
+<tr>
+<td class="mainmenu">
+
+<div class="block">
+<h5>Navigation</h5>
+<p><a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/">&bull; <span>Main page</span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/gm-gmp/">&bull; <span>GM-GMP</span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/">&bull; <span>Http Dll 2</span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/buffers/">&nbsp;&nbsp;&nbsp;&bull; <span>Buffers</span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/md5-and-sha-1/">&nbsp;&nbsp;&nbsp;&bull; <span><strong>MD5 and SHA-1</strong></span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/sockets/">&nbsp;&nbsp;&nbsp;&bull; <span>Sockets</span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/udp-sockets/">&nbsp;&nbsp;&nbsp;&bull; <span>UDP sockets</span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/http-requests/">&nbsp;&nbsp;&nbsp;&bull; <span>Http requests</span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/ds_bin/">&bull; <span>ds_bin</span></a></p>
+<hr>
+<p>
+<a class="blocklink" href="https://www.maartenbaert.be/offlineversion.php?category=4">&bull; <span>Offline version</span></a>
+</p>
+</div>
+
+<div class="block">
+<h5>Log in</h5>
+<form method="post" action="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/md5-and-sha-1/">
+<p><label>Username:<br><input class="textbox" type="text" name="login_username" size="18"></label></p>
+<p><label>Password:<br><input class="textbox" type="password" name="login_password" size="18"></label></p>
+<p><input type="submit" value="Log in"></p>
+</form>
+
+<p>No account yet? <a href="https://www.maartenbaert.be/register.php">Register!</a></p>
+</div>
+
+<p class="center"><a href="http://validator.w3.org/check?uri=https%3A%2F%2Fwww.maartenbaert.be%2Fgame-maker-dlls%2Fhttp-dll-2%2Fmd5-and-sha-1%2F" target="_blank"><img src="https://www.maartenbaert.be/img/valid-html.png" alt="Valid HTML 4.01 Transitional" height="31" width="88" border="0"></a></p>
+<p class="center"><a href="http://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fwww.maartenbaert.be%2Fgame-maker-dlls%2Fhttp-dll-2%2Fmd5-and-sha-1%2F" target="_blank"><img src="https://www.maartenbaert.be/img/valid-css.png" alt="Valid CSS!" height="31" width="88" border="0"></a></p>
+
+</td>
+
+<td class="maincontent">
+
+<div class="content">
+
+<p class="articlebuttons">Last modified: Thu, 16 Jun 2011<br>
+<a href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/md5-and-sha-1/">Refresh</a></p>
+
+<h1>MD5 and SHA-1</h1>
+
+<ul>
+<li><p><a href="#what-are-md5-and-sha-1">What are MD5 and SHA-1?</a></p>
+<li><p><a href="#applications">Applications</a></p>
+<li><p><a href="#usage-example">Usage example</a></p>
+<li><p><a href="#functions">Functions</a></p>
+<ul>
+<li><p><a href="#md5_begin-sha1_begin">md5_begin/sha1_begin</a></p>
+<li><p><a href="#md5_end-sha1_end">md5_end/sha1_end</a></p>
+<li><p><a href="#md5_read_file-sha1_read_file">md5_read_file/sha1_read_file</a></p>
+<li><p><a href="#md5_read_string-sha1_read_string">md5_read_string/sha1_read_string</a></p>
+<li><p><a href="#md5_read_buffer-sha1_read_buffer">md5_read_buffer/sha1_read_buffer</a></p>
+<li><p><a href="#md5_read_buffer_part-sha1_read_buffer_part">md5_read_buffer_part/sha1_read_buffer_part</a></p>
+<li><p><a href="#md5_result-sha1_result">md5_result/sha1_result</a></p>
+</ul>
+</ul>
+
+<hr>
+
+<a name="what-are-md5-and-sha-1"></a>
+<h2>What are MD5 and SHA-1?</h2>
+
+<p><a href="http://en.wikipedia.org/wiki/MD5" target="_blank">MD5</a> and <a href="http://en.wikipedia.org/wiki/SHA-1" target="_blank">SHA-1</a> are hash algorithms. They take any amount of data and produce a hash (usually displayed as a hexadecimal number). For example, when applied to this string:</p>
+
+<pre class="code">hello world</pre>
+
+<p>the MD5 algorithm generates this hash:</p>
+
+<pre class="code">5eb63bbbe01eeed093cb22bb8f5acdc3</pre>
+
+<p>A hash algorithm is <i>not</i> an encryption algorithm. It is not reversible, i.e. you can&#039;t decrypt the hash to get the original data back (except by applying the algorithm to every possible input until the hash matches the hash you&#039;re trying to decode). Furthermore, if you make a small change to the input data, the hash will be completely different. For example, when applied to this string:</p>
+
+<pre class="code">hello woRld</pre>
+
+<p>the MD5 algorithm generates this hash:</p>
+
+<pre class="code">b7c989e31e148adad3232e7c73d94692</pre>
+
+<p>SHA-1 is said to be more secure than MD5, but MD5 is also good enough for most purposes. MD5 generates a 16-byte hash (32 hexadecimal characters), SHA-1 generates a 20-byte hash (40 hexadecimal characters).</p>
+
+<a name="applications"></a>
+<h2>Applications</h2>
+
+<ul>
+<li>
+<p><b>Validating files:</b> You can use MD5 or SHA-1 to find out whether a file has been damaged or modified by comparing the hash to the correct hash. If the hash is different, the file is not the same. Theoretically two files could have the same hash, but the odds are extremely small. It is very difficult to generate two files that have the same hash and still contain meaningful data.</p>
+
+<li>
+<p><b>Storing passwords:</b> MD5 or SHA-1 is often used to store passwords in a database. When the user enters his password, the server calculates the MD5 or SHA-1 hash of the password and compares it to the hash that is stored in the database. If the hash matches, the password is correct. Because the actual passwords are not stored in the database, the passwords can&#039;t be stolen by a hacker who gains access to the database. This is especially important because many users use the same password for different accounts (e.g. different websites).</p>
+
+<li>
+<p><b>Signing data:</b> MD5 or SHA-1 can be used to sign data that should not be modified, e.g. saved games, high score entries, etc. To do this, the program will calculate the hash of a string that is based on the data, but also contains characters that are not known to the user (for example: data+&quot;o8bd72&quot;). This hash will be saved/sent along with the original data. When the data is loaded/received, the same procedure is used, and the hash will be compared to the original hash. If the data was modified, the hashes won&#039;t match and the application will reject the data.</p>
+</ul>
+
+<a name="usage-example"></a>
+<h2>Usage example</h2>
+
+<p>Calculating the MD5 and SHA-1 hash of a string:</p>
+
+<pre class="code">md5_begin();
+md5_read_string(&quot;hello world&quot;);
+md5_end();
+show_message(&quot;MD5: &quot;+md5_result());
+
+sha1_begin();
+sha1_read_string(&quot;hello world&quot;);
+sha1_end();
+show_message(&quot;SHA-1: &quot;+sha1_result());</pre>
+
+<p>Signing data, saving:</p>
+
+<pre class="code">var buffer, hash;
+
+buffer = buffer_create();
+
+buffer_write_uint8(buffer, 42);
+buffer_write_uint8(buffer, 77);
+buffer_write_float32(buffer, 3.14);
+buffer_write_string(buffer, &quot;hello world&quot;);
+
+md5_begin();
+md5_read_buffer(buffer);
+md5_read_string(&quot;5s0u5g2p1x4&quot;); // append a secret string
+md5_end();
+hash = md5_result();
+
+buffer_write_string(buffer, hash);
+
+buffer_write_to_file(buffer, &quot;data.txt&quot;);
+
+buffer_destroy(buffer);</pre>
+
+<p>Signing data, loading:</p>
+
+<pre class="code">var buffer, a, b, c, d, hash1, hash2;
+
+// create a buffer
+buffer = buffer_create();
+
+// read the data from the file
+if !buffer_read_from_file(buffer, &quot;data.txt&quot;) {
+    buffer_destroy(buffer);
+    show_message(&quot;Error: Reading data.txt failed! Make sure the file exists.&quot;);
+    exit;
+}
+
+// read data from the buffer
+// this should be done in exactly the same order
+a = buffer_read_uint8(buffer);
+b = buffer_read_uint8(buffer);
+c = buffer_read_float32(buffer);
+d = buffer_read_string(buffer);
+
+md5_begin();
+// only hash the data that was read to this point
+md5_read_buffer_part(buffer, 0, buffer_get_pos(buffer));
+md5_read_string(&quot;5s0u5g2p1x4&quot;); // append the same secret string
+md5_end();
+hash1 = md5_result();
+
+hash2 = buffer_read_string(buffer);
+
+if hash1!=hash2 {
+    buffer_destroy(buffer);
+    show_message(&quot;Error: The file was modified!&quot;);
+    exit;
+}
+
+show_message(&quot;a = &quot;+string(a)+&quot;#b = &quot;+string(b)+&quot;#c = &quot;+string(c)+&quot;#d = &quot;+d);
+
+buffer_destroy(buffer);</pre>
+
+<hr>
+
+<a name="functions"></a>
+<h2>Functions</h2>
+
+<a name="md5_begin-sha1_begin"></a>
+<h3>md5_begin/sha1_begin</h3>
+
+<pre class="code">md5_begin()
+sha1_begin()</pre>
+
+<p>Initializes the MD5/SHA-1 algorithm.</p>
+
+<hr>
+
+<a name="md5_end-sha1_end"></a>
+<h3>md5_end/sha1_end</h3>
+
+<pre class="code">md5_end()
+sha1_end()</pre>
+
+<p>Finishes the MD5 algorithm.</p>
+
+<hr>
+
+<a name="md5_read_file-sha1_read_file"></a>
+<h3>md5_read_file/sha1_read_file</h3>
+
+<pre class="code">md5_read_file(filename)
+sha1_read_file(filename)</pre>
+
+<p>Reads data from a file and hashes it.</p>
+
+<ul>
+<li>
+<p><b>filename</b>: The path to the file.</p>
+</ul>
+
+<hr>
+
+<a name="md5_read_string-sha1_read_string"></a>
+<h3>md5_read_string/sha1_read_string</h3>
+
+<pre class="code">md5_read_string(string)
+sha1_read_string(string)</pre>
+
+<p>Reads data from a string and hashes it.</p>
+
+<ul>
+<li>
+<p><b>string</b>: The string.</p>
+</ul>
+
+<hr>
+
+<a name="md5_read_buffer-sha1_read_buffer"></a>
+<h3>md5_read_buffer/sha1_read_buffer</h3>
+
+<pre class="code">md5_read_buffer(id)
+sha1_read_buffer(id)</pre>
+
+<p>Reads data from a buffer and hashes it.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the buffer.</p>
+</ul>
+
+<hr>
+
+<a name="md5_read_buffer_part-sha1_read_buffer_part"></a>
+<h3>md5_read_buffer_part/sha1_read_buffer_part</h3>
+
+<pre class="code">md5_read_buffer_part(id, pos, len)
+sha1_read_buffer_part(id, pos, len)</pre>
+
+<p>Reads data from a part of a buffer and hashes it.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the buffer.</p>
+
+<li>
+<p><b>pos</b>: The starting position.</p>
+
+<li>
+<p><b>len</b>: The length.</p>
+</ul>
+
+<hr>
+
+<a name="md5_result-sha1_result"></a>
+<h3>md5_result/sha1_result</h3>
+
+<pre class="code">md5_result()
+sha1_result()</pre>
+
+<p>Returns the MD5/SHA-1 hash (call md5_end/sha1_end first).</p><hr>
+
+<h2>Comments</h2>
+
+<p>There are no comments yet.</p>
+
+<p><a href="https://www.maartenbaert.be/writecomment.php?article=69">Write a comment</a></p>
+
+</div>
+
+</td>
+</tr>
+</table>
+
+<div class="footer">
+<p>Copyright 2009-2026 Maarten Baert</p>
+</div>
+
+</body>
+
+</html>

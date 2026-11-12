@@ -1,0 +1,644 @@
+Maarten Baert's website
+
+Game Maker / C++ projects
+
+ | 
+
+Home | 
+Model Creator | 
+ExtremePhysics | 
+Game Maker DLLs | 
+SimpleScreenRecorder | 
+AlterPCB | 
+Quadcopters | 
+  | 
+Recent comments | 
+Search | 
+
+Navigation
+
+• Main page
+• GM-GMP
+• Http Dll 2
+   • Buffers
+   • MD5 and SHA-1
+   • Sockets
+   • UDP sockets
+   • Http requests
+• ds_bin
+
+• Offline version
+
+Log in
+
+Username:
+
+Password:
+
+No account yet? Register!
+
+ | 
+
+Last modified: Wed, 17 Dec 2014
+
+Refresh
+
+Sockets
+
+About sockets
+
+Local area networks (LAN)
+
+Loopback address
+
+Messages
+
+Differences between Http Dll 2 sockets and 39dll
+
+Usage example
+
+Functions
+
+Listening sockets
+
+listeningsocket_create
+
+listeningsocket_destroy
+
+listeningsocket_exists
+
+listeningsocket_is_listening
+
+listeningsocket_start_listening
+
+listeningsocket_stop_listening
+
+listeningsocket_can_accept
+
+listeningsocket_accept
+
+Normal sockets
+
+socket_create
+
+socket_destroy
+
+socket_exists
+
+socket_get_state
+
+socket_reset
+
+socket_connect
+
+socket_update_read
+
+socket_update_write
+
+socket_shut_down
+
+socket_get_peer_address
+
+socket_read_data
+
+socket_write_data
+
+socket_read_message
+
+socket_write_message
+
+socket_read_message_delimiter
+
+socket_write_message_delimiter
+
+socket_get_read_data_length
+
+socket_get_write_data_length
+
+Note
+
+Creating online games is one of the hardest things to do in GM. This is for advanced users only!
+
+About sockets
+
+Sockets are used to send data to another computer over the internet. The data can be anything: text, an image file, or the position of a different player in a multiplayer game. To transfer data, you have to create two sockets: one for the sender and one for the reciever. Sockets can be used in two directions, i.e. you can use the same socket to send and recieve data (using the same connection).
+
+There are two kinds of sockets:
+
+Normal sockets are used to send and recieve data.
+
+Listening sockets are used to detect incoming connections. A listening socket will create one normal socket for every incoming connection.
+
+You have to follow these steps to create a connection between two computers:
+
+Computer A (the server) creates a listening socket. The listening socket is associated with a port (a number from 0 to 65535), e.g. 12840.
+
+Computer B (the client) creates a normal socket and connects to the IP address of computer A on port 12840.
+
+Computer A (the server) detects an incoming connection and creates a normal socket to communicate with computer B (the client).
+
+Now computer A (the server) can send data to computer B (the client) and vice versa.
+
+Local area networks (LAN)
+
+If computer A is part of a local area network (LAN), there are actually two types of IP adresses: the internal IP address and the external IP address. Every computer that is part of the network will have its own internal IP address, but there is just one external IP address that is shared by all computers. This makes it a bit harder to establish connections between computers.
+
+You can get your external IP address from a website like http://whatismyipaddress.com/.
+
+Getting your internal IP address is a bit more complicated.
+
+Press the Start button and search for 'cmd.exe'. Run it.
+
+Type ipconfig and press enter.
+
+You should see a list of IP addresses and some other values (subnet mask, default gateway - you can ignore these). Use the one listed as 'LAN connection'.
+
+Case 1: Both computers are part of the same LAN
+
+Computer B (the client) should connect to the internal IP address of computer A (the server).
+
+Case 2: Only computer A (the server) is part of the LAN
+
+This is a bit harder. Computer B (the client) should connect to the external IP address of computer A (the server), and the router should be configured to redirect all incoming connections on the listening port to computer A (the server), e.g. port 12840. This is called port forwarding. The exact procedure varies with the type of router you're using. Usually you have to enter the internal IP address of the router (called the default gateway) in the address bar of your browser to open the control panel of the router. This website can give you a detailed description for many types of routers.
+
+Case 3: Only computer B (the client) is part of the LAN
+
+There is no problem. Computer B (the client) should simply connect to the IP of computer A (the server).
+
+Case 4: Both computers are part of a different LAN
+
+The same as case 2.
+
+Loopback address
+
+There is also a special IP address called the loopback address: 127.0.0.1
+
+If you connect to this IP address, you're effectively making a connection to your own computer. This IP address works even if you are not connected to a network. This is useful for testing your online game. It can also be used to send data to other processes that are running on the same computer (this is called inter-process communication).
+
+Messages
+
+The sockets created by Http Dll 2 use the TCP protocol. This means all data that is sent is guaranteed to arrive undamaged and in the correct order at the other computer. Http Dll 2 will also buffer data before sending and after receiving, so no data will ever be lost. However, the data is not guaranteed to arrive in one part, so most online games use a message system. A message is a block of data with a known size. Http Dll 2 has an optional built-in message system that will automatically check whether the entire message has been received before actually returning the data to the game. If you're new to sockets, I recommend using the default message system since this is by far the easiest method to send and receive data.
+
+Since messages usually store binary data, buffers are used to hold the data that is being sent or received.
+
+Differences between Http Dll 2 sockets and 39dll
+
+The socket functions are very similar to 39dll, so if you've used 39dll before it should be easy to switch to this DLL. In fact the only real difference is the way Http Dll 2 buffers* the data that is sent and recieved. 39dll doesn't buffer* the data.
+
+With 39dll, the maximum amount of data that can be recieved as a whole is limited by the operating system. Windows will only buffer a fixed amount of data, e.g. 64KB. This might not be enough if you're trying to send large files. If too much data is buffered by the receiver, the sender has to wait to send more data.
+
+Since 39dll's sendmessage function doesn't wait, part of the data is lost if too much data is sent at once.
+
+The message system used by Http Dll 2 is not compatible with 39dll, because 39dll uses 2 bytes to store the size of the message where Http Dll 2 uses the uintv data type (which makes it possible to send up to 514MB of data with just one message instead of 64KB).
+
+To make sure no data is ever lost, Http Dll 2 will buffer* all data before sending it and after receiving it. This means you can safely send large files (megabytes) in a single message. 
+
+* Here 'buffering' doesn't refer to the buffers in Http Dll 2 or 39dll that are used to hold data, it simply means 'storing data temporarily'.
+
+Warning
+
+Versions of Http Dll 2 before 2.1 use a different message format and are not compatible with version 2.1 and later. Always use the same version of Http Dll 2 for the server and the client!
+
+Usage example
+
+Most online games use one server that is connected to multiple clients. In this case the server creates one listening socket and checks for incomping connections every step:
+
+// SERVER: create event of obj_controller
+listeningsocket = listeningsocket_create();
+listeningsocket_start_listening(listeningsocket, false, 12840);
+
+// SERVER: step event of obj_controller
+var a;
+while listeningsocket_can_accept(listeningsocket) {
+ a = instance_create(0, 0, obj_player);
+ a.socket = socket_create();
+ listeningsocket_accept(listeningsocket, a.socket);
+}
+
+The server will create an instance of obj_player and a normal socket whenever a player connects to the server. The client connects to the server:
+
+// CLIENT: create event of obj_controller
+socket = socket_create();
+socket_connect(socket, "127.0.0.1", 12840);
+
+Once a normal socket has been created, it should be updated every step to send and receive data:
+
+// SERVER: step event of obj_player
+// CLIENT: step event of obj_controller
+var s;
+
+/* (optional) send messages here */
+
+socket_update_read(socket);
+
+while socket_read_message(socket, global.buffer) {
+ /* send and receive messages here */
+}
+
+/* (optional) send messages here */
+
+s = socket_get_state(socket);
+if s=4 {
+ 
+ /* the connection was closed:
+ SERVER: destroy this instance of obj_player.
+ CLIENT: end the game or go back to the menu. */
+ 
+ exit;
+}
+if s=5 {
+ 
+ /* an error has occurred, the connection was lost:
+ SERVER: destroy this instance of obj_player.
+ CLIENT: display an error message, end the game or go back to the menu. */
+ 
+ exit;
+}
+
+socket_update_write(socket);
+
+You can also put socket_update_write(socket); in the end step event if you want. This makes it easier to make sure all messages are written before socket_update_write is called.
+
+The data that will be sent is created with a buffer. Since we will need this buffer very often, it's a good idea to create the buffer when the game is started:
+
+// SERVER/CLIENT: create event of obj_player
+global.buffer = buffer_create();
+
+Usually the first byte stores the type of message so the receiver knows what the message means (e.g. 1 = the player moves, 2 = the player shoots, ...). The rest of the message contains additional data. For example:
+
+// example 1: the player moves
+buffer_clear(global.buffer);
+buffer_write_uint8(global.buffer, 1); // 1 = the player moves
+buffer_write_float32(global.buffer, x);
+buffer_write_float32(global.buffer, y);
+buffer_write_float32(global.buffer, image_angle);
+socket_write_message(socket, global.buffer);
+
+// example 2: the player shoots
+if mouse_check_button_pressed(mb_left) {
+ buffer_clear(global.buffer);
+ buffer_write_uint8(global.buffer, 2); // 2 = the player shoots
+ buffer_write_float32(global.buffer, point_direction(x, y, mouse_x, mouse_y));
+ socket_write_message(socket, global.buffer);
+}
+
+The server can use this to change te position of the player object or create bullets:
+
+var a;
+a = buffer_read_uint8(global.buffer);
+switch(a) {
+ 
+ case 1: // 1 = the player moves
+ x = buffer_read_float32(global.buffer);
+ y = buffer_read_float32(global.buffer);
+ image_angle = buffer_read_float32(global.buffer);
+ break;
+ 
+ case 2: // 2 = the player shoots
+ var bullet;
+ bullet = instance_create(x, y, obj_bullet);
+ bullet.direction = buffer_read_float32(global.buffer);
+ bullet.speed = 5;
+ break;
+ 
+}
+
+In a real game, the server should also send the position of the player to all other players, and let the other players know a bullet object was created. As you can see, this quickly becomes very complicated. I've included a few examples in the ZIP file, those should give you an idea.
+
+Don't forget to destroy the sockets and buffers!
+
+Functions
+
+Listening sockets
+
+listeningsocket_create
+
+listeningsocket_create()
+
+Creates a new listening socket and returns the id.
+
+listeningsocket_destroy
+
+listeningsocket_destroy(id)
+
+Destroys a listening socket.
+
+id: The id of the listening socket.
+
+listeningsocket_exists
+
+listeningsocket_exists(id)
+
+Returns whether a listening socket with the given id exists.
+
+id: The id of the listening socket.
+
+listeningsocket_is_listening
+
+listeningsocket_is_listening(id)
+
+Returns whether the listening socket is listening.
+
+id: The id of the listening socket.
+
+listeningsocket_start_listening
+
+listeningsocket_start_listening(id, ipv6, port, local)
+
+Makes the listening socket listen for incoming connections.
+
+id: The id of the listening socket.
+
+ipv6: Whether IPv6 should be used instead of IPv4. If you don't know what this means, use IPv4 (set this to false).
+
+port: The port to listen at.
+
+local: If true, the socket will only accept connections from other programs running on the same computer. This is useful if you want to use sockets for inter-process communication. This also avoids firewall warnings.
+
+listeningsocket_stop_listening
+
+listeningsocket_stop_listening(id)
+
+Makes the listening socket stop listening.
+
+id: The id of the listening socket.
+
+listeningsocket_can_accept
+
+listeningsocket_can_accept(id)
+
+Returns whether there is an incoming connection. If this function returns true, you should call listeningsocket_accept to accept the connection.
+
+id: The id of the listening socket.
+
+listeningsocket_accept
+
+listeningsocket_accept(id, socket_id)
+
+Accepts an incoming connection. The normal socket will be used to handle the new connection.
+
+id: The id of the listening socket.
+
+socket_id: The id of the normal socket.
+
+Normal sockets
+
+socket_create
+
+socket_create()
+
+Creates a new normal socket and returns the id.
+
+socket_destroy
+
+socket_destroy(id)
+
+Destroys a normal socket.
+
+id: The id of the normal socket.
+
+socket_exists
+
+socket_exists(id)
+
+Returns whether a normal socket with the given id exists.
+
+id: The id of the normal socket.
+
+socket_get_state
+
+socket_get_state(id)
+
+Returns the current state of the socket.
+
+id: The id of the normal socket.
+
+Return value:
+
+0 = socket_state_notconnected (the socket is not connected)
+
+1 = socket_state_connecting (the socket is still trying to connect)
+
+2 = socket_state_connected (the socket has been connected successfully)
+
+3 = socket_state_shutdown (deprecated: this value is no longer used)
+
+4 = socket_state_closed (the connection has been closed)
+
+5 = socket_state_error (an error has occurred)
+
+These constants are only available if you're using the extension (GEX), you have to use the numbers if you're using the scripts and DLL.
+
+socket_reset
+
+socket_reset(id)
+
+Resets the socket to its initial state. The connection is closed if the socket is currently connected.
+
+id: The id of the normal socket.
+
+socket_connect
+
+socket_connect(id, address, port)
+
+Connects the socket.
+
+id: The id of the normal socket.
+
+address: The IP address to connect to. IPv6 is supported.
+
+port: The port to connect to.
+
+socket_update_read
+
+socket_update_read(id)
+
+Receives new data. This function should be called once per step, before reading messages. You should call this even if you don't intend to receive any messages, because it is required to complete a connection or detect when an existing connection is closed.
+
+id: The id of the normal socket.
+
+socket_update_write
+
+socket_update_read(id)
+
+Sends new data. This function should be called once per step, after writing messages. Calling this function once is not enough to guarantee that all data has been sent, you should keep calling it every step even if you only write messages once.
+
+id: The id of the normal socket.
+
+socket_shut_down
+
+socket_shut_down(id)
+
+Shuts down the socket after all data has been sent, indicating that no new data will be sent. You can use this function to gracefully close a connection while guaranteeing that all data that is sent will actually arrive at the other side. After all the data has been received by the other side, the state of the socket at the other side will change to socket_state_closed. The other side should respond to this by either calling socket_shut_down as well, or simply destroying the socket, which will change the state of this socket to socket_state_closed as well.
+
+id: The id of the normal socket.
+
+socket_get_peer_address
+
+socket_get_peer_address(id)
+
+Returns the IP address of the computer this socket is connected to. This function does not work if the socket is still connecting - wait until socket_get_state returns socket_state_connected (2).
+
+id: The id of the normal socket.
+
+socket_read_data
+
+socket_read_data(id, buffer_id, bytes)
+
+Reads a data block with a fixed size without any formatting.
+
+id: The id of the normal socket.
+
+buffer_id: The id of the buffer that should be used to store the data.
+
+bytes: The size of the data block.
+
+socket_write_data
+
+socket_write_data(id, buffer_id)
+
+Sends a data block without any formatting.
+
+id: The id of the normal socket.
+
+buffer_id: The id of the buffer that holds the data.
+
+socket_read_message
+
+socket_read_message(id, buffer_id)
+
+Reads a new message, i.e. copies the contents of the message to the buffer. Returns whether there was a message available. You should use a while loop to read all messages:
+
+while socket_read_message(socket, buffer) {
+ // read the buffer
+}
+
+id: The id of the normal socket.
+
+buffer_id: The id of the buffer that should be used to store the contents of the message.
+
+socket_write_message
+
+socket_write_message(id, buffer_id)
+
+Sends a message. A message is sent by first sending the size of the message (as uintv), followed by the actual message data. This is handled automatically by the DLL, you don't need to do anything special if the receiver also uses Http Dll 2.
+
+id: The id of the normal socket.
+
+buffer_id: The id of the buffer that holds the contents of the message.
+
+socket_read_message_delimiter
+
+socket_read_message_delimiter(id, buffer_id, delimiter)
+
+Reads a message that uses the delimiter format (i.e. a message sent by socket_write_message_delimiter). The delimiter should be a single character.
+
+id: The id of the normal socket.
+
+buffer_id: The id of the buffer that should be used to store the contents of the message.
+
+delimiter: The delimiter (a string of one character).
+
+socket_write_message_delimiter
+
+socket_write_message_delimiter(id, buffer_id, delimiter)
+
+Sends a message using the delimiter format. The delimiter should be a single character.
+
+id: The id of the normal socket.
+
+buffer_id: The id of the buffer that holds the contents of the message.
+
+delimiter: The delimiter (a string of one character).
+
+socket_get_read_data_length
+
+socket_get_read_data_length(id)
+
+Returns the length of the data that has been received but not read yet.
+
+id: The id of the normal socket.
+
+socket_get_write_data_length
+
+socket_get_write_data_length(id)
+
+Returns the length of the data that has been written but not sent yet.
+
+id: The id of the normal socket.
+
+Comments
+
+Bcarroll
+
+ | 
+
+Comment #1: Wed, 9 May 2012, 16:02 (GMT+1, DST)
+
+Quote
+
+I figured out how to use telnet to send messages to a listening socket created with Http Dll 2!
+
+In obj_player step event change the while loop to :
+
+while(socket_read_message_delimiter(socket,global.buffer,chr(10)))
+
+I also had to use 
+
+a = buffer_read_data(global.buffer,[i]number of characters to read[/i]);
+
+ instead of 
+
+a = buffer_read_uint8(global.buffer);
+
+ in order to read messages from a non Http Dll 2 client socket.
+
+Hope this info helps someone...
+
+Last modified: Wed, 9 May 2012, 16:25 (GMT+1, DST)
+
+ | 
+
+Mybrainisntasbig
+
+ | 
+
+Comment #2: Tue, 28 May 2019, 2:40 (GMT+1, DST)
+
+Quote
+
+Hello, I'm trying to write a custom server for a client that uses HTTP DLL 2 to send data to a socket.
+
+I would like to code the server in nodejs (or perhaps even python), but the data sent to the socket cannot be simply uncompressed using zlib.inflate (it says there's a bad header check)
+
+Do you know how you would be able to make a receiver (in another language) that can read HTTP DLL 2 socket messages?
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #3: Mon, 10 Jun 2019, 21:50 (GMT+1, DST)
+
+Quote
+
+Quote: Mybrainisntasbig
+
+Hello, I'm trying to write a custom server for a client that uses HTTP DLL 2 to send data to a socket.
+
+I would like to code the server in nodejs (or perhaps even python), but the data sent to the socket cannot be simply uncompressed using zlib.inflate (it says there's a bad header check)
+
+Do you know how you would be able to make a receiver (in another language) that can read HTTP DLL 2 socket messages?
+
+Http Dll 2 doesn't compress the data unless you do it manually. Are you sure that the buffer is actually compressed? Have you taken care of the length prefix of the message properly?
+
+ | 
+
+Write a comment
+
+ | 
+
+Copyright 2009-2026 Maarten Baert

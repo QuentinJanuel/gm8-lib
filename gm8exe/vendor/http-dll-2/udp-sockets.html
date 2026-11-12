@@ -1,0 +1,746 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+<link rel="shortcut icon" href="https://www.maartenbaert.be/favicon.ico">
+<link rel="stylesheet" href="https://www.maartenbaert.be/stylesheet.css" type="text/css">
+<link rel="alternate" href="https://www.maartenbaert.be/feed-comments.php" type="application/atom+xml" title="Atom feed (comments)">
+
+<title>UDP sockets - Game Maker DLLs - Maarten Baert's website</title>
+
+</head>
+
+<body>
+
+<table class="header" cellspacing="0">
+<tr>
+<td class="headertitle" colspan="10">
+<h1>Maarten Baert's website</h1>
+<p>Game Maker / C++ projects</p>
+</td>
+</tr>
+<tr>
+<td class="headerbuttonleft"><a href="https://www.maartenbaert.be/"><span>Home</span></a></td>
+<td class="headerbuttonleft"><a href="https://www.maartenbaert.be/model-creator/"><span>Model Creator</span></a></td>
+<td class="headerbuttonleft"><a href="https://www.maartenbaert.be/extremephysics/"><span>ExtremePhysics</span></a></td>
+<td class="headerbuttonleftactive"><a href="https://www.maartenbaert.be/game-maker-dlls/"><span>Game Maker DLLs</span></a></td>
+<td class="headerbuttonleft"><a href="https://www.maartenbaert.be/simplescreenrecorder/"><span>SimpleScreenRecorder</span></a></td>
+<td class="headerbuttonleft"><a href="https://www.maartenbaert.be/alterpcb/"><span>AlterPCB</span></a></td>
+<td class="headerbuttonleft"><a href="https://www.maartenbaert.be/quadcopters/"><span>Quadcopters</span></a></td>
+<td class="headerbuttonempty">&nbsp;</td>
+<td class="headerbuttonright"><a href="https://www.maartenbaert.be/recentcomments.php"><span>Recent comments</span></a></td>
+<td class="headerbuttonright"><a href="https://www.maartenbaert.be/search.php"><span>Search</span></a></td>
+</tr>
+</table>
+
+<table class="main">
+<tr>
+<td class="mainmenu">
+
+<div class="block">
+<h5>Navigation</h5>
+<p><a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/">&bull; <span>Main page</span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/gm-gmp/">&bull; <span>GM-GMP</span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/">&bull; <span>Http Dll 2</span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/buffers/">&nbsp;&nbsp;&nbsp;&bull; <span>Buffers</span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/md5-and-sha-1/">&nbsp;&nbsp;&nbsp;&bull; <span>MD5 and SHA-1</span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/sockets/">&nbsp;&nbsp;&nbsp;&bull; <span>Sockets</span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/udp-sockets/">&nbsp;&nbsp;&nbsp;&bull; <span><strong>UDP sockets</strong></span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/http-requests/">&nbsp;&nbsp;&nbsp;&bull; <span>Http requests</span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/ds_bin/">&bull; <span>ds_bin</span></a></p>
+<hr>
+<p>
+<a class="blocklink" href="https://www.maartenbaert.be/offlineversion.php?category=4">&bull; <span>Offline version</span></a>
+</p>
+</div>
+
+<div class="block">
+<h5>Log in</h5>
+<form method="post" action="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/udp-sockets/">
+<p><label>Username:<br><input class="textbox" type="text" name="login_username" size="18"></label></p>
+<p><label>Password:<br><input class="textbox" type="password" name="login_password" size="18"></label></p>
+<p><input type="submit" value="Log in"></p>
+</form>
+
+<p>No account yet? <a href="https://www.maartenbaert.be/register.php">Register!</a></p>
+</div>
+
+<p class="center"><a href="http://validator.w3.org/check?uri=https%3A%2F%2Fwww.maartenbaert.be%2Fgame-maker-dlls%2Fhttp-dll-2%2Fudp-sockets%2F" target="_blank"><img src="https://www.maartenbaert.be/img/valid-html.png" alt="Valid HTML 4.01 Transitional" height="31" width="88" border="0"></a></p>
+<p class="center"><a href="http://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fwww.maartenbaert.be%2Fgame-maker-dlls%2Fhttp-dll-2%2Fudp-sockets%2F" target="_blank"><img src="https://www.maartenbaert.be/img/valid-css.png" alt="Valid CSS!" height="31" width="88" border="0"></a></p>
+
+</td>
+
+<td class="maincontent">
+
+<div class="content">
+
+<p class="articlebuttons">Last modified: Sat, 11 Jun 2016<br>
+<a href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/udp-sockets/">Refresh</a></p>
+
+<h1>UDP sockets</h1>
+
+<ul>
+<li><p><a href="#about-udp-sockets">About UDP sockets</a></p>
+<li><p><a href="#functions">Functions</a></p>
+<ul>
+<li><p><a href="#udpsocket_create">udpsocket_create</a></p>
+<li><p><a href="#udpsocket_destroy">udpsocket_destroy</a></p>
+<li><p><a href="#udpsocket_exists">udpsocket_exists</a></p>
+<li><p><a href="#udpsocket_get_state">udpsocket_get_state</a></p>
+<li><p><a href="#udpsocket_reset">udpsocket_reset</a></p>
+<li><p><a href="#udpsocket_start">udpsocket_start</a></p>
+<li><p><a href="#udpsocket_set_destination">udpsocket_set_destination</a></p>
+<li><p><a href="#udpsocket_receive">udpsocket_receive</a></p>
+<li><p><a href="#udpsocket_send">udpsocket_send</a></p>
+<li><p><a href="#udpsocket_get_last_address">udpsocket_get_last_address</a></p>
+<li><p><a href="#udpsocket_get_last_port">udpsocket_get_last_port</a></p>
+<li><p><a href="#udpsocket_get_max_message_size">udpsocket_get_max_message_size</a></p>
+</ul>
+</ul>
+
+<hr>
+
+<a name="about-udp-sockets"></a>
+<h2>About UDP sockets</h2>
+
+<p>UDP sockets are similar to normal TCP sockets, but there are a few important differences:</p>
+
+<ul>
+<li>
+<p>UDP sockets don&#039;t create connections. They simply send messages to each other. Since there&#039;s no need to set up a connection, anyone can send messages to anyone with just a single socket on a single port.</p>
+
+<li>
+<p>UDP sockets are unreliable. Messages may arrive in the wrong order, disappear, or arrive multiple times. Normal TCP sockets cover this by reordering data when it is received out of order, and resending data when it disappears.</p>
+
+<li>
+<p>UDP sockets are message-oriented, unlike normal TCP sockets which are stream-oriented. If you&#039;re using the built-in message system you won&#039;t notice a huge difference though. However, you should realize that with UDP sockets every message actually corresponds to a packet (or sometimes multiple packets), so it&#039;s not a good idea to send thousands of messages with just a few bytes of data every second. You should combine them into larger messages.</p>
+
+<li>
+<p>There is a maximum message size. This is typically 65507 bytes, but it might be different on some networks. There&#039;s a function to get the maximum message size, but this function only returns the maximum size of your computer, not the maximum size supported by the network. If you want to be absolutely sure that your messages won&#039;t exceed the maximum size, then you should make them no larger than 512 bytes. If you want the highest performance, then the best thing you can do is gradually increase the packet size to detect where the limit is. But please realize that the limit may change at any time since the route that your packets will follow is not deterministic.</p>
+</ul>
+
+<p>So why would you want to use UDP sockets if they are so unreliable? The main reason is because packet loss is not always a huge problem. In an online game, it doesn&#039;t really matter if the client doesn&#039;t receive the new positions of other players for a single step. In those cases it&#039;s probably better to just forget it and go on with the next step, instead of waiting until the server resends the data which will take far longer than a single step (so by the time you receive the data it&#039;s already outdated). However, you should not rely on UDP for important messages. Typically you would open a TCP connection for the important data, and a separate UDP connection for the unimportant data.</p>
+
+<div class="note">
+<h5>Note</h5>
+
+<p>UDP sockets are <b>really</b> hard to use. This functionality is only meant for experts. You should already be familiar with normal TCP sockets and have a good understanding of the way the internet works.</p>
+</div>
+
+<a name="functions"></a>
+<h2>Functions</h2>
+
+<a name="udpsocket_create"></a>
+<h3>udpsocket_create</h3>
+
+<pre class="code">udpsocket_create()</pre>
+
+<p>Creates a new UDP socket and returns the id.</p>
+
+<hr>
+
+<a name="udpsocket_destroy"></a>
+<h3>udpsocket_destroy</h3>
+
+<pre class="code">udpsocket_destroy(id)</pre>
+
+<p>Destroys a UDP socket.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the UDP socket.</p>
+</ul>
+
+<hr>
+
+<a name="udpsocket_exists"></a>
+<h3>udpsocket_exists</h3>
+
+<pre class="code">udpsocket_exists(id)</pre>
+
+<p>Returns whether a UDP socket with the given id exists.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the UDP socket.</p>
+</ul>
+
+<hr>
+
+<a name="udpsocket_get_state"></a>
+<h3>udpsocket_get_state</h3>
+
+<pre class="code">udpsocket_get_state(id)</pre>
+
+<p>Returns the current state of the UDP socket.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the UDP socket.</p>
+</ul>
+
+<p>Return value:</p>
+
+<ul>
+<li>
+<p>0 = udpsocket_state_notstarted (the UDP socket has not been started)</p>
+
+<li>
+<p>1 = udpsocket_state_started (the UDP socket has been started)</p>
+
+<li>
+<p>2 = udpsocket_state_error (an error has occurred)</p>
+</ul>
+
+<p>These constants are only available if you&#039;re using the extension (GEX), you have to use the numbers if you&#039;re using the scripts and DLL.</p>
+
+<hr>
+
+<a name="udpsocket_reset"></a>
+<h3>udpsocket_reset</h3>
+
+<pre class="code">udpsocket_reset(id)</pre>
+
+<p>Resets the UDP socket to its initial state.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the UDP socket.</p>
+</ul>
+
+<hr>
+
+<a name="udpsocket_start"></a>
+<h3>udpsocket_start</h3>
+
+<pre class="code">udpsocket_start(id, ipv6, port)</pre>
+
+<p>Starts the UDP socket. You have to call this function once before sending or receiving messages.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the UDP socket.</p>
+
+<li>
+<p><b>ipv6</b>: Whether IPv6 should be used instead of IPv4. If you don&#039;t know what this means, you probably shouldn&#039;t be using UDP sockets. Anyway, if you don&#039;t know what it means, just use IPv4 (set this to false).</p>
+
+<li>
+<p><b>port</b>: The port the socket will listen to. This is <b>not</b> the destination port! You can set this to 0 to let the operating system pick a random port when you send the first message (recommended for clients).</p>
+
+<p>If you use a random port, make sure that you send at least one message <b>before</b> you try to receive any messages. Otherwise you won&#039;t get a valid port.</p>
+</ul>
+
+<hr>
+
+<a name="udpsocket_set_destination"></a>
+<h3>udpsocket_set_destination</h3>
+
+<pre class="code">udpsocket_set_destination(id, address, port)</pre>
+
+<p>Sets the destination. It is possible to change the destination as many times as you want.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the UDP socket.</p>
+
+<li>
+<p><b>address</b>: The destination address.</p>
+
+<li>
+<p><b>port</b>: The destination port.</p>
+</ul>
+
+<hr>
+
+<a name="udpsocket_receive"></a>
+<h3>udpsocket_receive</h3>
+
+<pre class="code">udpsocket_receive(id, buffer_id)</pre>
+
+<p>Receives a new message, i.e. copies the contents of the message to the buffer. Returns whether there was a message available.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the UDP socket.</p>
+
+<li>
+<p><b>buffer_id</b>: The id of the buffer that should be used to store the contents of the message.</p>
+</ul>
+
+<p>You should use a while loop to read all messages:</p>
+
+<pre class="code">while udpsocket_receive(socket, buffer) {
+    // read the buffer
+}</pre>
+
+<hr>
+
+<a name="udpsocket_send"></a>
+<h3>udpsocket_send</h3>
+
+<pre class="code">udpsocket_send(id, buffer_id)</pre>
+
+<p>Sends a message.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the UDP socket.</p>
+
+<li>
+<p><b>buffer_id</b>: The id of the buffer that holds the contents of the message.</p>
+</ul>
+
+<hr>
+
+<a name="udpsocket_get_last_address"></a>
+<h3>udpsocket_get_last_address</h3>
+
+<pre class="code">udpsocket_get_last_address(id)</pre>
+
+<p>Returns the IP address the last message came from. Since UDP sockets are connectionless, this can be any IP, not just your destination address. Note that the IP can be spoofed: a hacker can send a UDP message pretending to be from a different IP. You should never rely on the IP address alone in situations where security is important.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the UDP socket.</p>
+</ul>
+
+<hr>
+
+<a name="udpsocket_get_last_port"></a>
+<h3>udpsocket_get_last_port</h3>
+
+<pre class="code">udpsocket_get_last_port(id)</pre>
+
+<p>Returns the port the last message came from. You should usually send the response to this port (this should work even with local area networks).</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the UDP socket.</p>
+</ul>
+
+<hr>
+
+<a name="udpsocket_get_max_message_size"></a>
+<h3>udpsocket_get_max_message_size</h3>
+
+<pre class="code">udpsocket_get_max_message_size(id)</pre>
+
+<p>Returns the maximum message size supported by the computer. This is usually 65507. The maximum size of the network may be much lower though. If you want to be safe, don&#039;t make your messages larger than 512 bytes.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the UDP socket.</p>
+</ul><hr>
+
+<h2>Comments</h2>
+
+
+
+<a name="comment_635"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Kbjwes77</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_635">Comment #1</a>: Thu, 10 Apr 2014, 21:03 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=635">Quote</a></p>
+<hr>
+<p>Hey there, it&#039;s me again. Sorry to bother you, but I had a simple problem that is turning out to be difficult to fix.</p>
+
+<p>I am testing a UDP connection on LAN, sending packets from host to client. However when the client sends a packet to the host, instead of the host receiving it, the client steals the packet it just sent! The server has a defined port (7777) and I am giving the client a random port (I set it to 0 so the OS chooses it randomly for the client), but the host and client have the same IP address (&quot;localhost&quot; or &quot;127.0.0.1&quot;).</p>
+
+<p>How would I go about making sure the client doesn&#039;t receive it&#039;s own packets? It works fine over a LAN when the host and client aren&#039;t on the same machine. Any ideas? Thanks in advance!</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_636"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_636">Comment #2</a>: Thu, 10 Apr 2014, 21:16 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=636">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Kbjwes77</div>
+<div class="quote">
+<p>Hey there, it&#039;s me again. Sorry to bother you, but I had a simple problem that is turning out to be difficult to fix.</p>
+
+<p>I am testing a UDP connection on LAN, sending packets from host to client. However when the client sends a packet to the host, instead of the host receiving it, the client steals the packet it just sent! The server has a defined port (7777) and I am giving the client a random port (I set it to 0 so the OS chooses it randomly for the client), but the host and client have the same IP address (&quot;localhost&quot; or &quot;127.0.0.1&quot;).</p>
+
+<p>How would I go about making sure the client doesn&#039;t receive it&#039;s own packets? It works fine over a LAN when the host and client aren&#039;t on the same machine. Any ideas? Thanks in advance!</p>
+</div>
+
+<p>I&#039;m going to assume that you meant &#039;server&#039; instead of &#039;host&#039;.</p>
+
+<p>What you&#039;re seeing is not normal. You are probably using my DLL incorrectly. If you can post your code here, I will take a look at it.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_637"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Kbjwes77</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_637">Comment #3</a>: Thu, 10 Apr 2014, 21:40 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=637">Quote</a></p>
+<hr>
+<p>Your replies are always very timely, I really appreciate it! And yes I did mean server, not host. Also, for clarification, I am using the Studio extension.</p>
+
+<p>As for the code:</p>
+
+<p>I have two buffers, &quot;global.buffi&quot; for the incoming stuff, &quot;global.buffo&quot; for the outgoing stuff.</p>
+
+<p>Here is the client&#039;s UDP socket creation code:</p>
+
+<pre class="code">udpclient = udpsocket_create();
+udpsocket_set_destination(udpclient,ip,port); // here, ip = &quot;127.0.0.1&quot;; port = 7966;
+udpsocket_start(udpclient,false,0); // use IPv4, select random listening port</pre>
+
+<p>Here is the client&#039;s code for receiving packets:</p>
+
+<pre class="code">while(udpsocket_receive(udpclient,global.buffi))
+    {
+    lastip = udpsocket_get_last_address(udpclient);
+    bytesin += hbuffer_get_length(global.buffi);
+    udppackets++;
+    
+    scr_client_udp_in();
+    }</pre>
+
+<p>Client sending code sample (yep that&#039;s it!):</p>
+
+<pre class="code">hbuffer_clear(global.buffo);
+hbuffer_write_uint8(global.buffo,0); // message case id
+hbuffer_write_int8(global.buffo,xmove-obj_player.x);
+hbuffer_write_int8(global.buffo,ymove-obj_player.y);
+hbuffer_write_uint8(global.buffo,floor(obj_player.dir*0.5));
+udpsocket_send(udpclient,global.buffo);</pre>
+
+<p>It uses the same UDP socket that sends information to the server. I could create a second UDP socket, use it only for sending, but how would the server know which client it was sent from?</p>
+
+<p class="commenteditdate">Last modified: Fri, 11 Apr 2014, 2:30 (GMT+1, DST)</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_638"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_638">Comment #4</a>: Thu, 10 Apr 2014, 22:18 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=638">Quote</a></p>
+<hr>
+<p>That code is fine, the problem is most likely how you are sending messages, and you didn&#039;t post that part. I also need to see the server code as well, not just the client.</p>
+
+<p>The server should use udpsocket_get_last_address and udpsocket_get_last_port to find out who the client is, and then use those as the destination when it sends replies. The client doesn&#039;t need to do this, since it already knows the address and port of the server.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_639"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Kbjwes77</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_639">Comment #5</a>: Thu, 10 Apr 2014, 22:43 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=639">Quote</a></p>
+<hr>
+<p>I don&#039;t think it&#039;s the sending code. [Edited so the page wasn&#039;t cluttered with useless info!]</p>
+
+<p class="commenteditdate">Last modified: Fri, 11 Apr 2014, 2:29 (GMT+1, DST)</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_640"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_640">Comment #6</a>: Thu, 10 Apr 2014, 23:07 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=640">Quote</a></p>
+<hr>
+<p>That looks okay. Are you absolutely sure that the server is not receiving the messages, and that the client is receiving its own messages? It could also be a different problem that makes it look like this is happening.</p>
+
+<p>By the way, it&#039;s probably not the cause of your problems, but this:</p>
+
+<pre class="code">string(lastip)+string(lastport)</pre>
+
+<p>... is not a good key. The IP 1.2.3.4 with port 56 will get the same key as 1.2.3.45 with port 6. Use this instead:</p>
+
+<pre class="code">string(lastip)+&quot;,&quot;+string(lastport)</pre>
+</td>
+</tr>
+</table>
+
+<a name="comment_641"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Kbjwes77</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_641">Comment #7</a>: Thu, 10 Apr 2014, 23:21 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=641">Quote</a></p>
+<hr>
+<p>I&#039;m positive. When I comment out the client&#039;s receiving code, the server receives things just fine.</p>
+
+<p>I fixed the issue with the string(lastip)+string(lastport) collisions as you suggested. I didn&#039;t even think of that one. Unfortunately, it wasn&#039;t the cause of my greedy-client issue. I&#039;ll get back to you on that if I do find a fix; at least someone can use this as a reference if they get stuck with the same issue.</p>
+
+<p class="commenteditdate">Last modified: Thu, 10 Apr 2014, 23:22 (GMT+1, DST)</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_642"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_642">Comment #8</a>: Thu, 10 Apr 2014, 23:33 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=642">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Kbjwes77</div>
+<div class="quote">
+<p>I&#039;m positive. When I comment out the client&#039;s receiving code, the server receives things just fine.</p>
+</div>
+
+<p>Then the problem is somewhere else in the client. Commenting out code in the client can&#039;t possibly affect the server.</p>
+
+<p>What happens when you keep the client&#039;s receiving code active, but you comment out the line <span class="code">scr_client_udp_in();</span> in the receive loop?</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_643"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Kbjwes77</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_643">Comment #9</a>: Fri, 11 Apr 2014, 1:32 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=643">Quote</a></p>
+<hr>
+<p>Sorry for the delay, I had to get to class.</p>
+
+<p>If I just comment out the script <span class="code">scr_client_udp_in()</span> inside of the while statement, it still behaves as if it is reading the packet before it gets sent out to the server.</p>
+
+<p>Anytime <span class="code">udpsocket_receive()</span> is called after it sends a message and before the next step, it seems to do this.</p>
+
+<p class="commenteditdate">Last modified: Fri, 11 Apr 2014, 1:37 (GMT+1, DST)</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_644"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_644">Comment #10</a>: Fri, 11 Apr 2014, 2:00 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=644">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Kbjwes77</div>
+<div class="quote">
+<p>Sorry for the delay, I had to get to class.</p>
+
+<p>If I just comment out the script <span class="code">scr_client_udp_in()</span> inside of the while statement, it still behaves as if it is reading the packet before it gets sent out to the server.</p>
+
+<p>Anytime <span class="code">udpsocket_receive()</span> is called after it sends a message and before the next step, it seems to do this.</p>
+</div>
+
+<p>I still don&#039;t understand what&#039;s happening. Are you checking the state of the sockets to make sure that no errors are happening?</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_645"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Kbjwes77</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_645">Comment #11</a>: Fri, 11 Apr 2014, 2:24 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=645">Quote</a></p>
+<hr>
+<p>The state of the socket is always 1, or the constant socket_started. No errors anywhere. Data is sent, but it never reaches the server. The client actually accepts it. Like I can send a packet to myself <i>from the same UDP socket.</i> Everything is working properly, though! Haha I am just so confused as to why the client reads it&#039;s own messages, when the destination (outgoing) port it 7966 and the receiving (incoming) port is set to 0 (random).</p>
+
+<p>This works, and the server receives the packets:</p>
+
+<pre class="code">/*
+while(udpsocket_receive(udpclient,global.buffi))
+    {
+    lastip = udpsocket_get_last_address(udpclient);
+
+    scr_client_udp_in();
+    }
+*/</pre>
+
+<p>However, this doesn&#039;t, and the client picks up it&#039;s very own messages:</p>
+
+<pre class="code">while(udpsocket_receive(udpclient,global.buffi))
+    {
+    lastip = udpsocket_get_last_address(udpclient);
+    
+    scr_client_udp_in();
+    }</pre>
+
+<p class="commenteditdate">Last modified: Fri, 11 Apr 2014, 2:35 (GMT+1, DST)</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_646"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_646">Comment #12</a>: Fri, 11 Apr 2014, 2:27 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=646">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Kbjwes77</div>
+<div class="quote">
+<p>The state of the socket is always 1, or the constant socket_started. No errors anywhere. Data is sent, but it never reaches the server. The client actually accepts it. Like I can send a packet to myself <i>from the same UDP socket.</i> Everything is working properly, though! Haha I am just so confused as to why the client reads it&#039;s own messages, when the destination (outgoing) port it 7966 and the receiving (incoming) port is set to 0 (random).</p>
+</div>
+
+<p>Yes, that really makes no sense, it&#039;s as if Windows is binding both sockets to the same port :S. Can you try to set the client port explicitly to some value other than 7966, e.g. 7967, and see if that fixes the problem? It&#039;s not a good solution of course, but it helps to track down the cause.</p>
+
+<p>EDIT: You are starting the server before you start the client, right?</p>
+
+<p class="commenteditdate">Last modified: Fri, 11 Apr 2014, 2:28 (GMT+1, DST)</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_647"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Kbjwes77</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_647">Comment #13</a>: Fri, 11 Apr 2014, 2:33 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=647">Quote</a></p>
+<hr>
+<p>I am starting the server before the client.</p>
+
+<p><b>Wow</b>! I changed the receiving port for the client from 0 (the supposedly randomly selected by the OS free port thing) to 7965 which is one below the sending port. It goes through! Why does windows do that? It&#039;s not the DLL right?</p>
+
+<p>So, I have to select a receiving port manually, and not set it to 0 I think. Because it&#039;s not actually giving me a random port.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_648"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_648">Comment #14</a>: Fri, 11 Apr 2014, 4:55 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=648">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Kbjwes77</div>
+<div class="quote">
+<p>I am starting the server before the client.</p>
+
+<p><b>Wow</b>! I changed the receiving port for the client from 0 (the supposedly randomly selected by the OS free port thing) to 7965 which is one below the sending port. It goes through! Why does windows do that? It&#039;s not the DLL right?</p>
+
+<p>So, I have to select a receiving port manually, and not set it to 0 I think. Because it&#039;s not actually giving me a random port.</p>
+</div>
+
+<p>If you set the port to 0, the DLL will simply leave the socket unbound. As soon as you try to send something, Windows should pick a random port for you.</p>
+
+<p>Could it be that you were trying to receive data before you had sent anything from that socket? Can you try sending something first (e.g. in the create event) to see whether that makes any difference?</p>
+
+<p class="commenteditdate">Last modified: Fri, 11 Apr 2014, 4:54 (GMT+1, DST)</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_649"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Kbjwes77</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_649">Comment #15</a>: Fri, 11 Apr 2014, 5:09 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=649">Quote</a></p>
+<hr>
+<p>That worked! It worked, it worked, it worked! Yes! Thank you so much, I just needed to send something to the server before receiving something. So simple, but completely game breaking. Thank you!</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_650"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_650">Comment #16</a>: Fri, 11 Apr 2014, 5:18 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=650">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Kbjwes77</div>
+<div class="quote">
+<p>That worked! It worked, it worked, it worked! Yes! Thank you so much, I just needed to send something to the server before receiving something. So simple, but completely game breaking. Thank you!</p>
+</div>
+
+<p>It was just a guess, I had no idea either. I&#039;ve added it to the documentation.</p>
+</td>
+</tr>
+</table>
+
+<p><a href="https://www.maartenbaert.be/writecomment.php?article=75">Write a comment</a></p>
+
+</div>
+
+</td>
+</tr>
+</table>
+
+<div class="footer">
+<p>Copyright 2009-2026 Maarten Baert</p>
+</div>
+
+</body>
+
+</html>

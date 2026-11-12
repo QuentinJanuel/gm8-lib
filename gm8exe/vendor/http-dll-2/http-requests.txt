@@ -1,0 +1,775 @@
+Maarten Baert's website
+
+Game Maker / C++ projects
+
+ | 
+
+Home | 
+Model Creator | 
+ExtremePhysics | 
+Game Maker DLLs | 
+SimpleScreenRecorder | 
+AlterPCB | 
+Quadcopters | 
+  | 
+Recent comments | 
+Search | 
+
+Navigation
+
+• Main page
+• GM-GMP
+• Http Dll 2
+   • Buffers
+   • MD5 and SHA-1
+   • Sockets
+   • UDP sockets
+   • Http requests
+• ds_bin
+
+• Offline version
+
+Log in
+
+Username:
+
+Password:
+
+No account yet? Register!
+
+ | 
+
+Last modified: Wed, 17 Dec 2014
+
+Refresh
+
+Http requests
+
+About http requests
+
+Simple scripts
+
+Usage example
+
+Functions
+
+httprequest_create
+
+httprequest_destroy
+
+httprequest_exists
+
+httprequest_get_state
+
+httprequest_set_request_header
+
+httprequest_remove_request_header
+
+httprequest_clear_request_headers
+
+httprequest_set_post_parameter
+
+httprequest_set_post_parameter_file
+
+httprequest_remove_post_parameter
+
+httprequest_clear_post_parameters
+
+httprequest_reset
+
+httprequest_connect
+
+httprequest_update
+
+httprequest_get_status_code
+
+httprequest_get_response_header_count
+
+httprequest_get_response_header_name
+
+httprequest_get_response_header_value
+
+httprequest_find_response_header
+
+httprequest_get_message_body
+
+httprequest_get_message_body_length
+
+httprequest_get_message_body_buffer
+
+httprequest_urlencode
+
+httprequest_urldecode
+
+About http requests
+
+Http requests are used to download web pages or files from the internet. It can also be used to send data to a web server, just like webforms do. If you have a web server that supports dynamic web pages, you can use it to create online highscores and access them with http requests.
+
+None of the functions will block the game, so it is possible to download things in the background without freezing the game. It is also possible to use multiple http requests at the same time.
+
+Downloading webpages requires a number of steps:
+
+Create a http request.
+
+Set request headers and post parameters (optional).
+
+Connect to the web server.
+
+Wait until the request completes.
+
+Read the response (response headers and message body).
+
+Destroy the http request.
+
+Simple scripts
+
+You can use these scripts if you simply want to download a file and you don't need any special options. Note that these scripts will freeze your game until the download completes (or an error occurs).
+
+// download(url, destination)
+// downloads a file and saves it at the destination
+// returns whether successful
+var st, result, b;
+httprequest = httprequest_create();
+httprequest_connect(httprequest, argument0, false);
+while true {
+ httprequest_update(httprequest);
+ st = httprequest_get_state(httprequest);
+ if st=4 or st=5 {
+ break;
+ }
+ sleep(10);
+}
+if st=5 {
+ result = false;
+} else {
+ result = true;
+ b = buffer_create();
+ httprequest_get_message_body_buffer(httprequest, b);
+ buffer_write_to_file(b, argument1);
+ buffer_destroy(b);
+}
+httprequest_destroy(httprequest);
+return result;
+
+// netread(url)
+// loads a webpage and returns the content (i.e. the source code for HTML pages)
+// returns "ERROR" if an error occurred
+var st, result;
+httprequest = httprequest_create();
+httprequest_connect(httprequest, argument0, false);
+while true {
+ httprequest_update(httprequest);
+ st = httprequest_get_state(httprequest);
+ if st=4 or st=5 {
+ break;
+ }
+ sleep(10);
+}
+if st=5 {
+ result = "ERROR";
+} else {
+ result = httprequest_get_message_body(httprequest);
+}
+httprequest_destroy(httprequest);
+return result;
+
+Usage example
+
+Normal (GET) request:
+
+var httprequest, st;
+httprequest = httprequest_create();
+httprequest_connect(httprequest, "http://www.maartenbaert.be/game-maker-dlls/", false);
+while true {
+ httprequest_update(httprequest);
+ st = httprequest_get_state(httprequest);
+ if st=4 or st=5 {
+ break;
+ }
+ sleep(10);
+}
+if st=5 {
+ show_message("Downloading failed.");
+} else {
+ show_message("Downloading succeeded.");
+ contents = httprequest_get_message_body(httprequest);
+}
+httprequest_destroy(httprequest);
+
+POST request:
+
+var httprequest, st;
+httprequest = httprequest_create();
+httprequest_set_post_parameter(httprequest, "username", "John Smith");
+httprequest_set_post_parameter(httprequest, "password", "secret");
+// the third argument of httprequest_connect should be 'true' to post data:
+httprequest_connect(httprequest, "http://www.maartenbaert.be/game-maker-dlls/", true);
+// everything else is the same ...
+
+Normal request without blocking the game:
+
+// create event
+httprequest = httprequest_create();
+httprequest_connect(httprequest, "http://www.maartenbaert.be/game-maker-dlls/", false);
+
+// room end event
+if httprequest!=-1 {
+ httprequest_destroy(httprequest);
+}
+
+// step event
+var st;
+if httprequest!=-1 {
+ httprequest_update(httprequest);
+ st = httprequest_get_state(httprequest);
+ if st=4 {
+ show_message("Downloading succeeded.");
+ contents = httprequest_get_message_body(httprequest);
+ }
+ if st=5 {
+ show_message("Downloading failed.");
+ }
+ if st=4 or st=5 {
+ httprequest_destroy(httprequest);
+ httprequest = -1;
+ }
+}
+
+Functions
+
+httprequest_create
+
+httprequest_create()
+
+Creates a new http request and returns the id.
+
+httprequest_destroy
+
+httprequest_destroy(id)
+
+Destroys a http request.
+
+id: The id of the http request.
+
+httprequest_exists
+
+httprequest_exists(id)
+
+Returns whether a http request exists.
+
+id: The id of the http request.
+
+httprequest_get_state
+
+httprequest_get_state(id)
+
+Returns the current state of the http request.
+
+id: The id of the http request.
+
+Return value:
+
+0 = httprequest_state_notconnected (not connected)
+
+1 = httprequest_state_wait_statuscode (connecting or waiting for status code)
+
+2 = httprequest_state_wait_headers (waiting for headers)
+
+3 = httprequest_state_wait_messagebody (waiting for message body)
+
+4 = httprequest_state_closed (the request has been completed)
+
+5 = httprequest_state_error (an error occurred)
+
+These constants are only available if you're using the extension (GEX), you have to use the numbers if you're using the scripts and DLL.
+
+httprequest_set_request_header
+
+httprequest_set_request_header(id, name, value, replace)
+
+Sets the value of a request header.
+
+id: The id of the http request.
+
+name: The name of the header (without the colon at the end, e.g. "Cookie"). The name is case-insensitive.
+
+value: The value of the header.
+
+replace: If replace is true, then the new value will replace the old value if the header exists already. If replace is false, a new header with the same name will be added. Sometimes the same header has to be used several times (e.g. cookies), but most of the time it makes no sense to send the same header more than once, so replace should normally be true.
+
+httprequest_remove_request_header
+
+httprequest_remove_request_header(id, name)
+
+Removes a request header from the list, if it exists. If multiple headers with the same name exist, they are all removed.
+
+id: The id of the http request.
+
+name: The name of the header (without the colon at the end, e.g. "Cookie"). The name is case-insensitive.
+
+httprequest_clear_request_headers
+
+httprequest_clear_request_headers(id)
+
+Removes all request headers.
+
+id: The id of the http request.
+
+httprequest_set_post_parameter
+
+httprequest_set_post_parameter(id, name, value)
+
+Sets the value of a post parameter.
+
+id: The id of the http request.
+
+name: The name of the post parameter. The name is case-insensitive.
+
+value: The value. Special characters are allowed, they will be url-encoded automatically (and the server software will decode them).
+
+httprequest_set_post_parameter_file
+
+httprequest_set_post_parameter_file(id, name, filename, buffer_id)
+
+Sets the value of a post parameter, as a file. This can be used to upload files to the server. If you want to know how to read uploaded files in PHP, read this.
+
+id: The id of the http request.
+
+name: The name of the post parameter. The name is case-insensitive.
+
+filename: The filename. This is the filename the server will receive, it doesn't have to be an existing file. The actual data is stored in the buffer.
+
+buffer_id: The id of a buffer that holds the file data.
+
+httprequest_remove_post_parameter
+
+httprequest_remove_post_parameter(id, name)
+
+Removes a post parameter from the list, if it exists.
+
+id: The id of the http request.
+
+name: The name of the post parameter. The name is case-insensitive.
+
+httprequest_clear_post_parameters
+
+httprequest_clear_post_parameters(id)
+
+Removes all post parameters.
+
+id: The id of the http request.
+
+httprequest_reset
+
+httprequest_reset(id)
+
+Resets the http request to its initial state. If the http request was still connected, it is disconnected.
+
+id: The id of the http request.
+
+httprequest_connect
+
+httprequest_connect(id, url, post)
+
+Makes a connection with the server. This should be done after setting all request headers and post parameters.
+
+id: The id of the http request.
+
+url: The url that will be requested. A port number is allowed.
+
+post: Whether a POST request should be sent (instead of a GET request). You have to set this to true to use post parameters.
+
+httprequest_update
+
+httprequest_update(id)
+
+Updates the http request, i.e. receives data from the server.
+
+id: The id of the http request.
+
+httprequest_get_status_code
+
+httprequest_get_status_code(id)
+
+Returns the status code of the http request. You can find a list of status codes here.
+
+id: The id of the http request.
+
+httprequest_get_response_header_count
+
+httprequest_get_response_header_count(id)
+
+Returns the number of response headers that were received.
+
+id: The id of the http request.
+
+httprequest_get_response_header_name
+
+httprequest_get_response_header_name(id, index)
+
+Returns the name of a response header, based on the index of the response header.
+
+id: The id of the http request.
+
+index: The index of the response header (0 is the first index).
+
+httprequest_get_response_header_value
+
+httprequest_get_response_header_value(id, index)
+
+Returns the value of a response header, based on the index of the response header.
+
+id: The id of the http request.
+
+index: The index of the response header (0 is the first index).
+
+httprequest_find_response_header
+
+httprequest_find_response_header(id, name)
+
+Returns the value of a response header, based on the name of the response header.
+
+id: The id of the http request.
+
+name: The name of the response header (without the colon at the end, e.g. "Content-Type"). The name is case-insensitive.
+
+httprequest_get_message_body
+
+httprequest_get_message_body(id)
+
+Returns the message body (the source code of the web page or the contents of the file) as a string. This function is not binary-safe, use httprequest_get_message_body_buffer for binary files.
+
+id: The id of the http request.
+
+httprequest_get_message_body_length
+
+httprequest_get_message_body_length(id)
+
+Returns the length of the message body. You can also use this to display a progress bar while the download is running by comparing the return value to the value of the Content-Length header (if the Content-Length header exists).
+
+id: The id of the http request.
+
+httprequest_get_message_body_buffer
+
+httprequest_get_message_body_buffer(id, buffer_id)
+
+Copies the message body (the source code of the web page or the contents of the file) to a buffer. This function is binary-safe.
+
+id: The id of the http request.
+
+buffer_id: The id of the destination buffer.
+
+httprequest_urlencode
+
+httprequest_urlencode(string, keepspecialchars)
+
+Url-encodes a string. This can be used to send special characters (e.g. spaces) as parameters in a url. 
+
+string: The string.
+
+keepspecialchars: Indicates whether special characters (like '=', '&', '?') should be ignored. If the value is a parameter in a url, you should set this to false. If the value is a complete URL but might contain some characters that have to be encoded, you should set this to true.
+
+Example:
+
+search = "game maker";
+url = "http://www.google.com/search?q="+httprequest_urlencode(search, false);
+
+httprequest_urldecode
+
+httprequest_urldecode(string)
+
+Decodes a url-encoded string.
+
+string: The string.
+
+Comments
+
+Game Fortress
+
+ | 
+
+Comment #1: Mon, 11 Jun 2012, 18:19 (GMT+1, DST)
+
+Quote
+
+Example code for http without freezing the game = epic
+
+much love.
+
+ | 
+
+Didi
+
+ | 
+
+Comment #2: Thu, 20 Jun 2013, 3:15 (GMT+1, DST)
+
+Quote
+
+Hi
+
+I am using this helpful dll but I have an issue. It saves the file as ANSI, and because of that, GM can't understand accents like é è à. How can I force it to save in UTF-8 ?
+
+Please help.
+
+ | 
+
+Abeing
+
+ | 
+
+Comment #3: Thu, 11 Jul 2013, 17:28 (GMT+1, DST)
+
+Quote
+
+Hi Maarten, great DLL you have there!
+
+But I'm always getting an error when using your simple script example "GET request without blocking" when requesting raw-output of "pastebin" sites, like this: http://pastebin.com/raw.php?i=iZ7nV8rn
+
+can you please tell me why this is not working? I would love to call an url and just get the plain text.
+
+It also seems like after my script finished, I crased the whole pastebin site for a minute or two o.0
+
+thanks in advance!
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #4: Tue, 23 Jul 2013, 20:03 (GMT+1, DST)
+
+Quote
+
+Quote: Didi
+
+Hi
+
+I am using this helpful dll but I have an issue. It saves the file as ANSI, and because of that, GM can't understand accents like é è à. How can I force it to save in UTF-8 ?
+
+Please help.
+
+The DLL saves whatever it gets from the server, it doesn't do any conversions (it can't even do this because it doesn't know what encoding the server uses, it's not a HTML parser). If you get some extended ASCII format and not UTF-8, that's because the server isn't sending UTF-8. If it's your server, you can probably change it. If it's not, you will have to keep a list of all extended ASCII values (128 in total) and translate those to UTF-8 yourself.
+
+Quote: Abeing
+
+Hi Maarten, great DLL you have there!
+
+But I'm always getting an error when using your simple script example "GET request without blocking" when requesting raw-output of "pastebin" sites, like this: http://pastebin.com/raw.php?i=iZ7nV8rn
+
+can you please tell me why this is not working? I would love to call an url and just get the plain text.
+
+It also seems like after my script finished, I crased the whole pastebin site for a minute or two o.0
+
+thanks in advance!
+
+I haven't tested this, but you can try to change the User-Agent header so your program looks like a real browser. Example:
+
+httprequest_set_request_header(httprequest, "User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:23.0) Gecko/20131011 Firefox/23.0", true);
+
+This imitates Firefox 23 on 64-bit Windows. I don't know whether that's good enough though, it could also be checking other things.
+
+ | 
+
+Doubleparallax
+
+ | 
+
+Comment #5: Sat, 12 Oct 2013, 21:13 (GMT+1, DST)
+
+Quote
+
+Hey, I'm trying to use this with Game Maker Studio, but it seems to just... not work at all... Nothing happens, no errors, no nothing, just doesn't even start.
+
+ | 
+
+Doubleparallax
+
+ | 
+
+Comment #6: Sat, 12 Oct 2013, 21:34 (GMT+1, DST)
+
+Quote
+
+Never mind the YOYOCompiler for Windows was causing multiple errors.
+
+ | 
+
+Yelly
+
+ | 
+
+Comment #7: Tue, 12 Nov 2013, 10:52 (GMT+1, DST)
+
+Quote
+
+Thanks for this dll.
+
+It has worked for me but since today I get number 5 as my httprequest state.
+
+So there is an error, but is there a way to find out what the error is? I really have no idea :(
+
+The status code says 0..
+
+Last modified: Tue, 12 Nov 2013, 10:56 (GMT+1, DST)
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #8: Tue, 12 Nov 2013, 12:58 (GMT+1, DST)
+
+Quote
+
+Quote: Yelly
+
+Thanks for this dll.
+
+It has worked for me but since today I get number 5 as my httprequest state.
+
+So there is an error, but is there a way to find out what the error is? I really have no idea :(
+
+The status code says 0..
+
+If you think it's a problem with the connection, try running wireshark to find out what's happening. If you think it's a problem with your code, post it here :).
+
+ | 
+
+Yelly
+
+ | 
+
+Comment #9: Fri, 15 Nov 2013, 18:41 (GMT+1, DST)
+
+Quote
+
+Quote: Maarten Baert
+
+Quote: Yelly
+
+Thanks for this dll.
+
+It has worked for me but since today I get number 5 as my httprequest state.
+
+So there is an error, but is there a way to find out what the error is? I really have no idea :(
+
+The status code says 0..
+
+If you think it's a problem with the connection, try running wireshark to find out what's happening. If you think it's a problem with your code, post it here :).
+
+I have no idea why it wasn't working but it only happens at our school.. don't ask me why :P.
+
+But I have a new problem. The host has always worked fine(apart from that it was often down) but 000webhost is now really fucking. In the browser is everything working fine but when I try to connect from GameMaker I get a proxy 502 error. Please help! :(
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #10: Sat, 16 Nov 2013, 21:56 (GMT+1, DST)
+
+Quote
+
+Quote: Yelly
+
+I have no idea why it wasn't working but it only happens at our school.. don't ask me why :P.
+
+That could be a very restrictive firewall. Some networks require that you use a proxy for all HTTP traffic, and Http Dll 2 has no proxy support. School networks are not the best place to test your programs :).
+
+Quote: Yelly
+
+But I have a new problem. The host has always worked fine(apart from that it was often down) but 000webhost is now really fucking. In the browser is everything working fine but when I try to connect from GameMaker I get a proxy 502 error. Please help! :(
+
+Is this still on the school network? Your browser may be configured to use a proxy, if that's the case there's not much you can do.
+
+ | 
+
+Vensilver
+
+ | 
+
+Comment #11: Thu, 9 Jan 2014, 20:42 (GMT+1, DST)
+
+Quote
+
+hi i download your project but the sample is not working on game maker 8.1
+
+http://gmc.yoyogames.com/index.php?showtopic=600254&page=2
+
+what to do ??
+
+Last modified: Thu, 9 Jan 2014, 20:52 (GMT+1, DST)
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #12: Fri, 10 Jan 2014, 0:45 (GMT+1, DST)
+
+Quote
+
+Quote: Vensilver
+
+hi i download your project but the sample is not working on game maker 8.1
+
+http://gmc.yoyogames.com/index.php?showtopic=600254&page=2
+
+what to do ??
+
+That's not one of my examples. You should ask the creator of the example, not me :).
+
+ | 
+
+Silica
+
+ | 
+
+Comment #13: Sun, 17 Apr 2016, 17:00 (GMT+1, DST)
+
+Quote
+
+Hello im trying to use this to download a file
+
+that file is 74MB and its only downloading 7MB the file is an EXE and is hosted on my own server. im using your simple script thingy, how can i change it to download an .EXE properly?
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #14: Sun, 17 Apr 2016, 22:58 (GMT+1, DST)
+
+Quote
+
+Quote: Silica
+
+Hello im trying to use this to download a file
+
+that file is 74MB and its only downloading 7MB the file is an EXE and is hosted on my own server. im using your simple script thingy, how can i change it to download an .EXE properly?
+
+I've successfully downloaded much larger files, so I suspect it's a problem with the server configuration, not the DLL. If you want to know what went wrong, look at the server log, or look at the traffic in Wireshark.
+
+ | 
+
+Write a comment
+
+ | 
+
+Copyright 2009-2026 Maarten Baert

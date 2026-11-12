@@ -1,0 +1,21 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # rust-toolchain.toml pins the channel; rustup installs it on first use.
+      - run: rustup target add wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo build --workspace --locked
+      - run: cargo test -p gml-parser -p gm8exe --locked
+      - run: cargo build --release --target wasm32-unknown-unknown -p gm8patch --locked
+      - run: cargo build --profile wasm-small --target wasm32-unknown-unknown -p gm8-detect -p gm8-sprites --locked

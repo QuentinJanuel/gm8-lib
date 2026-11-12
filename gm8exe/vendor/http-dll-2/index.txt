@@ -1,0 +1,2066 @@
+Maarten Baert's website
+
+Game Maker / C++ projects
+
+ | 
+
+Home | 
+Model Creator | 
+ExtremePhysics | 
+Game Maker DLLs | 
+SimpleScreenRecorder | 
+AlterPCB | 
+Quadcopters | 
+  | 
+Recent comments | 
+Search | 
+
+Navigation
+
+• Main page
+• GM-GMP
+• Http Dll 2
+   • Buffers
+   • MD5 and SHA-1
+   • Sockets
+   • UDP sockets
+   • Http requests
+• ds_bin
+
+• Offline version
+
+Log in
+
+Username:
+
+Password:
+
+No account yet? Register!
+
+ | 
+
+Last modified: Sat, 25 Apr 2015
+
+Refresh
+
+Http Dll 2
+
+What is Http Dll 2?
+
+Download
+
+License
+
+Documentation
+
+What is Http Dll 2?
+
+With Http Dll 2 you can send HTTP requests and read (or save) the results. It can also create sockets (normal sockets or listening sockets) and binary buffers (similar to 39dll), and it can calculate MD5 and SHA-1 checksums.
+
+Features:
+
+Http requests
+
+Allows you to download web pages or files without blocking the game.
+
+Allows you to set request headers and post parameters.
+
+Allows you to read the status code, response headers and of course the message body.
+
+Supports file uploads.
+
+Sockets
+
+Supports listening sockets (server) and normal sockets (client).
+
+Supports IPv4 and IPv6.
+
+Supports TCP and UDP.
+
+Buffers: very similar to 39dll, but with a few extra data types.
+
+MD5 and SHA-1
+
+ZLib compression
+
+RC4 encryption
+
+Hexadecimal and base64 encoding/decoding.
+
+The DLL also fixes an annoying bug/feature in 39dll that can cause data to be lost. With 39dll, the maximum amount of data that can be recieved as a whole is limited by the operating system. Windows will only buffer a fixed amount of data, e.g. 64KB. This might not be enough if you're trying to send large files. If too much data is buffered by the receiver, the sender has to wait to send more data. Since 39dll's sendmessage function doesn't wait, part of the data is lost if too much data is sent at once. This DLL does additional buffering to avoid this problem, so no data is ever lost. You can buffer as much data as you want on both the sending side and the receiving side.
+
+Unlike Http Dll, Http Dll 2 doesn't use a separate thread. I've changed this because it was confusing, and the advantage wasn't that big.
+
+Download
+
+Latest version:
+
+Download Http Dll 2.3 release 6 (with source code)
+
+Older versions:
+
+Download Http Dll 2.2 (with source code)
+
+Download Http Dll 2.1 (with source code)
+
+Download Http Dll 2.0 (with source code)
+
+Note
+
+In the extension for GM Studio, I have renamed all buffer functions so they start with 'hbuffer' instead of 'buffer' to avoid conflicts. The extension for GM7/8/8.1 is not affected by this. The examples are meant for GM8/GM8.1 and will not work in GM Studio unless you rename the buffer functions.
+
+License
+
+Http Dll 2 is distributed under the terms of the GNU Lesser General Public License.
+
+Documentation
+
+The documentation is split into one article per topic - the links are below. For those who like video tutorials, check out the excellent tutorial series about Http Dll 2 by SlasherXGAMES.
+
+Buffers
+
+MD5 and SHA-1
+
+Sockets
+
+UDP sockets
+
+Http requests
+
+Comments
+
+Game Fortress
+
+ | 
+
+Comment #1: Mon, 11 Jun 2012, 18:19 (GMT+1, DST)
+
+Quote
+
+This DLL changed my life. I love it.
+
+ | 
+
+Kbjwes77
+
+ | 
+
+Comment #2: Mon, 25 Feb 2013, 23:09 (GMT+1, DST)
+
+Quote
+
+I don't think this works with Game Maker Studio... at least not any more. Whenever I call "listeningsocket_start_listening()", with various ports, it shows that the listening socket failed to listen. Any help Maarten?
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #3: Mon, 25 Feb 2013, 23:36 (GMT+1, DST)
+
+Quote
+
+That's a known problem:
+
+Quote
+
+If you are wondering why the extension doesn't work in Studio, it's because of a known bug in Studio:
+
+http://gmc.yoyogames.com/index.php?showtopic=546548
+
+You would have to fill in the 'external name' field for each function manually in the extension editor, which takes quite some time because it can't be automated, so haven't done this.
+
+Last modified: Mon, 25 Feb 2013, 23:37 (GMT+1, DST)
+
+ | 
+
+Kbjwes77
+
+ | 
+
+Comment #4: Tue, 26 Feb 2013, 0:16 (GMT+1, DST)
+
+Quote
+
+EDIT: Ok, so I opened up the http_dll_2_3.ged in the extension maker program. I see the input box for the external name, but I don't know what to put for that for each function. I would gladly take the time to do it, and give the edited .ged to you, but I am stuck as to what to actually put in for each "External Name".
+
+EDIT 2: Aha! I just used the name of each functions for it's external name and I think I've gotten it to work, maybe not every function, but definitely the listening socket functions that I was having problems with earlier. If you would like I could give you the .ged with the filled in external names.
+
+Last modified: Tue, 26 Feb 2013, 1:58 (GMT+1, DST)
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #5: Tue, 26 Feb 2013, 2:08 (GMT+1, DST)
+
+Quote
+
+Quote: Kbjwes77
+
+EDIT: Ok, so I opened up the http_dll_2_3.ged in the extension maker program. I see the input box for the external name, but I don't know what to put for that for each function. I would gladly take the time to do it, and give the edited .ged to you, but I am stuck as to what to actually put in for each "External Name".
+
+EDIT 2: Aha! I just used the name of each functions for it's external name and I think I've gotten it to work, maybe not every function, but definitely the listening socket functions that I was having problems with earlier. If you would like I could give you the .ged with the filled in external names.
+
+That's correct :). Normally GM should be smart enough to use the normal name if the external name is empty (it's even in the documentation I think), but they completely forgot about that in Studio for some reason. It would be great if you could upload the .ged. The reason I nevery filled in the external name it is that I create the .ged using the 'import' function, which doesn't support external names.
+
+It's even worse for ExtremePhysics, it has hunderds of functions :(.
+
+Last modified: Tue, 26 Feb 2013, 2:09 (GMT+1, DST)
+
+ | 
+
+Kbjwes77
+
+ | 
+
+Comment #6: Tue, 26 Feb 2013, 2:33 (GMT+1, DST)
+
+Quote
+
+Ok, well I'm glad I figured it out relatively easily! It seemed straightforward.
+
+Well, here is the edited .ged with the external names filled in. Took me about 10 minutes, even with keyboard shortcuts... ughh lol but anyways, I think it's fixed.
+
+https://www.dropbox.com/s/nf4w73a4noj97h8/http_dll_2_3_external.ged
+
+thanks for the great dll, it's the least I could do! Keep it up!
+
+ | 
+
+Kbjwes77
+
+ | 
+
+Comment #7: Thu, 28 Feb 2013, 21:33 (GMT+1, DST)
+
+Quote
+
+Okay, this dll is great, but lately a lot of things have come in my way and barred me from developing my online game. (Of all times, I decide now to make this game :P)
+
+Just yesterday I believe, Game Maker Studio pushed out an update featuring updated network and buffer functions to replace MPlay! I think it's great, but I'm not very fond of the functions to be honest. I think they're clunky and counter-intuitive. So I said to myself, ehh I'll just stick with Http Dll 2.
+
+Well, these functions that were added to the core of Game Maker Studio have conflicting names with the extension names, ex: buffer_create() and buffer_create(). I tried to edit the extension, but I think the names are tied to the names of the functions in the DLL, so I'm stuck until maybe you can fix it? I don't have too good of knowledge of c++, and I sure as hell couldn't compile the DLL with my knowledge of c++ IDEs.
+
+So if you could help me out here, I'd appreciate it A LOT! (My suggestion: just put "h_" before each function, just for simplicity. If you can send me the compiled DLL, I can create the extension and post it here. Anyways, sorry if you're too busy, but this would be a real life saver)
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #8: Thu, 28 Feb 2013, 22:40 (GMT+1, DST)
+
+Quote
+
+It's really simple, just change the name (and description), and leave the external name as is. That's the point of the external name :).
+
+ | 
+
+Kbjwes77
+
+ | 
+
+Comment #9: Thu, 28 Feb 2013, 22:55 (GMT+1, DST)
+
+Quote
+
+*facepalm* Well, it worked. Can't believe I didn't think to do that haha! Thanks again for the speedy replies, and most importantly the amazing dll. Cheers!
+
+ | 
+
+Rpgbuster
+
+ | 
+
+Comment #10: Wed, 8 May 2013, 7:40 (GMT+1, DST)
+
+Quote
+
+Not sure if you take requests, but it would prove MOST useful to have a "simple" function added in.
+
+I'm dynamically making a batch of requests (currently the code looks like a nightmare, but runs smoothly)
+
+I have two programs, and one generates the request list, and the other executes it. Runs great.
+
+The addition of a httprequest_destroy_all() function would be very useful to me. Something internal that auto-detects and closes any open connection, cancels if in mid-process, and frees their associated memory.
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #11: Wed, 8 May 2013, 11:38 (GMT+1, DST)
+
+Quote
+
+Quote: Rpgbuster
+
+Not sure if you take requests, but it would prove MOST useful to have a "simple" function added in.
+
+I'm dynamically making a batch of requests (currently the code looks like a nightmare, but runs smoothly)
+
+I have two programs, and one generates the request list, and the other executes it. Runs great.
+
+The addition of a httprequest_destroy_all() function would be very useful to me. Something internal that auto-detects and closes any open connection, cancels if in mid-process, and frees their associated memory.
+
+I don't mind adding functions for things that can't be done yet, but what you're asking is already perfectly possible with GML:
+
+// game start event
+global.httplist = ds_list_create();
+
+// httprequest_create2()
+var h;
+h = httprequest_create();
+ds_list_add(global.httplist, h);
+return h;
+
+// httprequest_destroy2(id)
+httprequest_destroy(argument0);
+ds_list_delete(global.httplist, ds_list_find_index(global.httplist, argument0));
+
+// httprequest_destroy_all()
+var i;
+for(i = 0; i < ds_list_size(global.httplist); i += 1) {
+ httprequest_destroy(ds_list_find_value(global.httplist, i));
+}
+ds_list_clear(global.httplist);
+
+Not tested, but with this you should be able to do what you want if you replace httprequest_create with httprequest_create2 in your code.
+
+ | 
+
+Rpgbuster
+
+ | 
+
+Comment #12: Wed, 8 May 2013, 14:55 (GMT+1, DST)
+
+Quote
+
+Quote: Maarten Baert
+
+Quote: Rpgbuster
+
+Not sure if you take requests, but it would prove MOST useful to have a "simple" function added in.
+
+I'm dynamically making a batch of requests (currently the code looks like a nightmare, but runs smoothly)
+
+I have two programs, and one generates the request list, and the other executes it. Runs great.
+
+The addition of a httprequest_destroy_all() function would be very useful to me. Something internal that auto-detects and closes any open connection, cancels if in mid-process, and frees their associated memory.
+
+I don't mind adding functions for things that can't be done yet, but what you're asking is already perfectly possible with GML:
+
+// game start event
+global.httplist = ds_list_create();
+
+// httprequest_create2()
+var h;
+h = httprequest_create();
+ds_list_add(global.httplist, h);
+return h;
+
+// httprequest_destroy2(id)
+httprequest_destroy(argument0);
+ds_list_delete(global.httplist, ds_list_find_index(global.httplist, argument0));
+
+// httprequest_destroy_all()
+var i;
+for(i = 0; i < ds_list_size(global.httplist); i += 1) {
+ httprequest_destroy(ds_list_find_value(global.httplist, i));
+}
+ds_list_clear(global.httplist);
+
+Not tested, but with this you should be able to do what you want if you replace httprequest_create with httprequest_create2 in your code.
+
+Thank you for the prompt reply! I'll see what I can do with it. Thanks again!
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #13: Wed, 8 May 2013, 15:49 (GMT+1, DST)
+
+Quote
+
+By the way, it's not a good idea to open dozens of connections to the same server. It makes sense to have 2 to 4 connections at the same time, especially if you need to download lots of small files, but more than that doesn't really make sense and can make things worse.
+
+ | 
+
+Rpgbuster
+
+ | 
+
+Comment #14: Thu, 9 May 2013, 17:17 (GMT+1, DST)
+
+Quote
+
+Is there a way I could discuss my idea with you in a more private setting? Perhaps you could advise an alternative.
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #15: Thu, 9 May 2013, 20:24 (GMT+1, DST)
+
+Quote
+
+Quote: Rpgbuster
+
+Is there a way I could discuss my idea with you in a more private setting? Perhaps you could advise an alternative.
+
+You can email me:
+
+[img]http://files.maartenbaert.be/aaaa.png[/img]
+
+ | 
+
+Bukmang
+
+ | 
+
+Comment #16: Thu, 4 Jul 2013, 10:40 (GMT+1, DST)
+
+Quote
+
+Hey Maarten I love your dll, But I have problem, In chat example, whenever I type anything it types automatically I searched everything didn't found any, I need it when you press Enter you can type, and also how to show sprite_index If I opened 2 clients I only see the x, y
+
+Please Reply, Thank you
+
+Last modified: Thu, 4 Jul 2013, 10:40 (GMT+1, DST)
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #17: Tue, 23 Jul 2013, 20:19 (GMT+1, DST)
+
+Quote
+
+Quote: Bukmang
+
+Hey Maarten I love your dll, But I have problem, In chat example, whenever I type anything it types automatically I searched everything didn't found any, I need it when you press Enter you can type, 
+
+It uses the built-in variable keyboard_string. It's in the manual, you should be able to do this yourself.
+
+Quote: Bukmang
+
+and also how to show sprite_index If I opened 2 clients I only see the x, y
+
+Please Reply, Thank you
+
+Send the sprite_index to the server, and let the server send it to the other clients. Read the code in the examples and try to understand what it is doing, if you understand that you should be able to do this yourself. If you don't understand how sending messages works, you shouldn't try to create an online game yet :).
+
+ | 
+
+Tcgm
+
+ | 
+
+Comment #18: Fri, 9 Aug 2013, 8:28 (GMT+1, DST)
+
+Quote
+
+Which function would one use to get the current progress of the download? I've looked through all the functions, but I can't find one which does that. I may have missed it, though.
+
+EDIT: I'm dumb, just used the httprequest_get_message_body_length and httprequest_find_response_header functions.
+
+Last modified: Fri, 9 Aug 2013, 16:38 (GMT+1, DST)
+
+ | 
+
+Bukmang
+
+ | 
+
+Comment #19: Mon, 14 Oct 2013, 9:51 (GMT+1, DST)
+
+Quote
+
+How do I make a registration and log in system, please answer.
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #20: Tue, 15 Oct 2013, 17:59 (GMT+1, DST)
+
+Quote
+
+Quote: Bukmang
+
+How do I make a registration and log in system, please answer.
+
+The goal of this DLL is not to give you a complete pre-baked system that you can just drop into your game. The goal is to give you the means to build one yourself. If you don't know how to create a simple login system, you should get some more experience with GM first. Online games are hard, you shouldn't try to create one unless you have already created a few offline games and are very familiar with GML.
+
+ | 
+
+Bukmang
+
+ | 
+
+Comment #21: Tue, 15 Oct 2013, 20:01 (GMT+1, DST)
+
+Quote
+
+Quote: Maarten Baert
+
+Quote: Bukmang
+
+How do I make a registration and log in system, please answer.
+
+The goal of this DLL is not to give you a complete pre-baked system that you can just drop into your game. The goal is to give you the means to build one yourself. If you don't know how to create a simple login system, you should get some more experience with GM first. Online games are hard, you shouldn't try to create one unless you have already created a few offline games and are very familiar with GML.
+
+I'll do my best, I'll search in Google about that system, Although I just wanted to know how that system work like how it sends accounts and stuff, Any more info is pleased, A little explanation is good. don't need the codes.
+
+Last modified: Tue, 15 Oct 2013, 20:02 (GMT+1, DST)
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #22: Fri, 18 Oct 2013, 18:48 (GMT+1, DST)
+
+Quote
+
+Quote: Bukmang
+
+Quote: Maarten Baert
+
+Quote: Bukmang
+
+How do I make a registration and log in system, please answer.
+
+The goal of this DLL is not to give you a complete pre-baked system that you can just drop into your game. The goal is to give you the means to build one yourself. If you don't know how to create a simple login system, you should get some more experience with GM first. Online games are hard, you shouldn't try to create one unless you have already created a few offline games and are very familiar with GML.
+
+I'll do my best, I'll search in Google about that system, Although I just wanted to know how that system work like how it sends accounts and stuff, Any more info is pleased, A little explanation is good. don't need the codes.
+
+It's not that hard, really. Just keep a list of usernames and hashed passwords on the server (make sure you learn about password hashing first!). For each client, add a variable that stores whether the user has logged in (and if they have, what their username or user id is). Send the username and hashed password to the server right after the client connects. Let the server send a reply that indicates whether the login was successful, and make sure that the server will ignore all other messages unless the client has logged in.
+
+ | 
+
+Bukmang
+
+ | 
+
+Comment #23: Mon, 11 Nov 2013, 14:38 (GMT+1, DST)
+
+Quote
+
+I made the registration & it works fine, But I got a problem, sending from server to client, I can't send a message from server to client, But I can, from client to server.
+
+For example:
+
+Client:
+
+Registration:
+
+if distance_to_point(mouse_x, mouse_y)=0 && mouse_check_button_released(mb_left)
+{
+ if string_length(oUNF.Name)>=4 && string_length(oPWF.Pass)>=4
+ {
+ buffer_clear(global.buffer);
+ buffer_write_uint8(global.buffer, 5);
+ buffer_write_string(global.buffer, keyboard_string);
+ buffer_write_string(global.buffer, oUNF.Name);
+ buffer_write_string(global.buffer, oPWF.Pass);
+ socket_write_message(socket, global.buffer);
+ } else { show_message('Insert more than 4 Characters.') }
+}
+
+Server:
+
+case 5:
+pw=buffer_read_string(global.buffer);
+us=buffer_read_string(global.buffer);
+ini_write_string(us, 'Password', pw);
+break;
+
+OK. I am trying to send if the login is successful.
+
+if ini_write_string(us, 'Password', '')=pw
+{
+ buffer_clear(global.buffer);
+ buffer_write_uint8(global.buffer, 6);
+ socket_write_message(socket, global.buffer);
+}
+
+Client:
+
+var a;
+if distance_to_point(mouse_x, mouse_y)=0 && mouse_check_button_released(mb_left)
+{
+ if string_length(oUNF.Name)>=4 && string_length(oPWF.Pass)>=4
+ {
+ while socket_read_message(socket, global.buffer)
+ {
+ a = buffer_read_uint8(global.buffer);
+ switch(a)
+ {
+ buffer_clear(global.buffer);
+ socket_write_message(socket, global.buffer);
+ show_message('Worked!')
+ }
+ }
+ } else { show_message('Insert more than 4 Characters.'); }
+}
+
+so What actually is the problem I tried to send anything else than that like a message but It didn't work
+
+I can only send from client to server.
+
+Last modified: Mon, 11 Nov 2013, 17:56 (GMT+1, DST)
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #24: Mon, 11 Nov 2013, 18:04 (GMT+1, DST)
+
+Quote
+
+@Bukmang:
+
+The first part writes three strings but the second part reads only two. This can't be right.
+
+You also should nevery try to receive the messages in an if statement. It doesn't make sense to check the same thing twice. And you forgot a case statement. And you're sending an empty message to the server - why?
+
+Do this instead:
+
+var a;
+while socket_read_message(socket, global.buffer) {
+ a = buffer_read_uint8(global.buffer);
+ switch(a) {
+ case 6:
+ show_message('Worked!');
+ break;
+ }
+}
+
+ | 
+
+Bukmang
+
+ | 
+
+Comment #25: Tue, 12 Nov 2013, 11:50 (GMT+1, DST)
+
+Quote
+
+OK. I made everything you said, but still.
+
+I made a simple checking sending from server to client but didn't work.
+
+in Server oPlayer
+
+case 5:
+ pw=buffer_read_string(global.buffer);
+ us=buffer_read_string(global.buffer);
+ ini_write_string(us, 'Password', pw);
+ buffer_clear(global.buffer);
+ socket_write_message(socket, global.buffer);
+ buffer_write_uint8(global.buffer, 6); //Register
+ break;
+
+in Client oRegister
+
+var a;
+while socket_read_message(socket, global.buffer)
+{
+ a=buffer_read_uint8(global.buffer);
+ switch(a)
+ {
+ case 6:
+ show_message('Worked!');
+ break;
+ }
+}
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #26: Tue, 12 Nov 2013, 12:55 (GMT+1, DST)
+
+Quote
+
+Quote: Bukmang
+
+OK. I made everything you said, but still.
+
+I made a simple checking sending from server to client but didn't work.
+
+The order is wrong. socket_write_message should be called after writing to the buffer, now you are just sending an empty buffer.
+
+ | 
+
+Bukmang
+
+ | 
+
+Comment #27: Tue, 12 Nov 2013, 14:46 (GMT+1, DST)
+
+Quote
+
+Thanks it worked!
+
+Last modified: Tue, 12 Nov 2013, 14:46 (GMT+1, DST)
+
+ | 
+
+Bukmang
+
+ | 
+
+Comment #28: Fri, 15 Nov 2013, 10:59 (GMT+1, DST)
+
+Quote
+
+Hi
+
+sorry for many questions.
+
+I am trying to send where he should go in a room, from server to client.
+
+First, I am sending room by this:
+
+buffer_write_string(global.buffer, 'rStart');
+
+Just to test if it works and it does, the problem is:
+
+Case 8: room_goto(buffer_read_string(global.buffer)); break;
+
+What I made there didn't work, but When I made this it worked:
+
+case 8: show_message(buffer_read_string(global.buffer)); //It does show 'rStart' break;
+
+so why didn't it go to the room when I sent it?
+
+ | 
+
+Bukmang
+
+ | 
+
+Comment #29: Sat, 16 Nov 2013, 14:21 (GMT+1, DST)
+
+Quote
+
+Quote: Bukmang
+
+Hi
+
+sorry for many questions.
+
+I am trying to send where he should go in a room, from server to client.
+
+First, I am sending room by this:
+
+buffer_write_string(global.buffer, 'rStart');
+
+Just to test if it works and it does, the problem is:
+
+Case 8: room_goto(buffer_read_string(global.buffer)); break;
+
+What I made there didn't work, but When I made this it worked:
+
+case 8: show_message(buffer_read_string(global.buffer)); //It does show 'rStart' break;
+
+so why didn't it go to the room when I sent it?
+
+Well I think I figured it out it uses numbers not strings.
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #30: Sat, 16 Nov 2013, 21:50 (GMT+1, DST)
+
+Quote
+
+Quote: Bukmang
+
+Well I think I figured it out it uses numbers not strings.
+
+Correct. Room names are like constants, they are simply numbers. You can send them as integers.
+
+ | 
+
+Bukmang
+
+ | 
+
+Comment #31: Thu, 28 Nov 2013, 15:19 (GMT+1, DST)
+
+Quote
+
+Hey, I tried using parents to apply it to all objects instead of sending each position to object but I don't think it's a good idea, when It called PvP object (orParent) if attacked and if the other object image_xscale=1 it'll return the other object image_xscale and move it (hspeed+=2).
+
+also I tried sending every object I can't do it so the question is:
+
+- I made a character select screen how do I send all of the players positions, sprites and such?
+
+- I tried making enemy but when created other see it and other don't.
+
+I made everything Login and version if client out of date. game_end();
+
+and skills to buy, level, exp and power all works, all saved in server. just sends it to client and client sends it back to server to save it in ini.
+
+ty for help.
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #32: Sun, 1 Dec 2013, 22:53 (GMT+1, DST)
+
+Quote
+
+Quote: Bukmang
+
+Hey, I tried using parents to apply it to all objects instead of sending each position to object but I don't think it's a good idea, when It called PvP object (orParent) if attacked and if the other object image_xscale=1 it'll return the other object image_xscale and move it (hspeed+=2).
+
+also I tried sending every object I can't do it so the question is:
+
+- I made a character select screen how do I send all of the players positions, sprites and such?
+
+- I tried making enemy but when created other see it and other don't.
+
+I made everything Login and version if client out of date. game_end();
+
+and skills to buy, level, exp and power all works, all saved in server. just sends it to client and client sends it back to server to save it in ini.
+
+ty for help.
+
+These things depend a lot on the game you're making, you should really figure this out for yourself. I can answer questions about this DLL but I won't make your entire game for you ;). If you have a question about some part of this DLL, then you can post it here, but this is not the right place for questions that are about the game itself (you can ask those questions on the GMC forums instead).
+
+ | 
+
+Basbloem
+
+ | 
+
+Comment #33: Sun, 13 Apr 2014, 20:31 (GMT+1, DST)
+
+Quote
+
+Maarten, wat doe ik verkeerd?
+
+Ik verzend player x als int16(Short, 2 bytes)
+
+Maar ik ontvang in mijn java server iets verkeerds.
+
+Bijvoorbeeld als ik X = 8 verzend
+
+Ontvang ik 2048..
+
+De volgorde qua bytes etc. is correct, heb ik nog gecheckt.
+
+En de ontvangen value veranderd alleen als de x ook veranderd.
+
+Hetzelfde gebeurd met float values.
+
+Is er iets in de achtergrond in de dll dat je met de bytes doet waardoor het niet meer werkt
+
+bij andere 'soort' ontvanger?
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #34: Mon, 14 Apr 2014, 15:10 (GMT+1, DST)
+
+Quote
+
+Quote: Basbloem
+
+Maarten, wat doe ik verkeerd?
+
+Ik verzend player x als int16(Short, 2 bytes)
+
+Maar ik ontvang in mijn java server iets verkeerds.
+
+Bijvoorbeeld als ik X = 8 verzend
+
+Ontvang ik 2048..
+
+De volgorde qua bytes etc. is correct, heb ik nog gecheckt.
+
+En de ontvangen value veranderd alleen als de x ook veranderd.
+
+Hetzelfde gebeurd met float values.
+
+Is er iets in de achtergrond in de dll dat je met de bytes doet waardoor het niet meer werkt
+
+bij andere 'soort' ontvanger?
+
+Als je messages verstuurt, dan verstuurt de DLL eerst een uintv met de lengte van de message. Daarna pas komt de echte data. Als je dat niet wil moet je socket_read_data/socket_write_data gebruiken, maar dan verlies je ook de voordelen van het message systeem.
+
+ | 
+
+Kalaros
+
+ | 
+
+Comment #35: Wed, 17 Sep 2014, 19:07 (GMT+1, DST)
+
+Quote
+
+Hey, I have the same Problem as Kbjwes77 a year ago, I've changed all external Names but it still gives me the "Can't listen for incoming connections!"-Error. Any Ideas? :/
+
+Last modified: Wed, 17 Sep 2014, 19:07 (GMT+1, DST)
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #36: Sat, 20 Sep 2014, 18:09 (GMT+1, DST)
+
+Quote
+
+Quote: Kalaros
+
+Hey, I have the same Problem as Kbjwes77 a year ago, I've changed all external Names but it still gives me the "Can't listen for incoming connections!"-Error. Any Ideas? :/
+
+You shouldn't need to do this anymore if you use the 'http_dll_2_3_studio.gex' file since this is already done.
+
+You may have to change your firewall settings to allow incoming connections. Try disabling your firewall temporarily to see whether this is the cause of the problem.
+
+ | 
+
+Kalaros
+
+ | 
+
+Comment #37: Fri, 26 Sep 2014, 2:07 (GMT+1, DST)
+
+Quote
+
+I used the right file and my firewall was deactivated. 
+
+Last modified: Fri, 26 Sep 2014, 2:07 (GMT+1, DST)
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #38: Fri, 26 Sep 2014, 17:37 (GMT+1, DST)
+
+Quote
+
+Quote: Kalaros
+
+I used the right file and my firewall was deactivated. 
+
+Then I don't know. Did you try it with a different computer or a different version of GM?
+
+ | 
+
+Shadowblitz16
+
+ | 
+
+Comment #39: Thu, 11 Dec 2014, 1:43 (GMT+1, DST)
+
+Quote
+
+hey can someone help me I'm getting a push error where it says hbuffer_write_uint8(global.hbuffer, state) in the step event in gamemaker studio
+
+I defined its value so it should be working right?
+
+I'm trying to make the client write the objects state
+
+edit2: can someone give an example of a state machine?
+
+Last modified: Thu, 11 Dec 2014, 2:16 (GMT+1, DST)
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #40: Thu, 11 Dec 2014, 18:58 (GMT+1, DST)
+
+Quote
+
+Quote: Shadowblitz16
+
+hey can someone help me I'm getting a push error where it says hbuffer_write_uint8(global.hbuffer, state) in the step event in gamemaker studio
+
+I defined its value so it should be working right?
+
+I'm trying to make the client write the objects state
+
+edit2: can someone give an example of a state machine?
+
+If the error message says that you have not defined the variable, then that's the reason. This has nothing to do with the DLL, the DLL is unable to display any error messages. You should post questions like this to the GMC forums, the comments here are only meant for things directly related to the DLL.
+
+ | 
+
+Shadowblitz16
+
+ | 
+
+Comment #41: Fri, 12 Dec 2014, 3:40 (GMT+1, DST)
+
+Quote
+
+k sorry :/
+
+ | 
+
+Gamesmaker
+
+ | 
+
+Comment #42: Fri, 12 Dec 2014, 19:23 (GMT+1, DST)
+
+Quote
+
+I want to create a game that has a registration form included, like this:
+
+Quote
+
+login=get_string('Your login','');
+
+pass=get_string('Your password','');
+
+email=get_string('Your email','');like%20some1%40gmail.com
+
+mail=0;
+
+//here connection to storage server
+
+//if success: mail=1;
+
+if (mail){
+
+text='Successfully registered.
+
+Login:'+login+'
+
+Password:'+pass;
+
+//send email
+
+show_message('Mail sent to your mailbox');
+
+} else show_message('Registration failed!');
+
+Does your Http Dll 2 support functions to send emails via GM? If not, does 39dll support functions to send emails via GM? How? If neither supports, could you be so kind to create a new mail dll? Please tell what should I put instead of //send email. 
+
+ | 
+
+Shadowblitz16
+
+ | 
+
+Comment #43: Fri, 12 Dec 2014, 22:14 (GMT+1, DST)
+
+Quote
+
+simple question how do you write and read bools?
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #44: Sat, 13 Dec 2014, 14:41 (GMT+1, DST)
+
+Quote
+
+Quote: Gamesmaker
+
+I want to create a game that has a registration form included, like this:
+
+Quote
+
+login=get_string('Your login','');
+
+pass=get_string('Your password','');
+
+email=get_string('Your email','');like%20some1%40gmail.com
+
+mail=0;
+
+//here connection to storage server
+
+//if success: mail=1;
+
+if (mail){
+
+text='Successfully registered.
+
+Login:'+login+'
+
+Password:'+pass;
+
+//send email
+
+show_message('Mail sent to your mailbox');
+
+} else show_message('Registration failed!');
+
+Does your Http Dll 2 support functions to send emails via GM? If not, does 39dll support functions to send emails via GM? How? If neither supports, could you be so kind to create a new mail dll? Please tell what should I put instead of //send email. 
+
+If you try to send an email from random computers, you will find that 99% of those emails will be blocked by ISPs or spam filters. So don't bother, it won't work. You will have to use a different registration method (e.g. send the account details to a webserver, store them there, and let the web server send the email).
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #45: Sat, 13 Dec 2014, 14:41 (GMT+1, DST)
+
+Quote
+
+Quote: Shadowblitz16
+
+simple question how do you write and read bools?
+
+Just use uint8 instead :).
+
+ | 
+
+Gamesmaker
+
+ | 
+
+Comment #46: Sat, 13 Dec 2014, 19:37 (GMT+1, DST)
+
+Quote
+
+Ok, I will warn players that mail may get to spam.
+
+Anyway, just tell me How to send the mail with your dll. Is this possible?
+
+I mean, I prefer to connect directly to the receiver's POP server and send the message.
+
+I guess that one must use sockets somehow for this. But I don't know how, therefore I need your help.
+
+Another way that I don't want to use, but I will, if that's the only existing.
+
+Let's pretend that I have registered email mymail@gmail.com. SMTP Server smtp.gmail.com:587 or 465.
+
+What should I write to connect to smtp.gmail.com:587 and send letter to some1@gmail.com?
+
+[img]http://bestsoft.webatu.com/data/vg.png[/img]
+
+ | 
+
+Gamesmaker
+
+ | 
+
+Comment #47: Sat, 13 Dec 2014, 19:45 (GMT+1, DST)
+
+Quote
+
+Actually I am going to create " e-mail registration confirmation ". And of course, I don't want my server to be overloaded by bad guys who may decompile my game.
+
+Last modified: Sat, 13 Dec 2014, 19:51 (GMT+1, DST)
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #48: Mon, 15 Dec 2014, 22:06 (GMT+1, DST)
+
+Quote
+
+Quote: Gamesmaker
+
+Ok, I will warn players that mail may get to spam.
+
+You don't understand the magnitude of the problem. The mail won't end up in the spam folder. It will never appear anywhere at all. In fact it won't be able to leave the player's computer, since most ISPs simply block port 25 completely.
+
+A more accurate warning for the player would be:
+
+Quote
+
+Warning: There's a small chance that this program will send you an email.
+
+I also don't understand why you would possibly want to send an email from the computer of the player to that same player. If you want to give the player a message, why don't you just show it? If you want to store the message, why don't you just save it as a text file?
+
+Anyway, if you really want to do this, you will need socket_read_message_delimiter and socket_write_message_delimiter. That's assuming you can even get past socket_connect on port 25, which is unlikely.
+
+Last modified: Mon, 15 Dec 2014, 22:22 (GMT+1, DST)
+
+ | 
+
+Gamesmaker
+
+ | 
+
+Comment #49: Thu, 18 Dec 2014, 14:12 (GMT+1, DST)
+
+Quote
+
+How to get base64 of a string and encode a string with rc4?
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #50: Thu, 18 Dec 2014, 20:45 (GMT+1, DST)
+
+Quote
+
+Quote: Gamesmaker
+
+How to get base64 of a string and encode a string with rc4?
+
+In what order?
+
+var b
+b = buffer_create();
+buffer_write_string(b, "This is a string");
+buffer_rc4_crypt(b, "secret");
+result = buffer_read_base64(b, buffer_get_length(b));
+buffer_destroy(b)
+
+ | 
+
+Fin13
+
+ | 
+
+Comment #51: Thu, 15 Jan 2015, 0:42 (GMT+1, DST)
+
+Quote
+
+Hello - thanks for the tips in your website! I am trying to use game maker to do something but not sure if it is possible. Aside from making a game, I also want an advice column app. However, I don't have the programming skills to make a forum. I am wondering if I had forum software on my website, if I could use Gamemaker with an animated intro, then the http request script to send the user to my website to use the forum for advice, then when they log off return to Gamemaker with some sort of ending animation or ending credits? If this is possible then I can use Gamemaker to complete this app for submission to the app store. Do you have any ideas? Thanks.
+
+Mary 
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #52: Sat, 17 Jan 2015, 19:25 (GMT+1, DST)
+
+Quote
+
+Quote: Fin13
+
+Hello - thanks for the tips in your website! I am trying to use game maker to do something but not sure if it is possible. Aside from making a game, I also want an advice column app. However, I don't have the programming skills to make a forum. I am wondering if I had forum software on my website, if I could use Gamemaker with an animated intro, then the http request script to send the user to my website to use the forum for advice, then when they log off return to Gamemaker with some sort of ending animation or ending credits? If this is possible then I can use Gamemaker to complete this app for submission to the app store. Do you have any ideas? Thanks.
+
+Mary 
+
+You can send POST requests with this DLL, but this DLL is not a browser. You can't show your own website within the game, you can only receive raw HTML.
+
+What's the point of an application that only displays your forum? What advantage does this offer over just using the browser?
+
+ | 
+
+Lolzder
+
+ | 
+
+Comment #53: Sat, 24 Jan 2015, 23:04 (GMT+1, DST)
+
+Quote
+
+So in my game i cant see other players, but the server says that they are there. I am using sprites but i thought i implemented that. Here are my scripts: http://pastebin.com/5AjB4puX
+
+any suggestions?
+
+Last modified: Sun, 25 Jan 2015, 13:30 (GMT+1, DST)
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #54: Sun, 25 Jan 2015, 13:28 (GMT+1, DST)
+
+Quote
+
+@Lolzder: These comments are meant for general questions about the DLL, not for specific bugs in your game. I am not going to debug your entire game for you ;).
+
+Also, please use pastebin if you want to post a lot of code.
+
+ | 
+
+Odrya12
+
+ | 
+
+Comment #55: Mon, 26 Jan 2015, 10:32 (GMT+1, DST)
+
+Quote
+
+Quote: Maarten Baert
+
+@Lolzder: These comments are meant for general questions about the DLL, not for specific bugs in your game. I am not going to debug your entire game for you ;).
+
+Also, please use pastebin if you want to post a lot of code.
+
+can u create example of this lib in c++ project for my game server.
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #56: Tue, 27 Jan 2015, 10:43 (GMT+1, DST)
+
+Quote
+
+You will need this:
+
+http://files.maartenbaert.be/game-maker-dlls/http-dll-2-3-cpp-loader.zip
+
+After including this, you can use the functions of this DLL just like you would do in GM. You can use any of the existing GM examples and literally convert the code to C++, and it should work just fine.
+
+ | 
+
+Odrya12
+
+ | 
+
+Comment #57: Mon, 2 Feb 2015, 19:18 (GMT+1, DST)
+
+Quote
+
+I thank u for this but still its not use for me, I need to use this on the EXE itself.
+
+I program when i can and i solider so i have no more than 2-3 hour every 48 hours, and it will give me like 3 hour(2 days) if i wont need to follow ur code to create from him libary for my game.
+
+there is no main dll file?
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #58: Wed, 4 Feb 2015, 22:51 (GMT+1, DST)
+
+Quote
+
+Quote: Odrya12
+
+I thank u for this but still its not use for me, I need to use this on the EXE itself.
+
+I program when i can and i solider so i have no more than 2-3 hour every 48 hours, and it will give me like 3 hour(2 days) if i wont need to follow ur code to create from him libary for my game.
+
+there is no main dll file?
+
+I don't understand what you mean. There is a DLL, it's in the normal zip file, in the 'gm' folder. The C++ loader can then load this DLL if you want to use the DLL from C++ instead of Game Maker.
+
+ | 
+
+Odrya12
+
+ | 
+
+Comment #59: Fri, 6 Feb 2015, 3:33 (GMT+1, DST)
+
+Quote
+
+http://www.megafileupload.com/en/file/606330/test-rar.html
+
+Take a look at this project, there is a problem when client connect to it ..
+
+I'm not sure what the problem is, so I asked you to help maybe you can make me a better example of how to use it as a library and not as a DLL.
+
+Thanks anyway for the time I waste from you.
+
+ | 
+
+Odrya12
+
+ | 
+
+Comment #60: Fri, 6 Feb 2015, 23:35 (GMT+1, DST)
+
+Quote
+
+I fixed it, change the gmdata to extern from static( why i did it), now its work thank you for the free source code! it is perfect.
+
+ | 
+
+Rafsunmasudprince
+
+ | 
+
+Comment #61: Mon, 2 Mar 2015, 13:44 (GMT+1, DST)
+
+Quote
+
+I want to login to a website (Twitter) from my game using this dll. So, please help by posting source code.
+
+Note: I tried a code posted here. It didn't work.
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #62: Tue, 3 Mar 2015, 22:54 (GMT+1, DST)
+
+Quote
+
+Quote: Rafsunmasudprince
+
+I want to login to a website (Twitter) from my game using this dll. So, please help by posting source code.
+
+Note: I tried a code posted here. It didn't work.
+
+I don't think Twitter allows unencrypted logins. This DLL does not support encryption, so there's not much you can do.
+
+ | 
+
+Rafsunmasudprince
+
+ | 
+
+Comment #63: Wed, 11 Mar 2015, 16:07 (GMT+1, DST)
+
+Quote
+
+Quote: Maarten Baert
+
+Quote: Rafsunmasudprince
+
+I want to login to a website (Twitter) from my game using this dll. So, please help by posting source code.
+
+Note: I tried a code posted here. It didn't work.
+
+I don't think Twitter allows unencrypted logins. This DLL does not support encryption, so there's not much you can do.
+
+Okay. Now I want to login any (unencrypted login) other site. Then what should I do?
+
+ | 
+
+Katonevi
+
+ | 
+
+Comment #64: Wed, 1 Apr 2015, 18:41 (GMT+1, DST)
+
+Quote
+
+Maarten 
+
+I'm curious about this library you created. I read through it and got the network working across two systems externally. One system up in San Francisco, the other in San Diego. It work! However.... is this compatible with mobile phones like Android?? I exported the game but my mobile app doesn't seem to connect to my server.. Is this possible yet??
+
+Thanks
+
+Katone
+
+EDIT: Here is the socket state on my android device. I presume this is the cause but why? How to resolve this?? The pc works fine but phone, the socket state is 0?
+
+0 = socket_state_notconnected (the socket is not connected)
+
+Last modified: Wed, 1 Apr 2015, 22:18 (GMT+1, DST)
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #65: Mon, 6 Apr 2015, 17:23 (GMT+1, DST)
+
+Quote
+
+Quote: Katonevi
+
+Maarten 
+
+I'm curious about this library you created. I read through it and got the network working across two systems externally. One system up in San Francisco, the other in San Diego. It work! However.... is this compatible with mobile phones like Android?? I exported the game but my mobile app doesn't seem to connect to my server.. Is this possible yet??
+
+Thanks
+
+Katone
+
+EDIT: Here is the socket state on my android device. I presume this is the cause but why? How to resolve this?? The pc works fine but phone, the socket state is 0?
+
+0 = socket_state_notconnected (the socket is not connected)
+
+There is no Android version of this extension. It would be possible to create one if someone wants to do the porting, but I don't have Studio or an Android device to test it, so I can't do it. Sorry.
+
+ | 
+
+Shadowblitz16
+
+ | 
+
+Comment #66: Sat, 18 Apr 2015, 3:48 (GMT+1, DST)
+
+Quote
+
+is it possible to write and read a list of variables
+
+instead of writing each variable? 
+
+ | 
+
+Koredice
+
+ | 
+
+Comment #67: Sun, 19 Apr 2015, 21:23 (GMT+1, DST)
+
+Quote
+
+im so stupid, cant understand, what i need rename to star example work correctly
+
+my gm studio pro: http://www.screencapture.ru/file/589AA5A8 im use 2.3dll
+
+can give me 1 work code example to studio? anything
+
+in http_ex
+
+http://www.screencapture.ru/file/E818A1f0
+
+this compile but dont work, 0kb\s 0 files, run from administrator
+
+Last modified: Sun, 19 Apr 2015, 21:58 (GMT+1, DST)
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #68: Tue, 21 Apr 2015, 23:54 (GMT+1, DST)
+
+Quote
+
+Quote: Shadowblitz16
+
+is it possible to write and read a list of variables
+
+instead of writing each variable? 
+
+No, GM doesn't allow passing arrays or data structures to DLLs.
+
+Quote: Koredice
+
+im so stupid, cant understand, what i need rename to star example work correctly
+
+my gm studio pro: http://www.screencapture.ru/file/589AA5A8 im use 2.3dll
+
+can give me 1 work code example to studio? anything
+
+in http_ex
+
+http://www.screencapture.ru/file/E818A1f0
+
+this compile but dont work, 0kb\s 0 files, run from administrator
+
+Can you send me the compiled EXE? I don't have Studio myself so I can't test this without a compiled executable.
+
+Last modified: Wed, 22 Apr 2015, 0:33 (GMT+1, DST)
+
+ | 
+
+Bukmang
+
+ | 
+
+Comment #69: Sat, 19 Sep 2015, 14:05 (GMT+1, DST)
+
+Quote
+
+maarten could you do a extension that can export to iOS and android? please
+
+that works with studio with same functions
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #70: Tue, 22 Sep 2015, 23:31 (GMT+1, DST)
+
+Quote
+
+Quote: Bukmang
+
+maarten could you do a extension that can export to iOS and android? please
+
+that works with studio with same functions
+
+I don't have GM Studio. Someone else may be willing to do it, but I can't.
+
+You may want to consider using the built-in functions if you need cross-platform compatibility.
+
+ | 
+
+Win32sc
+
+ | 
+
+Comment #71: Thu, 7 Jan 2016, 15:22 (GMT+1, DST)
+
+Quote
+
+Hello, i am creating a game mmo in game maker and i have a problem. When i change the room i dont know how to create the obj_remoteplayer for the other players in this room. Any idea?
+
+Excuse me bad english.
+
+Last modified: Thu, 7 Jan 2016, 15:22 (GMT+1, DST)
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #72: Sun, 10 Jan 2016, 14:27 (GMT+1, DST)
+
+Quote
+
+Quote: Win32sc
+
+Hello, i am creating a game mmo in game maker and i have a problem. When i change the room i dont know how to create the obj_remoteplayer for the other players in this room. Any idea?
+
+Excuse me bad english.
+
+This website is meant for specific problems with the DLL, but this sounds more like a general Game Maker question. Please post these questions on the GMC forums.
+
+ | 
+
+Win32sc
+
+ | 
+
+Comment #73: Fri, 15 Jan 2016, 17:33 (GMT+1, DST)
+
+Quote
+
+Hello, i am working in the problem of change of room, is not resolved yet but i see how do it. Excuse me, but you can do a example of server/client_movement in c++ (only the server). Again excuse me bad english and thank you.
+
+ | 
+
+Jmscreator
+
+ | 
+
+Comment #74: Sun, 10 Apr 2016, 5:42 (GMT+1, DST)
+
+Quote
+
+Hello! I have developed a very fun yet simple multiplayer game using this extention(v2.3) I've recently been updating it making it better/fixing minor bugs and adding new features. The best feature I added was allowing more than 2 players (it was originally a host/client peer to peer game.) So with the ability to have more than 2 players, it's a lot more fun. Well I ran into a huge problem. Your extension has a great limitation that I need a way to get around. Here's the issue:
+
+My code loops through the clients and calls the socket read update like below:
+
+for(i=0;i<global.Clients;i+=1){ socket_update_read(socket[i]);}
+
+Well if client 0 AND client 1 are both sending data to the host, ONLY client 0 (socket[0]) gets the data and the rest of the clients are forgotten until the client 0 stops sending data. After socket 0 stops receiving the information the rest of the sockets burst with information that is old. I'm guessing this is a threading bug, but I couldn't be sure. It seems that socket_update_read() can be called only once per step (as mentioned that it should in the documentation) but it should be able to work more than once per step for multiple sockets!
+
+Please help me solve this problem, as I really would like to retreave all the clients information in 1 step and not multiple steps. Thank you!
+
+[Edited]
+
+So I have version 2.3 release 5 and I just did a test with release 6 and it works!!! I'm guessing someone else had this problem and you already fixed it. Thank you for your work! I'll post here if I run into anymore problems, or if it still seems to be an issue, but I think the next release will work.
+
+Last modified: Sun, 10 Apr 2016, 23:44 (GMT+1, DST)
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #75: Sun, 10 Apr 2016, 23:45 (GMT+1, DST)
+
+Quote
+
+Quote: Jmscreator
+
+Hello! I have developed a very fun yet simple multiplayer game using this extention(v2.3) I've recently been updating it making it better/fixing minor bugs and adding new features. The best feature I added was allowing more than 2 players (it was originally a host/client peer to peer game.) So with the ability to have more than 2 players, it's a lot more fun. Well I ran into a huge problem. Your extension has a great limitation that I need a way to get around. Here's the issue:
+
+My code loops through the clients and calls the socket read update like below:
+
+for(i=0;i<global.Clients;i+=1){ socket_update_read(socket[i]);}
+
+Well if client 0 AND client 1 are both sending data to the host, ONLY client 0 (socket[0]) gets the data and the rest of the clients are forgotten until the client 0 stops sending data. After socket 0 stops receiving the information the rest of the sockets burst with information that is old. I'm guessing this is a threading bug, but I couldn't be sure. It seems that socket_update_read() can be called only once per step (as mentioned that it should in the documentation) but it should be able to work more than once per step for multiple sockets!
+
+Please help me solve this problem, as I really would like to retreave all the clients information in 1 step and not multiple steps. Thank you!
+
+This makes no sense. All sockets are completely independent, calling socket_update_read() can't have any effect on the other sockets. There's literally no connection between sockets in my code.
+
+Normally you would call socket_update_read() and socket_update_write() once per step per socket. It is safe to call it even more but this is pointless.
+
+Are you sure that this isn't just a bug in your code? It sounds more like you accidentally used the wrong index or something like that. My examples can handle any number of players (yes, I've tested with at least 3, and I think much more too). So I don't believe this is a bug in the DLL.
+
+ | 
+
+Jmscreator
+
+ | 
+
+Comment #76: Mon, 11 Apr 2016, 0:58 (GMT+1, DST)
+
+Quote
+
+Quote: Maarten Baert
+
+Quote: Jmscreator
+
+Hello! I have developed a very fun yet simple multiplayer game using this extention(v2.3) I've recently been updating it making it better/fixing minor bugs and adding new features. The best feature I added was allowing more than 2 players (it was originally a host/client peer to peer game.) So with the ability to have more than 2 players, it's a lot more fun. Well I ran into a huge problem. Your extension has a great limitation that I need a way to get around. Here's the issue:
+
+My code loops through the clients and calls the socket read update like below:
+
+for(i=0;i<global.Clients;i+=1){ socket_update_read(socket[i]);}
+
+Well if client 0 AND client 1 are both sending data to the host, ONLY client 0 (socket[0]) gets the data and the rest of the clients are forgotten until the client 0 stops sending data. After socket 0 stops receiving the information the rest of the sockets burst with information that is old. I'm guessing this is a threading bug, but I couldn't be sure. It seems that socket_update_read() can be called only once per step (as mentioned that it should in the documentation) but it should be able to work more than once per step for multiple sockets!
+
+Please help me solve this problem, as I really would like to retreave all the clients information in 1 step and not multiple steps. Thank you!
+
+This makes no sense. All sockets are completely independent, calling socket_update_read() can't have any effect on the other sockets. There's literally no connection between sockets in my code.
+
+Normally you would call socket_update_read() and socket_update_write() once per step per socket. It is safe to call it even more but this is pointless.
+
+Are you sure that this isn't just a bug in your code? It sounds more like you accidentally used the wrong index or something like that. My examples can handle any number of players (yes, I've tested with at least 3, and I think much more too). So I don't believe this is a bug in the DLL.
+
+Yes it's a bug in my code. I literally just found it just now. I can't believe I made that mistake haha *face palm* Thank you for your response!!!
+
+Last modified: Mon, 11 Apr 2016, 1:07 (GMT+1, DST)
+
+ | 
+
+Mzx987
+
+ | 
+
+Comment #77: Fri, 6 May 2016, 20:20 (GMT+1, DST)
+
+Quote
+
+Hello,
+
+I've been learning through the examples provided and I'm trying to figure out how one can set up an instance with multiple rooms. Is there an example with communication involving players in different rooms?
+
+Thanks.
+
+ | 
+
+Rayo
+
+ | 
+
+Comment #78: Sat, 27 Aug 2016, 22:19 (GMT+1, DST)
+
+Quote
+
+Hello, sometimes the data I'm sending to another socket is not read. I wonder why. It happens unregularly so I don't know because that happens. Maybe you know?
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #79: Thu, 1 Sep 2016, 10:18 (GMT+1, DST)
+
+Quote
+
+Quote: Mzx987
+
+Hello,
+
+I've been learning through the examples provided and I'm trying to figure out how one can set up an instance with multiple rooms. Is there an example with communication involving players in different rooms?
+
+Thanks.
+
+I don't have an example for that, but it shouldn't be hard to implement. You may want to use persistent objects so the connection isn't closed when you switch rooms.
+
+Quote: Rayo
+
+Hello, sometimes the data I'm sending to another socket is not read. I wonder why. It happens unregularly so I don't know because that happens. Maybe you know?
+
+Are you absolutely sure that the data isn't arriving, or could it just be a bug in your code? This DLL has had a lot of testing so it is unlikely to be a bug inside the DLL.
+
+ | 
+
+Rayo
+
+ | 
+
+Comment #80: Fri, 2 Sep 2016, 10:43 (GMT+1, DST)
+
+Quote
+
+Quote: Maarten Baert
+
+Are you absolutely sure that the data isn't arriving, or could it just be a bug in your code? This DLL has had a lot of testing so it is unlikely to be a bug inside the DLL.
+
+Probably it's not a bug inside the dll. In Game Maker 8.1 there are two methods: mplay_message_send and mplay_message_send_guaranteed. In the first method the data isn't received if the connection is too slow, but in the second method it is always received. This dll just has one method called socket_write_message, but is the message send if the connection is too slow as well? I still think it's a bug in my code because messages from the host are always received.
+
+ | 
+
+Pavelgms
+
+ | 
+
+Comment #81: Thu, 6 Oct 2016, 21:34 (GMT+1, DST)
+
+Quote
+
+Hi, your dll very cool 
+
+But I have problem with "https" adresses, it's not work. When i write http://site.com/ i have 302 status code with header "location:https://site.com/"
+
+Sory for my english :))
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #82: Fri, 7 Oct 2016, 2:59 (GMT+1, DST)
+
+Quote
+
+Quote: Pavelgms
+
+Hi, your dll very cool 
+
+But I have problem with "https" adresses, it's not work. When i write http://site.com/ i have 302 status code with header "location:https://site.com/"
+
+Sory for my english :))
+
+This DLL does not support HTTPS, only regular HTTP.
+
+ | 
+
+Pavelgms
+
+ | 
+
+Comment #83: Fri, 7 Oct 2016, 16:02 (GMT+1, DST)
+
+Quote
+
+Quote: Maarten Baert
+
+Quote: Pavelgms
+
+Hi, your dll very cool 
+
+But I have problem with "https" adresses, it's not work. When i write http://site.com/ i have 302 status code with header "location:https://site.com/"
+
+Sory for my english :))
+
+This DLL does not support HTTPS, only regular HTTP.
+
+Thanks for quick response!) 
+
+It is a pity that there is no support for https, in this case, I do not fit
+
+But dll is very good for any other purpose, thank you very much! 
+
+ | 
+
+Chip
+
+ | 
+
+Comment #84: Fri, 22 Dec 2017, 22:23 (GMT+1, DST)
+
+Quote
+
+Hi Maarten Baert!
+
+Is it possible to add a some function to the TCP protocol for port definition?
+
+This would be useful for circumventing NAT using the TCP
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #85: Sat, 23 Dec 2017, 17:37 (GMT+1, DST)
+
+Quote
+
+Quote: Chip
+
+Hi Maarten Baert!
+
+Is it possible to add a some function to the TCP protocol for port definition?
+
+This would be useful for circumventing NAT using the TCP
+
+What exactly do you mean, and how do you expect that it will circumvent NAT?
+
+ | 
+
+Chip
+
+ | 
+
+Comment #86: Sun, 24 Dec 2017, 23:51 (GMT+1, DST)
+
+Quote
+
+Quote: Maarten Baert
+
+Quote: Chip
+
+Hi Maarten Baert!
+
+Is it possible to add a some function to the TCP protocol for port definition?
+
+This would be useful for circumventing NAT using the TCP
+
+What exactly do you mean, and how do you expect that it will circumvent NAT?
+
+this is for P2P - based on the master server.
+
+under the control of the master server - in order to "punched" the NAT, it is necessary for the server (player) to send a packet to the client (player), and client (player) send to the server (player), they will send each other packets, and NAT is punched! like UDP
+
+ | 
+
+Maarten Baert
+
+Administrator
+
+ | 
+
+Comment #87: Mon, 8 Jan 2018, 0:46 (GMT+1, DST)
+
+Quote
+
+Quote: Chip
+
+this is for P2P - based on the master server.
+
+under the control of the master server - in order to "punched" the NAT, it is necessary for the server (player) to send a packet to the client (player), and client (player) send to the server (player), they will send each other packets, and NAT is punched! like UDP
+
+UDP hole punching is a lot more complicated than that. You still need an intermediate server to initialize the connection. Port numbers behind the NAT do not necessarily match the one you set. You need an intermediate server without NAT to receive the initial packet, get the IP and port with udpsocket_get_last_address and udpsocket_get_last_port, and send this information to the other side. Everything you need already exists, this does not require any new functions.
+
+TCP hole punching is much harder. It's not guaranteed to work at all, it depends on the type of NAT you use. It's non-standard behaviour. In order to get the ports to work, you either need to create a new connection on an existing port (which breaks the TCP standard and probably will fail with many NATs) or you need to pray that the NAT has preserved the port number (very unreliable) or you need to brute-force the port numbers (very slow, and since it looks like a port scan or DDoS attach, it may trigger firewalls).
+
+My advice: just get a real server and don't worry about all this stuff. A VPS with a dedicated static IP is very cheap and can even be rented at hourly rates.
+
+Last modified: Mon, 8 Jan 2018, 0:58 (GMT+1, DST)
+
+ | 
+
+Write a comment
+
+ | 
+
+Copyright 2009-2026 Maarten Baert

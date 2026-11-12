@@ -1,0 +1,2310 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+<link rel="shortcut icon" href="https://www.maartenbaert.be/favicon.ico">
+<link rel="stylesheet" href="https://www.maartenbaert.be/stylesheet.css" type="text/css">
+<link rel="alternate" href="https://www.maartenbaert.be/feed-comments.php" type="application/atom+xml" title="Atom feed (comments)">
+
+<title>Http Dll 2 - Game Maker DLLs - Maarten Baert's website</title>
+
+</head>
+
+<body>
+
+<table class="header" cellspacing="0">
+<tr>
+<td class="headertitle" colspan="10">
+<h1>Maarten Baert's website</h1>
+<p>Game Maker / C++ projects</p>
+</td>
+</tr>
+<tr>
+<td class="headerbuttonleft"><a href="https://www.maartenbaert.be/"><span>Home</span></a></td>
+<td class="headerbuttonleft"><a href="https://www.maartenbaert.be/model-creator/"><span>Model Creator</span></a></td>
+<td class="headerbuttonleft"><a href="https://www.maartenbaert.be/extremephysics/"><span>ExtremePhysics</span></a></td>
+<td class="headerbuttonleftactive"><a href="https://www.maartenbaert.be/game-maker-dlls/"><span>Game Maker DLLs</span></a></td>
+<td class="headerbuttonleft"><a href="https://www.maartenbaert.be/simplescreenrecorder/"><span>SimpleScreenRecorder</span></a></td>
+<td class="headerbuttonleft"><a href="https://www.maartenbaert.be/alterpcb/"><span>AlterPCB</span></a></td>
+<td class="headerbuttonleft"><a href="https://www.maartenbaert.be/quadcopters/"><span>Quadcopters</span></a></td>
+<td class="headerbuttonempty">&nbsp;</td>
+<td class="headerbuttonright"><a href="https://www.maartenbaert.be/recentcomments.php"><span>Recent comments</span></a></td>
+<td class="headerbuttonright"><a href="https://www.maartenbaert.be/search.php"><span>Search</span></a></td>
+</tr>
+</table>
+
+<table class="main">
+<tr>
+<td class="mainmenu">
+
+<div class="block">
+<h5>Navigation</h5>
+<p><a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/">&bull; <span>Main page</span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/gm-gmp/">&bull; <span>GM-GMP</span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/">&bull; <span><strong>Http Dll 2</strong></span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/buffers/">&nbsp;&nbsp;&nbsp;&bull; <span>Buffers</span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/md5-and-sha-1/">&nbsp;&nbsp;&nbsp;&bull; <span>MD5 and SHA-1</span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/sockets/">&nbsp;&nbsp;&nbsp;&bull; <span>Sockets</span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/udp-sockets/">&nbsp;&nbsp;&nbsp;&bull; <span>UDP sockets</span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/http-requests/">&nbsp;&nbsp;&nbsp;&bull; <span>Http requests</span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/ds_bin/">&bull; <span>ds_bin</span></a></p>
+<hr>
+<p>
+<a class="blocklink" href="https://www.maartenbaert.be/offlineversion.php?category=4">&bull; <span>Offline version</span></a>
+</p>
+</div>
+
+<div class="block">
+<h5>Log in</h5>
+<form method="post" action="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/">
+<p><label>Username:<br><input class="textbox" type="text" name="login_username" size="18"></label></p>
+<p><label>Password:<br><input class="textbox" type="password" name="login_password" size="18"></label></p>
+<p><input type="submit" value="Log in"></p>
+</form>
+
+<p>No account yet? <a href="https://www.maartenbaert.be/register.php">Register!</a></p>
+</div>
+
+<p class="center"><a href="http://validator.w3.org/check?uri=https%3A%2F%2Fwww.maartenbaert.be%2Fgame-maker-dlls%2Fhttp-dll-2%2F" target="_blank"><img src="https://www.maartenbaert.be/img/valid-html.png" alt="Valid HTML 4.01 Transitional" height="31" width="88" border="0"></a></p>
+<p class="center"><a href="http://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fwww.maartenbaert.be%2Fgame-maker-dlls%2Fhttp-dll-2%2F" target="_blank"><img src="https://www.maartenbaert.be/img/valid-css.png" alt="Valid CSS!" height="31" width="88" border="0"></a></p>
+
+</td>
+
+<td class="maincontent">
+
+<div class="content">
+
+<p class="articlebuttons">Last modified: Sat, 25 Apr 2015<br>
+<a href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/">Refresh</a></p>
+
+<h1>Http Dll 2</h1>
+
+<ul>
+<li><p><a href="#what-is-http-dll-2">What is Http Dll 2?</a></p>
+<li><p><a href="#download">Download</a></p>
+<li><p><a href="#license">License</a></p>
+<li><p><a href="#documentation">Documentation</a></p>
+</ul>
+
+<hr>
+
+<a name="what-is-http-dll-2"></a>
+<h2>What is Http Dll 2?</h2>
+
+<p>With Http Dll 2 you can send HTTP requests and read (or save) the results. It can also create sockets (normal sockets or listening sockets) and binary buffers (similar to 39dll), and it can calculate MD5 and SHA-1 checksums.</p>
+
+<p>Features:</p>
+
+<ul>
+<li>
+<p>Http requests</p>
+
+<ul>
+<li>
+<p>Allows you to download web pages or files without blocking the game.</p>
+
+<li>
+<p>Allows you to set request headers and post parameters.</p>
+
+<li>
+<p>Allows you to read the status code, response headers and of course the message body.</p>
+
+<li>
+<p>Supports file uploads.</p>
+</ul>
+
+<li>
+<p>Sockets</p>
+
+<ul>
+<li>
+<p>Supports listening sockets (server) and normal sockets (client).</p>
+
+<li>
+<p>Supports IPv4 and IPv6.</p>
+
+<li>
+<p>Supports TCP and UDP.</p>
+</ul>
+
+<li>
+<p>Buffers: very similar to 39dll, but with a few extra data types.</p>
+
+<li>
+<p>MD5 and SHA-1</p>
+
+<li>
+<p>ZLib compression</p>
+
+<li>
+<p>RC4 encryption</p>
+
+<li>
+<p>Hexadecimal and base64 encoding/decoding.</p>
+</ul>
+
+<p>The DLL also fixes an annoying bug/feature in 39dll that can cause data to be lost. With 39dll, the maximum amount of data that can be recieved as a whole is limited by the operating system. Windows will only buffer a fixed amount of data, e.g. 64KB. This might not be enough if you&#039;re trying to send large files. If too much data is buffered by the receiver, the sender has to wait to send more data. Since 39dll&#039;s sendmessage function doesn&#039;t wait, part of the data is lost if too much data is sent at once. This DLL does additional buffering to avoid this problem, so no data is ever lost. You can buffer as much data as you want on both the sending side and the receiving side.</p>
+
+<p>Unlike Http Dll, Http Dll 2 doesn&#039;t use a separate thread. I&#039;ve changed this because it was confusing, and the advantage wasn&#039;t that big.</p>
+
+<a name="download"></a>
+<h2>Download</h2>
+
+<h6>Latest version:</h6>
+
+<p><b><a href="https://files.maartenbaert.be/game-maker-dlls/http-dll-2-3.zip" target="_blank">Download Http Dll 2.3 release 6</a></b> (with source code)</p>
+
+<h6>Older versions:</h6>
+
+<p><b><a href="https://files.maartenbaert.be/game-maker-dlls/http-dll-2-2.zip" target="_blank">Download Http Dll 2.2</a></b> (with source code)<br>
+<b><a href="https://files.maartenbaert.be/game-maker-dlls/http-dll-2-1.zip" target="_blank">Download Http Dll 2.1</a></b> (with source code)<br>
+<b><a href="https://files.maartenbaert.be/game-maker-dlls/http-dll-2-0.zip" target="_blank">Download Http Dll 2.0</a></b> (with source code)</p>
+
+<div class="note">
+<h5>Note</h5>
+
+<p>In the extension for GM Studio, I have renamed all buffer functions so they start with &#039;hbuffer&#039; instead of &#039;buffer&#039; to avoid conflicts. The extension for GM7/8/8.1 is not affected by this. The examples are meant for GM8/GM8.1 and will not work in GM Studio unless you rename the buffer functions.</p>
+</div>
+
+<a name="license"></a>
+<h2>License</h2>
+
+<p><img src="https://files.maartenbaert.be/game-maker-dlls/lgpl-v3.png" alt="Image: lgpl-v3.png"></p>
+
+<p>Http Dll 2 is distributed under the terms of the <a href="http://www.gnu.org/copyleft/lesser.html" target="_blank">GNU Lesser General Public License</a>.</p>
+
+<a name="documentation"></a>
+<h2>Documentation</h2>
+
+<p>The documentation is split into one article per topic - the links are below. For those who like video tutorials, check out the excellent <a href="https://www.youtube.com/playlist?list=PLoOCiP3Ezxf81gszJcS8B_upfXNKBmqXt" target="_blank">tutorial series about Http Dll 2 by SlasherXGAMES</a>.</p>
+
+<hr>
+
+<ul>
+<li><p><a href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/buffers/">Buffers</a></p>
+<li><p><a href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/md5-and-sha-1/">MD5 and SHA-1</a></p>
+<li><p><a href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/sockets/">Sockets</a></p>
+<li><p><a href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/udp-sockets/">UDP sockets</a></p>
+<li><p><a href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/http-requests/">Http requests</a></p>
+</ul>
+
+<hr>
+
+<h2>Comments</h2>
+
+
+
+<a name="comment_150"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Game Fortress</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_150">Comment #1</a>: Mon, 11 Jun 2012, 18:19 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=150">Quote</a></p>
+<hr>
+<p>This DLL changed my life. I love it.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_258"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Kbjwes77</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_258">Comment #2</a>: Mon, 25 Feb 2013, 23:09 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=258">Quote</a></p>
+<hr>
+<p>I don&#039;t think this works with Game Maker Studio... at least not any more. Whenever I call &quot;listeningsocket_start_listening()&quot;, with various ports, it shows that the listening socket failed to listen. Any help Maarten?</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_259"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_259">Comment #3</a>: Mon, 25 Feb 2013, 23:36 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=259">Quote</a></p>
+<hr>
+<p>That&#039;s a known problem:</p>
+
+<div class="quoteheader">Quote</div>
+<div class="quote">
+<p>If you are wondering why the extension doesn&#039;t work in Studio, it&#039;s because of a known bug in Studio:<br>
+<a href="http://gmc.yoyogames.com/index.php?showtopic=546548" target="_blank">http://gmc.yoyogames.com/index.php?showtopic=546548</a><br>
+You would have to fill in the &#039;external name&#039; field for each function manually in the extension editor, which takes quite some time because it can&#039;t be automated, so haven&#039;t done this.</p>
+</div>
+
+<p class="commenteditdate">Last modified: Mon, 25 Feb 2013, 23:37 (GMT+1, DST)</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_260"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Kbjwes77</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_260">Comment #4</a>: Tue, 26 Feb 2013, 0:16 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=260">Quote</a></p>
+<hr>
+<p><b>EDIT:</b> Ok, so I opened up the http_dll_2_3.ged in the extension maker program. I see the input box for the external name, but I don&#039;t know what to put for that for each function. I would gladly take the time to do it, and give the edited .ged to you, but I am stuck as to what to actually put in for each &quot;External Name&quot;.</p>
+
+<p><b>EDIT 2:</b> Aha! I just used the name of each functions for it&#039;s external name and I think I&#039;ve gotten it to work, maybe not every function, but definitely the listening socket functions that I was having problems with earlier. If you would like I could give you the .ged with the filled in external names.</p>
+
+<p class="commenteditdate">Last modified: Tue, 26 Feb 2013, 1:58 (GMT+1, DST)</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_261"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_261">Comment #5</a>: Tue, 26 Feb 2013, 2:08 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=261">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Kbjwes77</div>
+<div class="quote">
+<p><b>EDIT:</b> Ok, so I opened up the http_dll_2_3.ged in the extension maker program. I see the input box for the external name, but I don&#039;t know what to put for that for each function. I would gladly take the time to do it, and give the edited .ged to you, but I am stuck as to what to actually put in for each &quot;External Name&quot;.</p>
+
+<p><b>EDIT 2:</b> Aha! I just used the name of each functions for it&#039;s external name and I think I&#039;ve gotten it to work, maybe not every function, but definitely the listening socket functions that I was having problems with earlier. If you would like I could give you the .ged with the filled in external names.</p>
+</div>
+
+<p>That&#039;s correct :). Normally GM should be smart enough to use the normal name if the external name is empty (it&#039;s even in the documentation I think), but they completely forgot about that in Studio for some reason. It would be great if you could upload the .ged. The reason I nevery filled in the external name it is that I create the .ged using the &#039;import&#039; function, which doesn&#039;t support external names.</p>
+
+<p>It&#039;s even worse for ExtremePhysics, it has hunderds of functions :(.</p>
+
+<p class="commenteditdate">Last modified: Tue, 26 Feb 2013, 2:09 (GMT+1, DST)</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_262"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Kbjwes77</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_262">Comment #6</a>: Tue, 26 Feb 2013, 2:33 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=262">Quote</a></p>
+<hr>
+<p>Ok, well I&#039;m glad I figured it out relatively easily! It seemed straightforward.</p>
+
+<p>Well, here is the edited .ged with the external names filled in. Took me about 10 minutes, even with keyboard shortcuts... ughh lol but anyways, I think it&#039;s fixed.</p>
+
+<p><a href="https://www.dropbox.com/s/nf4w73a4noj97h8/http_dll_2_3_external.ged" target="_blank">https://www.dropbox.com/s/nf4w73a4noj97h8/http_dll_2_3_external.ged</a></p>
+
+<p>thanks for the great dll, it&#039;s the least I could do! Keep it up!</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_263"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Kbjwes77</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_263">Comment #7</a>: Thu, 28 Feb 2013, 21:33 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=263">Quote</a></p>
+<hr>
+<p>Okay, this dll is great, but lately a lot of things have come in my way and barred me from developing my online game. (Of all times, I decide now to make this game :P)</p>
+
+<p>Just yesterday I believe, Game Maker Studio pushed out an update featuring updated network and buffer functions to replace MPlay! I think it&#039;s great, but I&#039;m not very fond of the functions to be honest. I think they&#039;re clunky and counter-intuitive. So I said to myself, ehh I&#039;ll just stick with Http Dll 2.</p>
+
+<p>Well, these functions that were added to the core of Game Maker Studio have conflicting names with the extension names, ex: buffer_create() and buffer_create(). I tried to edit the extension, but I think the names are tied to the names of the functions in the DLL, so I&#039;m stuck until maybe you can fix it? I don&#039;t have too good of knowledge of c++, and I sure as hell couldn&#039;t compile the DLL with my knowledge of c++ IDEs.</p>
+
+<p>So if you could help me out here, I&#039;d appreciate it A LOT! (My suggestion: just put &quot;h_&quot; before each function, just for simplicity. If you can send me the compiled DLL, I can create the extension and post it here. Anyways, sorry if you&#039;re too busy, but this would be a real life saver)</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_264"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_264">Comment #8</a>: Thu, 28 Feb 2013, 22:40 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=264">Quote</a></p>
+<hr>
+<p>It&#039;s really simple, just change the name (and description), and leave the external name as is. That&#039;s the point of the external name :).</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_265"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Kbjwes77</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_265">Comment #9</a>: Thu, 28 Feb 2013, 22:55 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=265">Quote</a></p>
+<hr>
+<p>*facepalm* Well, it worked. Can&#039;t believe I didn&#039;t think to do that haha! Thanks again for the speedy replies, and most importantly the amazing dll. Cheers!</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_287"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Rpgbuster</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_287">Comment #10</a>: Wed, 8 May 2013, 7:40 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=287">Quote</a></p>
+<hr>
+<p>Not sure if you take requests, but it would prove MOST useful to have a &quot;simple&quot; function added in.</p>
+
+<p>I&#039;m dynamically making a batch of requests (currently the code looks like a nightmare, but runs smoothly)</p>
+
+<p>I have two programs, and one generates the request list, and the other executes it. Runs great.</p>
+
+<p>The addition of a httprequest_destroy_all() function would be very useful to me. Something internal that auto-detects and closes any open connection, cancels if in mid-process, and frees their associated memory.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_288"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_288">Comment #11</a>: Wed, 8 May 2013, 11:38 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=288">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Rpgbuster</div>
+<div class="quote">
+<p>Not sure if you take requests, but it would prove MOST useful to have a &quot;simple&quot; function added in.</p>
+
+<p>I&#039;m dynamically making a batch of requests (currently the code looks like a nightmare, but runs smoothly)</p>
+
+<p>I have two programs, and one generates the request list, and the other executes it. Runs great.</p>
+
+<p>The addition of a httprequest_destroy_all() function would be very useful to me. Something internal that auto-detects and closes any open connection, cancels if in mid-process, and frees their associated memory.</p>
+</div>
+
+<p>I don&#039;t mind adding functions for things that can&#039;t be done yet, but what you&#039;re asking is already perfectly possible with GML:</p>
+
+<pre class="code">// game start event
+global.httplist = ds_list_create();
+
+// httprequest_create2()
+var h;
+h = httprequest_create();
+ds_list_add(global.httplist, h);
+return h;
+
+// httprequest_destroy2(id)
+httprequest_destroy(argument0);
+ds_list_delete(global.httplist, ds_list_find_index(global.httplist, argument0));
+
+// httprequest_destroy_all()
+var i;
+for(i = 0; i &lt; ds_list_size(global.httplist); i += 1) {
+    httprequest_destroy(ds_list_find_value(global.httplist, i));
+}
+ds_list_clear(global.httplist);</pre>
+
+<p>Not tested, but with this you should be able to do what you want if you replace httprequest_create with httprequest_create2 in your code.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_289"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Rpgbuster</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_289">Comment #12</a>: Wed, 8 May 2013, 14:55 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=289">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Maarten Baert</div>
+<div class="quote">
+<div class="quoteheader">Quote: Rpgbuster</div>
+<div class="quote">
+<p>Not sure if you take requests, but it would prove MOST useful to have a &quot;simple&quot; function added in.</p>
+
+<p>I&#039;m dynamically making a batch of requests (currently the code looks like a nightmare, but runs smoothly)</p>
+
+<p>I have two programs, and one generates the request list, and the other executes it. Runs great.</p>
+
+<p>The addition of a httprequest_destroy_all() function would be very useful to me. Something internal that auto-detects and closes any open connection, cancels if in mid-process, and frees their associated memory.</p>
+</div>
+
+<p>I don&#039;t mind adding functions for things that can&#039;t be done yet, but what you&#039;re asking is already perfectly possible with GML:</p>
+
+<pre class="code">// game start event
+global.httplist = ds_list_create();
+
+// httprequest_create2()
+var h;
+h = httprequest_create();
+ds_list_add(global.httplist, h);
+return h;
+
+// httprequest_destroy2(id)
+httprequest_destroy(argument0);
+ds_list_delete(global.httplist, ds_list_find_index(global.httplist, argument0));
+
+// httprequest_destroy_all()
+var i;
+for(i = 0; i &lt; ds_list_size(global.httplist); i += 1) {
+    httprequest_destroy(ds_list_find_value(global.httplist, i));
+}
+ds_list_clear(global.httplist);</pre>
+
+<p>Not tested, but with this you should be able to do what you want if you replace httprequest_create with httprequest_create2 in your code.</p>
+</div>
+
+<p>Thank you for the prompt reply! I&#039;ll see what I can do with it. Thanks again!</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_290"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_290">Comment #13</a>: Wed, 8 May 2013, 15:49 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=290">Quote</a></p>
+<hr>
+<p>By the way, it&#039;s not a good idea to open dozens of connections to the same server. It makes sense to have 2 to 4 connections at the same time, especially if you need to download lots of small files, but more than that doesn&#039;t really make sense and can make things worse.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_291"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Rpgbuster</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_291">Comment #14</a>: Thu, 9 May 2013, 17:17 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=291">Quote</a></p>
+<hr>
+<p>Is there a way I could discuss my idea with you in a more private setting? Perhaps you could advise an alternative.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_292"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_292">Comment #15</a>: Thu, 9 May 2013, 20:24 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=292">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Rpgbuster</div>
+<div class="quote">
+<p>Is there a way I could discuss my idea with you in a more private setting? Perhaps you could advise an alternative.</p>
+</div>
+
+<p>You can email me:<br>
+[img]http://files.maartenbaert.be/aaaa.png[/img]</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_317"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Bukmang</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_317">Comment #16</a>: Thu, 4 Jul 2013, 10:40 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=317">Quote</a></p>
+<hr>
+<p>Hey Maarten I love your dll, But I have problem, In chat example, whenever I type anything it types automatically I searched everything didn&#039;t found any, I need it when you press Enter you can type, and also how to show sprite_index If I opened 2 clients I only see the x, y<br>
+Please Reply, Thank you</p>
+
+<p class="commenteditdate">Last modified: Thu, 4 Jul 2013, 10:40 (GMT+1, DST)</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_325"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_325">Comment #17</a>: Tue, 23 Jul 2013, 20:19 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=325">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Bukmang</div>
+<div class="quote">
+<p>Hey Maarten I love your dll, But I have problem, In chat example, whenever I type anything it types automatically I searched everything didn&#039;t found any, I need it when you press Enter you can type, </p>
+</div>
+
+<p>It uses the built-in variable keyboard_string. It&#039;s in the manual, you should be able to do this yourself.</p>
+
+<div class="quoteheader">Quote: Bukmang</div>
+<div class="quote">
+<p>and also how to show sprite_index If I opened 2 clients I only see the x, y<br>
+Please Reply, Thank you</p>
+</div>
+
+<p>Send the sprite_index to the server, and let the server send it to the other clients. Read the code in the examples and try to understand what it is doing, if you understand that you should be able to do this yourself. If you don&#039;t understand how sending messages works, you shouldn&#039;t try to create an online game yet :).</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_335"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Tcgm</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_335">Comment #18</a>: Fri, 9 Aug 2013, 8:28 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=335">Quote</a></p>
+<hr>
+<p>Which function would one use to get the current progress of the download? I&#039;ve looked through all the functions, but I can&#039;t find one which does that. I may have missed it, though.</p>
+
+<p>EDIT: I&#039;m dumb, just used the httprequest_get_message_body_length and httprequest_find_response_header functions.</p>
+
+<p class="commenteditdate">Last modified: Fri, 9 Aug 2013, 16:38 (GMT+1, DST)</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_369"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Bukmang</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_369">Comment #19</a>: Mon, 14 Oct 2013, 9:51 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=369">Quote</a></p>
+<hr>
+<p>How do I make a registration and log in system, please answer.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_370"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_370">Comment #20</a>: Tue, 15 Oct 2013, 17:59 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=370">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Bukmang</div>
+<div class="quote">
+<p>How do I make a registration and log in system, please answer.</p>
+</div>
+
+<p>The goal of this DLL is not to give you a complete pre-baked system that you can just drop into your game. The goal is to give you the means to build one yourself. If you don&#039;t know how to create a simple login system, you should get some more experience with GM first. Online games are hard, you shouldn&#039;t try to create one unless you have already created a few offline games and are very familiar with GML.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_371"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Bukmang</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_371">Comment #21</a>: Tue, 15 Oct 2013, 20:01 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=371">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Maarten Baert</div>
+<div class="quote">
+<div class="quoteheader">Quote: Bukmang</div>
+<div class="quote">
+<p>How do I make a registration and log in system, please answer.</p>
+</div>
+
+<p>The goal of this DLL is not to give you a complete pre-baked system that you can just drop into your game. The goal is to give you the means to build one yourself. If you don&#039;t know how to create a simple login system, you should get some more experience with GM first. Online games are hard, you shouldn&#039;t try to create one unless you have already created a few offline games and are very familiar with GML.</p>
+</div>
+
+<p>I&#039;ll do my best, I&#039;ll search in Google about that system, Although I just wanted to know how that system work like how it sends accounts and stuff, Any more info is pleased, A little explanation is good. don&#039;t need the codes.</p>
+
+<p class="commenteditdate">Last modified: Tue, 15 Oct 2013, 20:02 (GMT+1, DST)</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_375"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_375">Comment #22</a>: Fri, 18 Oct 2013, 18:48 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=375">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Bukmang</div>
+<div class="quote">
+<div class="quoteheader">Quote: Maarten Baert</div>
+<div class="quote">
+<div class="quoteheader">Quote: Bukmang</div>
+<div class="quote">
+<p>How do I make a registration and log in system, please answer.</p>
+</div>
+
+<p>The goal of this DLL is not to give you a complete pre-baked system that you can just drop into your game. The goal is to give you the means to build one yourself. If you don&#039;t know how to create a simple login system, you should get some more experience with GM first. Online games are hard, you shouldn&#039;t try to create one unless you have already created a few offline games and are very familiar with GML.</p>
+</div>
+
+<p>I&#039;ll do my best, I&#039;ll search in Google about that system, Although I just wanted to know how that system work like how it sends accounts and stuff, Any more info is pleased, A little explanation is good. don&#039;t need the codes.</p>
+</div>
+
+<p>It&#039;s not that hard, really. Just keep a list of usernames and hashed passwords on the server (make sure you learn about password hashing first!). For each client, add a variable that stores whether the user has logged in (and if they have, what their username or user id is). Send the username and hashed password to the server right after the client connects. Let the server send a reply that indicates whether the login was successful, and make sure that the server will ignore all other messages unless the client has logged in.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_411"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Bukmang</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_411">Comment #23</a>: Mon, 11 Nov 2013, 14:38 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=411">Quote</a></p>
+<hr>
+<p>I made the registration &amp; it works fine, But I got a problem, sending from server to client, I can&#039;t send a message from server to client, But I can, from client to server.</p>
+
+<p>For example:<br>
+Client:<br>
+Registration:</p>
+
+<pre class="code">if distance_to_point(mouse_x, mouse_y)=0 &amp;&amp; mouse_check_button_released(mb_left)
+{
+    if string_length(oUNF.Name)&gt;=4 &amp;&amp; string_length(oPWF.Pass)&gt;=4
+    {
+        buffer_clear(global.buffer);
+        buffer_write_uint8(global.buffer, 5);
+        buffer_write_string(global.buffer, keyboard_string);
+        buffer_write_string(global.buffer, oUNF.Name);
+        buffer_write_string(global.buffer, oPWF.Pass);
+        socket_write_message(socket, global.buffer);
+    } else { show_message(&#039;Insert more than 4 Characters.&#039;) }
+}</pre>
+
+<p>Server:</p>
+
+<pre class="code">case 5:
+pw=buffer_read_string(global.buffer);
+us=buffer_read_string(global.buffer);
+ini_write_string(us, &#039;Password&#039;, pw);
+break;</pre>
+
+<p>OK. I am trying to send if the login is successful.</p>
+
+<pre class="code">if ini_write_string(us, &#039;Password&#039;, &#039;&#039;)=pw
+{
+    buffer_clear(global.buffer);
+    buffer_write_uint8(global.buffer, 6);
+    socket_write_message(socket, global.buffer);
+}</pre>
+
+<p>Client:</p>
+
+<pre class="code">var a;
+if distance_to_point(mouse_x, mouse_y)=0 &amp;&amp; mouse_check_button_released(mb_left)
+{
+    if string_length(oUNF.Name)&gt;=4 &amp;&amp; string_length(oPWF.Pass)&gt;=4
+    {
+        while socket_read_message(socket, global.buffer)
+        {
+        a = buffer_read_uint8(global.buffer);
+        switch(a)
+        {
+            buffer_clear(global.buffer);
+            socket_write_message(socket, global.buffer);
+            show_message(&#039;Worked!&#039;)
+        }
+    }
+    } else { show_message(&#039;Insert more than 4 Characters.&#039;); }
+}</pre>
+
+<p>so What actually is the problem I tried to send anything else than that like a message but It didn&#039;t work<br>
+I can only send from client to server.</p>
+
+<p class="commenteditdate">Last modified: Mon, 11 Nov 2013, 17:56 (GMT+1, DST)</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_412"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_412">Comment #24</a>: Mon, 11 Nov 2013, 18:04 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=412">Quote</a></p>
+<hr>
+<p>@Bukmang:<br>
+The first part writes three strings but the second part reads only two. This can&#039;t be right.</p>
+
+<p>You also should nevery try to receive the messages in an if statement. It doesn&#039;t make sense to check the same thing twice. And you forgot a case statement. And you&#039;re sending an empty message to the server - why?</p>
+
+<p>Do this instead:</p>
+
+<pre class="code">var a;
+while socket_read_message(socket, global.buffer) {
+    a = buffer_read_uint8(global.buffer);
+    switch(a) {
+        case 6:
+        show_message(&#039;Worked!&#039;);
+        break;
+    }
+}</pre>
+</td>
+</tr>
+</table>
+
+<a name="comment_414"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Bukmang</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_414">Comment #25</a>: Tue, 12 Nov 2013, 11:50 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=414">Quote</a></p>
+<hr>
+<p>OK. I made everything you said, but still.<br>
+I made a simple checking sending from server to client but didn&#039;t work.<br>
+in Server oPlayer</p>
+
+<pre class="code">case 5:
+             pw=buffer_read_string(global.buffer);
+             us=buffer_read_string(global.buffer);
+             ini_write_string(us, &#039;Password&#039;, pw);
+             buffer_clear(global.buffer);
+             socket_write_message(socket, global.buffer);
+             buffer_write_uint8(global.buffer, 6); //Register
+        break;</pre>
+
+<p>in Client oRegister</p>
+
+<pre class="code">var a;
+while socket_read_message(socket, global.buffer)
+{
+    a=buffer_read_uint8(global.buffer);
+    switch(a)
+    {
+     case 6:
+          show_message(&#039;Worked!&#039;);
+     break;
+    }
+}</pre>
+</td>
+</tr>
+</table>
+
+<a name="comment_415"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_415">Comment #26</a>: Tue, 12 Nov 2013, 12:55 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=415">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Bukmang</div>
+<div class="quote">
+<p>OK. I made everything you said, but still.<br>
+I made a simple checking sending from server to client but didn&#039;t work.</p>
+</div>
+
+<p>The order is wrong. socket_write_message should be called after writing to the buffer, now you are just sending an empty buffer.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_417"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Bukmang</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_417">Comment #27</a>: Tue, 12 Nov 2013, 14:46 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=417">Quote</a></p>
+<hr>
+<p>Thanks it worked!</p>
+
+<p class="commenteditdate">Last modified: Tue, 12 Nov 2013, 14:46 (GMT+1, DST)</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_420"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Bukmang</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_420">Comment #28</a>: Fri, 15 Nov 2013, 10:59 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=420">Quote</a></p>
+<hr>
+<p>Hi<br>
+sorry for many questions.<br>
+I am trying to send where he should go in a room, from server to client.<br>
+First, I am sending room by this:</p>
+
+<p><span class="code">buffer_write_string(global.buffer, &#039;rStart&#039;);</span></p>
+
+<p>Just to test if it works and it does, the problem is:</p>
+
+<p><span class="code">Case 8:     room_goto(buffer_read_string(global.buffer)); break;</span></p>
+
+<p>What I made there didn&#039;t work, but When I made this it worked:</p>
+
+<p><span class="code">case 8:     show_message(buffer_read_string(global.buffer)); //It does show &#039;rStart&#039; break;</span><br>
+so why didn&#039;t it go to the room when I sent it?</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_423"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Bukmang</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_423">Comment #29</a>: Sat, 16 Nov 2013, 14:21 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=423">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Bukmang</div>
+<div class="quote">
+<p>Hi<br>
+sorry for many questions.<br>
+I am trying to send where he should go in a room, from server to client.<br>
+First, I am sending room by this:</p>
+
+<p><span class="code">buffer_write_string(global.buffer, &#039;rStart&#039;);</span></p>
+
+<p>Just to test if it works and it does, the problem is:</p>
+
+<p><span class="code">Case 8:     room_goto(buffer_read_string(global.buffer)); break;</span></p>
+
+<p>What I made there didn&#039;t work, but When I made this it worked:</p>
+
+<p><span class="code">case 8:     show_message(buffer_read_string(global.buffer)); //It does show &#039;rStart&#039; break;</span><br>
+so why didn&#039;t it go to the room when I sent it?</p>
+</div>
+
+<p>Well I think I figured it out it uses numbers not strings.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_424"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_424">Comment #30</a>: Sat, 16 Nov 2013, 21:50 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=424">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Bukmang</div>
+<div class="quote">
+<p>Well I think I figured it out it uses numbers not strings.</p>
+</div>
+
+<p>Correct. Room names are like constants, they are simply numbers. You can send them as integers.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_451"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Bukmang</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_451">Comment #31</a>: Thu, 28 Nov 2013, 15:19 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=451">Quote</a></p>
+<hr>
+<p>Hey, I tried using parents to apply it to all objects instead of sending each position to object but I don&#039;t think it&#039;s a good idea, when It called PvP object (orParent) if attacked and if the other object image_xscale=1 it&#039;ll return the other object image_xscale and move it (hspeed+=2).<br>
+also I tried sending every object I can&#039;t do it so the question is:<br>
+- I made a character select screen how do I send all of the players positions, sprites and such?<br>
+- I tried making enemy but when created other see it and other don&#039;t.</p>
+
+<p>I made everything Login and version if client out of date. game_end();<br>
+and skills to buy, level, exp and power all works, all saved in server. just sends it to client and client sends it back to server to save it in ini.<br>
+ty for help.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_455"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_455">Comment #32</a>: Sun, 1 Dec 2013, 22:53 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=455">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Bukmang</div>
+<div class="quote">
+<p>Hey, I tried using parents to apply it to all objects instead of sending each position to object but I don&#039;t think it&#039;s a good idea, when It called PvP object (orParent) if attacked and if the other object image_xscale=1 it&#039;ll return the other object image_xscale and move it (hspeed+=2).<br>
+also I tried sending every object I can&#039;t do it so the question is:<br>
+- I made a character select screen how do I send all of the players positions, sprites and such?<br>
+- I tried making enemy but when created other see it and other don&#039;t.</p>
+
+<p>I made everything Login and version if client out of date. game_end();<br>
+and skills to buy, level, exp and power all works, all saved in server. just sends it to client and client sends it back to server to save it in ini.<br>
+ty for help.</p>
+</div>
+
+<p>These things depend a lot on the game you&#039;re making, you should really figure this out for yourself. I can answer questions about this DLL but I won&#039;t make your entire game for you ;). If you have a question about some part of this DLL, then you can post it here, but this is not the right place for questions that are about the game itself (you can ask those questions on the GMC forums instead).</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_653"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Basbloem</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_653">Comment #33</a>: Sun, 13 Apr 2014, 20:31 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=653">Quote</a></p>
+<hr>
+<p>Maarten, wat doe ik verkeerd?</p>
+
+<p>Ik verzend player x als int16(Short, 2 bytes)<br>
+Maar ik ontvang in mijn java server iets verkeerds.<br>
+Bijvoorbeeld als ik X = 8 verzend<br>
+Ontvang ik 2048..<br>
+De volgorde qua bytes etc. is correct, heb ik nog gecheckt.<br>
+En de ontvangen value veranderd alleen als de x ook veranderd.</p>
+
+<p>Hetzelfde gebeurd met float values.<br>
+Is er iets in de achtergrond in de dll dat je met de bytes doet waardoor het niet meer werkt<br>
+bij andere &#039;soort&#039; ontvanger?</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_654"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_654">Comment #34</a>: Mon, 14 Apr 2014, 15:10 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=654">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Basbloem</div>
+<div class="quote">
+<p>Maarten, wat doe ik verkeerd?</p>
+
+<p>Ik verzend player x als int16(Short, 2 bytes)<br>
+Maar ik ontvang in mijn java server iets verkeerds.<br>
+Bijvoorbeeld als ik X = 8 verzend<br>
+Ontvang ik 2048..<br>
+De volgorde qua bytes etc. is correct, heb ik nog gecheckt.<br>
+En de ontvangen value veranderd alleen als de x ook veranderd.</p>
+
+<p>Hetzelfde gebeurd met float values.<br>
+Is er iets in de achtergrond in de dll dat je met de bytes doet waardoor het niet meer werkt<br>
+bij andere &#039;soort&#039; ontvanger?</p>
+</div>
+
+<p>Als je messages verstuurt, dan verstuurt de DLL eerst een uintv met de lengte van de message. Daarna pas komt de echte data. Als je dat niet wil moet je socket_read_data/socket_write_data gebruiken, maar dan verlies je ook de voordelen van het message systeem.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_756"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Kalaros</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_756">Comment #35</a>: Wed, 17 Sep 2014, 19:07 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=756">Quote</a></p>
+<hr>
+<p>Hey, I have the same Problem as Kbjwes77 a year ago, I&#039;ve changed all external Names but it still gives me the &quot;Can&#039;t listen for incoming connections!&quot;-Error. Any Ideas? :/</p>
+
+<p class="commenteditdate">Last modified: Wed, 17 Sep 2014, 19:07 (GMT+1, DST)</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_759"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_759">Comment #36</a>: Sat, 20 Sep 2014, 18:09 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=759">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Kalaros</div>
+<div class="quote">
+<p>Hey, I have the same Problem as Kbjwes77 a year ago, I&#039;ve changed all external Names but it still gives me the &quot;Can&#039;t listen for incoming connections!&quot;-Error. Any Ideas? :/</p>
+</div>
+
+<p>You shouldn&#039;t need to do this anymore if you use the &#039;http_dll_2_3_studio.gex&#039; file since this is already done.</p>
+
+<p>You may have to change your firewall settings to allow incoming connections. Try disabling your firewall temporarily to see whether this is the cause of the problem.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_767"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Kalaros</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_767">Comment #37</a>: Fri, 26 Sep 2014, 2:07 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=767">Quote</a></p>
+<hr>
+<p>I used the right file and my firewall was deactivated. </p>
+
+<p class="commenteditdate">Last modified: Fri, 26 Sep 2014, 2:07 (GMT+1, DST)</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_768"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_768">Comment #38</a>: Fri, 26 Sep 2014, 17:37 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=768">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Kalaros</div>
+<div class="quote">
+<p>I used the right file and my firewall was deactivated. </p>
+</div>
+
+<p>Then I don&#039;t know. Did you try it with a different computer or a different version of GM?</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_798"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Shadowblitz16</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_798">Comment #39</a>: Thu, 11 Dec 2014, 1:43 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=798">Quote</a></p>
+<hr>
+<p>hey can someone help me I&#039;m getting a push error where it says hbuffer_write_uint8(global.hbuffer, state) in the step event in gamemaker studio<br>
+I defined its value so it should be working right?<br>
+I&#039;m trying to make the client write the objects state</p>
+
+<p>edit2: can someone give an example of a state machine?</p>
+
+<p class="commenteditdate">Last modified: Thu, 11 Dec 2014, 2:16 (GMT+1, DST)</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_799"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_799">Comment #40</a>: Thu, 11 Dec 2014, 18:58 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=799">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Shadowblitz16</div>
+<div class="quote">
+<p>hey can someone help me I&#039;m getting a push error where it says hbuffer_write_uint8(global.hbuffer, state) in the step event in gamemaker studio<br>
+I defined its value so it should be working right?<br>
+I&#039;m trying to make the client write the objects state</p>
+
+<p>edit2: can someone give an example of a state machine?</p>
+</div>
+
+<p>If the error message says that you have not defined the variable, then that&#039;s the reason. This has nothing to do with the DLL, the DLL is unable to display any error messages. You should post questions like this to the GMC forums, the comments here are only meant for things directly related to the DLL.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_800"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Shadowblitz16</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_800">Comment #41</a>: Fri, 12 Dec 2014, 3:40 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=800">Quote</a></p>
+<hr>
+<p>k sorry :/</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_810"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Gamesmaker</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_810">Comment #42</a>: Fri, 12 Dec 2014, 19:23 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=810">Quote</a></p>
+<hr>
+<p>I want to create a game that has a registration form included, like this:</p>
+
+<div class="quoteheader">Quote</div>
+<div class="quote">
+<p>login=get_string(&#039;Your login&#039;,&#039;&#039;);<br>
+pass=get_string(&#039;Your password&#039;,&#039;&#039;);<br>
+email=get_string(&#039;Your email&#039;,&#039;&#039;);like%20some1%40gmail.com<br>
+mail=0;<br>
+//here connection to storage server<br>
+//if success: mail=1;<br>
+if (mail){<br>
+text=&#039;Successfully registered.<br>
+Login:&#039;+login+&#039;<br>
+Password:&#039;+pass;<br>
+//send email<br>
+show_message(&#039;Mail sent to your mailbox&#039;);<br>
+} else show_message(&#039;Registration failed!&#039;);</p>
+</div>
+
+<p>Does your Http Dll 2 support functions to send emails via GM? If not, does 39dll support functions to send emails via GM? How? If neither supports, could you be so kind to create a new mail dll? Please tell what should I put instead of //send email. </p>
+</td>
+</tr>
+</table>
+
+<a name="comment_811"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Shadowblitz16</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_811">Comment #43</a>: Fri, 12 Dec 2014, 22:14 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=811">Quote</a></p>
+<hr>
+<p>simple question how do you write and read bools?</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_812"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_812">Comment #44</a>: Sat, 13 Dec 2014, 14:41 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=812">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Gamesmaker</div>
+<div class="quote">
+<p>I want to create a game that has a registration form included, like this:</p>
+
+<div class="quoteheader">Quote</div>
+<div class="quote">
+<p>login=get_string(&#039;Your login&#039;,&#039;&#039;);<br>
+pass=get_string(&#039;Your password&#039;,&#039;&#039;);<br>
+email=get_string(&#039;Your email&#039;,&#039;&#039;);like%20some1%40gmail.com<br>
+mail=0;<br>
+//here connection to storage server<br>
+//if success: mail=1;<br>
+if (mail){<br>
+text=&#039;Successfully registered.<br>
+Login:&#039;+login+&#039;<br>
+Password:&#039;+pass;<br>
+//send email<br>
+show_message(&#039;Mail sent to your mailbox&#039;);<br>
+} else show_message(&#039;Registration failed!&#039;);</p>
+</div>
+
+<p>Does your Http Dll 2 support functions to send emails via GM? If not, does 39dll support functions to send emails via GM? How? If neither supports, could you be so kind to create a new mail dll? Please tell what should I put instead of //send email. </p>
+</div>
+
+<p>If you try to send an email from random computers, you will find that 99% of those emails will be blocked by ISPs or spam filters. So don&#039;t bother, it won&#039;t work. You will have to use a different registration method (e.g. send the account details to a webserver, store them there, and let the web server send the email).</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_813"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_813">Comment #45</a>: Sat, 13 Dec 2014, 14:41 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=813">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Shadowblitz16</div>
+<div class="quote">
+<p>simple question how do you write and read bools?</p>
+</div>
+
+<p>Just use uint8 instead :).</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_814"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Gamesmaker</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_814">Comment #46</a>: Sat, 13 Dec 2014, 19:37 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=814">Quote</a></p>
+<hr>
+<ul>
+<p>Ok, I will warn players that mail may get to spam.<br>
+Anyway, just tell me How to send the mail with your dll. Is this possible?<br>
+I mean, I prefer to connect directly to the receiver&#039;s POP server and send the message.<br>
+I guess that one must use sockets somehow for this. But I don&#039;t know how, therefore I need your help.</p>
+</ul>
+
+<p>Another way that I don&#039;t want to use, but I will, if that&#039;s the only existing.<br>
+Let&#039;s pretend that I have registered email mymail@gmail.com. SMTP Server smtp.gmail.com:587 or 465.<br>
+What should I write to connect to smtp.gmail.com:587 and send letter to some1@gmail.com?</p>
+
+<p>[img]http://bestsoft.webatu.com/data/vg.png[/img]</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_815"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Gamesmaker</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_815">Comment #47</a>: Sat, 13 Dec 2014, 19:45 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=815">Quote</a></p>
+<hr>
+<p>Actually I am going to create &quot; e-mail registration confirmation &quot;. And of course, I don&#039;t want my server to be overloaded by bad guys who may decompile my game.</p>
+
+<p class="commenteditdate">Last modified: Sat, 13 Dec 2014, 19:51 (GMT+1, DST)</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_817"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_817">Comment #48</a>: Mon, 15 Dec 2014, 22:06 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=817">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Gamesmaker</div>
+<div class="quote">
+<p>Ok, I will warn players that mail may get to spam.</p>
+</div>
+
+<p>You don&#039;t understand the magnitude of the problem. The mail won&#039;t end up in the spam folder. It will never appear anywhere at all. In fact it won&#039;t be able to leave the player&#039;s computer, since most ISPs simply block port 25 completely.</p>
+
+<p>A more accurate warning for the player would be:</p>
+
+<div class="quoteheader">Quote</div>
+<div class="quote">
+<p>Warning: There&#039;s a small chance that this program will send you an email.</p>
+</div>
+
+<p>I also don&#039;t understand why you would possibly want to send an email from the computer of the player to that same player. If you want to give the player a message, why don&#039;t you just show it? If you want to store the message, why don&#039;t you just save it as a text file?</p>
+
+<p>Anyway, if you really want to do this, you will need socket_read_message_delimiter and socket_write_message_delimiter. That&#039;s assuming you can even get past socket_connect on port 25, which is unlikely.</p>
+
+<p class="commenteditdate">Last modified: Mon, 15 Dec 2014, 22:22 (GMT+1, DST)</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_818"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Gamesmaker</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_818">Comment #49</a>: Thu, 18 Dec 2014, 14:12 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=818">Quote</a></p>
+<hr>
+<p>How to get base64 of a string and encode a string with rc4?</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_819"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_819">Comment #50</a>: Thu, 18 Dec 2014, 20:45 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=819">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Gamesmaker</div>
+<div class="quote">
+<p>How to get base64 of a string and encode a string with rc4?</p>
+</div>
+
+<p>In what order?</p>
+
+<pre class="code">var b
+b = buffer_create();
+buffer_write_string(b, &quot;This is a string&quot;);
+buffer_rc4_crypt(b, &quot;secret&quot;);
+result = buffer_read_base64(b, buffer_get_length(b));
+buffer_destroy(b)</pre>
+</td>
+</tr>
+</table>
+
+<a name="comment_825"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Fin13</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_825">Comment #51</a>: Thu, 15 Jan 2015, 0:42 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=825">Quote</a></p>
+<hr>
+<p>Hello - thanks for the tips in your website! I am trying to use game maker to do something but not sure if it is possible. Aside from making a game, I also want an advice column app. However, I don&#039;t have the programming skills to make a forum. I am wondering if I had forum software on my website, if I could use Gamemaker with an animated intro, then the http request script to send the user to my website to use the forum for advice, then when they log off return to Gamemaker with some sort of ending animation or ending credits? If this is possible then I can use Gamemaker to complete this app for submission to the app store. Do you have any ideas? Thanks.</p>
+
+<p>Mary </p>
+</td>
+</tr>
+</table>
+
+<a name="comment_827"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_827">Comment #52</a>: Sat, 17 Jan 2015, 19:25 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=827">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Fin13</div>
+<div class="quote">
+<p>Hello - thanks for the tips in your website! I am trying to use game maker to do something but not sure if it is possible. Aside from making a game, I also want an advice column app. However, I don&#039;t have the programming skills to make a forum. I am wondering if I had forum software on my website, if I could use Gamemaker with an animated intro, then the http request script to send the user to my website to use the forum for advice, then when they log off return to Gamemaker with some sort of ending animation or ending credits? If this is possible then I can use Gamemaker to complete this app for submission to the app store. Do you have any ideas? Thanks.</p>
+
+<p>Mary </p>
+</div>
+
+<p>You can send POST requests with this DLL, but this DLL is not a browser. You can&#039;t show your own website within the game, you can only receive raw HTML.</p>
+
+<p>What&#039;s the point of an application that only displays your forum? What advantage does this offer over just using the browser?</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_834"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Lolzder</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_834">Comment #53</a>: Sat, 24 Jan 2015, 23:04 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=834">Quote</a></p>
+<hr>
+<p>So in my game i cant see other players, but the server says that they are there. I am using sprites but i thought i implemented that. Here are my scripts: <a href="http://pastebin.com/5AjB4puX" target="_blank">http://pastebin.com/5AjB4puX</a><br>
+any suggestions?</p>
+
+<p class="commenteditdate">Last modified: Sun, 25 Jan 2015, 13:30 (GMT+1, DST)</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_835"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_835">Comment #54</a>: Sun, 25 Jan 2015, 13:28 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=835">Quote</a></p>
+<hr>
+<p>@Lolzder: These comments are meant for general questions about the DLL, not for specific bugs in your game. I am not going to debug your entire game for you ;).</p>
+
+<p>Also, please use pastebin if you want to post a lot of code.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_836"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Odrya12</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_836">Comment #55</a>: Mon, 26 Jan 2015, 10:32 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=836">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Maarten Baert</div>
+<div class="quote">
+<p>@Lolzder: These comments are meant for general questions about the DLL, not for specific bugs in your game. I am not going to debug your entire game for you ;).</p>
+
+<p>Also, please use pastebin if you want to post a lot of code.</p>
+</div>
+
+<p>can u create example of this lib in c++ project for my game server.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_837"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_837">Comment #56</a>: Tue, 27 Jan 2015, 10:43 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=837">Quote</a></p>
+<hr>
+<p>You will need this:<br>
+<a href="http://files.maartenbaert.be/game-maker-dlls/http-dll-2-3-cpp-loader.zip" target="_blank">http://files.maartenbaert.be/game-maker-dlls/http-dll-2-3-cpp-loader.zip</a></p>
+
+<p>After including this, you can use the functions of this DLL just like you would do in GM. You can use any of the existing GM examples and literally convert the code to C++, and it should work just fine.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_843"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Odrya12</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_843">Comment #57</a>: Mon, 2 Feb 2015, 19:18 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=843">Quote</a></p>
+<hr>
+<p>I thank u for this but still its not use for me, I need to use this on the EXE itself.<br>
+I program when i can and i solider so i have no more than 2-3 hour every 48 hours, and it will give me like 3 hour(2 days) if i wont need to follow ur code to create from him libary for my game.<br>
+there is no main dll file?</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_847"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_847">Comment #58</a>: Wed, 4 Feb 2015, 22:51 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=847">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Odrya12</div>
+<div class="quote">
+<p>I thank u for this but still its not use for me, I need to use this on the EXE itself.<br>
+I program when i can and i solider so i have no more than 2-3 hour every 48 hours, and it will give me like 3 hour(2 days) if i wont need to follow ur code to create from him libary for my game.<br>
+there is no main dll file?</p>
+</div>
+
+<p>I don&#039;t understand what you mean. There is a DLL, it&#039;s in the normal zip file, in the &#039;gm&#039; folder. The C++ loader can then load this DLL if you want to use the DLL from C++ instead of Game Maker.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_848"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Odrya12</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_848">Comment #59</a>: Fri, 6 Feb 2015, 3:33 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=848">Quote</a></p>
+<hr>
+<p>http://www.megafileupload.com/en/file/606330/test-rar.html</p>
+
+<p>Take a look at this project, there is a problem when client connect to it ..<br>
+I&#039;m not sure what the problem is, so I asked you to help maybe you can make me a better example of how to use it as a library and not as a DLL.</p>
+
+<p>Thanks anyway for the time I waste from you.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_850"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Odrya12</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_850">Comment #60</a>: Fri, 6 Feb 2015, 23:35 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=850">Quote</a></p>
+<hr>
+<p>I fixed it, change the gmdata to extern from static( why i did it), now its work thank you for the free source code! it is perfect.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_878"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Rafsunmasudprince</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_878">Comment #61</a>: Mon, 2 Mar 2015, 13:44 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=878">Quote</a></p>
+<hr>
+<p>I want to login to a website (Twitter) from my game using this dll. So, please help by posting source code.</p>
+
+<p>Note: I tried a code posted here. It didn&#039;t work.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_879"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_879">Comment #62</a>: Tue, 3 Mar 2015, 22:54 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=879">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Rafsunmasudprince</div>
+<div class="quote">
+<p>I want to login to a website (Twitter) from my game using this dll. So, please help by posting source code.</p>
+
+<p>Note: I tried a code posted here. It didn&#039;t work.</p>
+</div>
+
+<p>I don&#039;t think Twitter allows unencrypted logins. This DLL does not support encryption, so there&#039;s not much you can do.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_888"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Rafsunmasudprince</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_888">Comment #63</a>: Wed, 11 Mar 2015, 16:07 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=888">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Maarten Baert</div>
+<div class="quote">
+<div class="quoteheader">Quote: Rafsunmasudprince</div>
+<div class="quote">
+<p>I want to login to a website (Twitter) from my game using this dll. So, please help by posting source code.</p>
+
+<p>Note: I tried a code posted here. It didn&#039;t work.</p>
+</div>
+
+<p>I don&#039;t think Twitter allows unencrypted logins. This DLL does not support encryption, so there&#039;s not much you can do.</p>
+</div>
+
+<p>Okay. Now I want to login any (unencrypted login) other site. Then what should I do?</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_901"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Katonevi</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_901">Comment #64</a>: Wed, 1 Apr 2015, 18:41 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=901">Quote</a></p>
+<hr>
+<p>Maarten </p>
+
+<p>I&#039;m curious about this library you created. I read through it and got the network working across two systems externally. One system up in San Francisco, the other in San Diego. It work! However.... is this compatible with mobile phones like Android?? I exported the game but my mobile app doesn&#039;t seem to connect to my server.. Is this possible yet??</p>
+
+<p>Thanks<br>
+Katone</p>
+
+<p>EDIT: Here is the socket state on my android device. I presume this is the cause but why? How to resolve this?? The pc works fine but phone, the socket state is 0?</p>
+
+<p>0 = socket_state_notconnected (the socket is not connected)</p>
+
+<p class="commenteditdate">Last modified: Wed, 1 Apr 2015, 22:18 (GMT+1, DST)</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_906"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_906">Comment #65</a>: Mon, 6 Apr 2015, 17:23 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=906">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Katonevi</div>
+<div class="quote">
+<p>Maarten </p>
+
+<p>I&#039;m curious about this library you created. I read through it and got the network working across two systems externally. One system up in San Francisco, the other in San Diego. It work! However.... is this compatible with mobile phones like Android?? I exported the game but my mobile app doesn&#039;t seem to connect to my server.. Is this possible yet??</p>
+
+<p>Thanks<br>
+Katone</p>
+
+<p>EDIT: Here is the socket state on my android device. I presume this is the cause but why? How to resolve this?? The pc works fine but phone, the socket state is 0?</p>
+
+<p>0 = socket_state_notconnected (the socket is not connected)</p>
+</div>
+
+<p>There is no Android version of this extension. It would be possible to create one if someone wants to do the porting, but I don&#039;t have Studio or an Android device to test it, so I can&#039;t do it. Sorry.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_907"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Shadowblitz16</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_907">Comment #66</a>: Sat, 18 Apr 2015, 3:48 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=907">Quote</a></p>
+<hr>
+<p>is it possible to write and read a list of variables<br>
+instead of writing each variable? </p>
+</td>
+</tr>
+</table>
+
+<a name="comment_908"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Koredice</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_908">Comment #67</a>: Sun, 19 Apr 2015, 21:23 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=908">Quote</a></p>
+<hr>
+<p>im so stupid, cant understand, what i need rename to star example work correctly</p>
+
+<p>my gm studio pro: http://www.screencapture.ru/file/589AA5A8 im use 2.3dll</p>
+
+<p>can give me 1 work code example to studio? anything</p>
+
+<p>in http_ex</p>
+
+<p>http://www.screencapture.ru/file/E818A1f0</p>
+
+<p>this compile but dont work, 0kb\s 0 files, run from administrator</p>
+
+<p class="commenteditdate">Last modified: Sun, 19 Apr 2015, 21:58 (GMT+1, DST)</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_909"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_909">Comment #68</a>: Tue, 21 Apr 2015, 23:54 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=909">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Shadowblitz16</div>
+<div class="quote">
+<p>is it possible to write and read a list of variables<br>
+instead of writing each variable? </p>
+</div>
+
+<p>No, GM doesn&#039;t allow passing arrays or data structures to DLLs.</p>
+
+<div class="quoteheader">Quote: Koredice</div>
+<div class="quote">
+<p>im so stupid, cant understand, what i need rename to star example work correctly</p>
+
+<p>my gm studio pro: http://www.screencapture.ru/file/589AA5A8 im use 2.3dll</p>
+
+<p>can give me 1 work code example to studio? anything</p>
+
+<p>in http_ex</p>
+
+<p>http://www.screencapture.ru/file/E818A1f0</p>
+
+<p>this compile but dont work, 0kb\s 0 files, run from administrator</p>
+</div>
+
+<p>Can you send me the compiled EXE? I don&#039;t have Studio myself so I can&#039;t test this without a compiled executable.</p>
+
+<p class="commenteditdate">Last modified: Wed, 22 Apr 2015, 0:33 (GMT+1, DST)</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_939"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Bukmang</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_939">Comment #69</a>: Sat, 19 Sep 2015, 14:05 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=939">Quote</a></p>
+<hr>
+<p>maarten could you do a extension that can export to iOS and android? please<br>
+that works with studio with same functions</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_941"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_941">Comment #70</a>: Tue, 22 Sep 2015, 23:31 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=941">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Bukmang</div>
+<div class="quote">
+<p>maarten could you do a extension that can export to iOS and android? please<br>
+that works with studio with same functions</p>
+</div>
+
+<p>I don&#039;t have GM Studio. Someone else may be willing to do it, but I can&#039;t.</p>
+
+<p>You may want to consider using the built-in functions if you need cross-platform compatibility.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_971"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Win32sc</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_971">Comment #71</a>: Thu, 7 Jan 2016, 15:22 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=971">Quote</a></p>
+<hr>
+<p>Hello, i am creating a game mmo in game maker and i have a problem. When i change the room i dont know how to create the obj_remoteplayer for the other players in this room. Any idea?<br>
+Excuse me bad english.</p>
+
+<p class="commenteditdate">Last modified: Thu, 7 Jan 2016, 15:22 (GMT+1, DST)</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_975"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_975">Comment #72</a>: Sun, 10 Jan 2016, 14:27 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=975">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Win32sc</div>
+<div class="quote">
+<p>Hello, i am creating a game mmo in game maker and i have a problem. When i change the room i dont know how to create the obj_remoteplayer for the other players in this room. Any idea?<br>
+Excuse me bad english.</p>
+</div>
+
+<p>This website is meant for specific problems with the DLL, but this sounds more like a general Game Maker question. Please post these questions on the <a href="http://gmc.yoyogames.com/" target="_blank">GMC forums</a>.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_978"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Win32sc</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_978">Comment #73</a>: Fri, 15 Jan 2016, 17:33 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=978">Quote</a></p>
+<hr>
+<p>Hello, i am working in the problem of change of room, is not resolved yet but i see how do it. Excuse me, but you can do a example of server/client_movement in c++ (only the server). Again excuse me bad english and thank you.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_995"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Jmscreator</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_995">Comment #74</a>: Sun, 10 Apr 2016, 5:42 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=995">Quote</a></p>
+<hr>
+<p>Hello! I have developed a very fun yet simple multiplayer game using this extention(v2.3) I&#039;ve recently been updating it making it better/fixing minor bugs and adding new features. The best feature I added was allowing more than 2 players (it was originally a host/client peer to peer game.) So with the ability to have more than 2 players, it&#039;s a lot more fun. Well I ran into a huge problem. Your extension has a great limitation that I need a way to get around. Here&#039;s the issue:</p>
+
+<p>My code loops through the clients and calls the socket read update like below:<br>
+<span class="code">for(i=0;i&lt;global.Clients;i+=1){ socket_update_read(socket[i]);}</span><br>
+Well if client 0 AND client 1 are both sending data to the host, ONLY client 0 (socket[0]) gets the data and the rest of the clients are forgotten until the client 0 stops sending data. After socket 0 stops receiving the information the rest of the sockets burst with information that is old. I&#039;m guessing this is a threading bug, but I couldn&#039;t be sure. It seems that socket_update_read() can be called only once per step (as mentioned that it should in the documentation) but it should be able to work more than once per step for multiple sockets!</p>
+
+<p>Please help me solve this problem, as I really would like to retreave all the clients information in 1 step and not multiple steps. Thank you!</p>
+
+<p>[Edited]<br>
+So I have version 2.3 release 5 and I just did a test with release 6 and it works!!! I&#039;m guessing someone else had this problem and you already fixed it. Thank you for your work! I&#039;ll post here if I run into anymore problems, or if it still seems to be an issue, but I think the next release will work.</p>
+
+<p class="commenteditdate">Last modified: Sun, 10 Apr 2016, 23:44 (GMT+1, DST)</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_997"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_997">Comment #75</a>: Sun, 10 Apr 2016, 23:45 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=997">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Jmscreator</div>
+<div class="quote">
+<p>Hello! I have developed a very fun yet simple multiplayer game using this extention(v2.3) I&#039;ve recently been updating it making it better/fixing minor bugs and adding new features. The best feature I added was allowing more than 2 players (it was originally a host/client peer to peer game.) So with the ability to have more than 2 players, it&#039;s a lot more fun. Well I ran into a huge problem. Your extension has a great limitation that I need a way to get around. Here&#039;s the issue:</p>
+
+<p>My code loops through the clients and calls the socket read update like below:<br>
+<span class="code">for(i=0;i&lt;global.Clients;i+=1){ socket_update_read(socket[i]);}</span><br>
+Well if client 0 AND client 1 are both sending data to the host, ONLY client 0 (socket[0]) gets the data and the rest of the clients are forgotten until the client 0 stops sending data. After socket 0 stops receiving the information the rest of the sockets burst with information that is old. I&#039;m guessing this is a threading bug, but I couldn&#039;t be sure. It seems that socket_update_read() can be called only once per step (as mentioned that it should in the documentation) but it should be able to work more than once per step for multiple sockets!</p>
+
+<p>Please help me solve this problem, as I really would like to retreave all the clients information in 1 step and not multiple steps. Thank you!</p>
+</div>
+
+<p>This makes no sense. All sockets are completely independent, calling socket_update_read() can&#039;t have any effect on the other sockets. There&#039;s literally no connection between sockets in my code.</p>
+
+<p>Normally you would call socket_update_read() and socket_update_write() once per step per socket. It is safe to call it even more but this is pointless.</p>
+
+<p>Are you sure that this isn&#039;t just a bug in your code? It sounds more like you accidentally used the wrong index or something like that. My examples can handle any number of players (yes, I&#039;ve tested with at least 3, and I think much more too). So I don&#039;t believe this is a bug in the DLL.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_998"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Jmscreator</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_998">Comment #76</a>: Mon, 11 Apr 2016, 0:58 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=998">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Maarten Baert</div>
+<div class="quote">
+<div class="quoteheader">Quote: Jmscreator</div>
+<div class="quote">
+<p>Hello! I have developed a very fun yet simple multiplayer game using this extention(v2.3) I&#039;ve recently been updating it making it better/fixing minor bugs and adding new features. The best feature I added was allowing more than 2 players (it was originally a host/client peer to peer game.) So with the ability to have more than 2 players, it&#039;s a lot more fun. Well I ran into a huge problem. Your extension has a great limitation that I need a way to get around. Here&#039;s the issue:</p>
+
+<p>My code loops through the clients and calls the socket read update like below:<br>
+<span class="code">for(i=0;i&lt;global.Clients;i+=1){ socket_update_read(socket[i]);}</span><br>
+Well if client 0 AND client 1 are both sending data to the host, ONLY client 0 (socket[0]) gets the data and the rest of the clients are forgotten until the client 0 stops sending data. After socket 0 stops receiving the information the rest of the sockets burst with information that is old. I&#039;m guessing this is a threading bug, but I couldn&#039;t be sure. It seems that socket_update_read() can be called only once per step (as mentioned that it should in the documentation) but it should be able to work more than once per step for multiple sockets!</p>
+
+<p>Please help me solve this problem, as I really would like to retreave all the clients information in 1 step and not multiple steps. Thank you!</p>
+</div>
+
+<p>This makes no sense. All sockets are completely independent, calling socket_update_read() can&#039;t have any effect on the other sockets. There&#039;s literally no connection between sockets in my code.</p>
+
+<p>Normally you would call socket_update_read() and socket_update_write() once per step per socket. It is safe to call it even more but this is pointless.</p>
+
+<p>Are you sure that this isn&#039;t just a bug in your code? It sounds more like you accidentally used the wrong index or something like that. My examples can handle any number of players (yes, I&#039;ve tested with at least 3, and I think much more too). So I don&#039;t believe this is a bug in the DLL.</p>
+</div>
+
+<p>Yes it&#039;s a bug in my code. I literally just found it just now. I can&#039;t believe I made that mistake haha *face palm* Thank you for your response!!!</p>
+
+<p class="commenteditdate">Last modified: Mon, 11 Apr 2016, 1:07 (GMT+1, DST)</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_1006"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Mzx987</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_1006">Comment #77</a>: Fri, 6 May 2016, 20:20 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=1006">Quote</a></p>
+<hr>
+<p>Hello,<br>
+I&#039;ve been learning through the examples provided and I&#039;m trying to figure out how one can set up an instance with multiple rooms. Is there an example with communication involving players in different rooms?</p>
+
+<p>Thanks.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_1029"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Rayo</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_1029">Comment #78</a>: Sat, 27 Aug 2016, 22:19 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=1029">Quote</a></p>
+<hr>
+<p>Hello, sometimes the data I&#039;m sending to another socket is not read. I wonder why. It happens unregularly so I don&#039;t know because that happens. Maybe you know?</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_1039"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_1039">Comment #79</a>: Thu, 1 Sep 2016, 10:18 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=1039">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Mzx987</div>
+<div class="quote">
+<p>Hello,<br>
+I&#039;ve been learning through the examples provided and I&#039;m trying to figure out how one can set up an instance with multiple rooms. Is there an example with communication involving players in different rooms?</p>
+
+<p>Thanks.</p>
+</div>
+
+<p>I don&#039;t have an example for that, but it shouldn&#039;t be hard to implement. You may want to use persistent objects so the connection isn&#039;t closed when you switch rooms.</p>
+
+<div class="quoteheader">Quote: Rayo</div>
+<div class="quote">
+<p>Hello, sometimes the data I&#039;m sending to another socket is not read. I wonder why. It happens unregularly so I don&#039;t know because that happens. Maybe you know?</p>
+</div>
+
+<p>Are you absolutely sure that the data isn&#039;t arriving, or could it just be a bug in your code? This DLL has had a lot of testing so it is unlikely to be a bug inside the DLL.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_1041"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Rayo</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_1041">Comment #80</a>: Fri, 2 Sep 2016, 10:43 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=1041">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Maarten Baert</div>
+<div class="quote">
+<p>Are you absolutely sure that the data isn&#039;t arriving, or could it just be a bug in your code? This DLL has had a lot of testing so it is unlikely to be a bug inside the DLL.</p>
+</div>
+
+<p>Probably it&#039;s not a bug inside the dll. In Game Maker 8.1 there are two methods: mplay_message_send and mplay_message_send_guaranteed. In the first method the data isn&#039;t received if the connection is too slow, but in the second method it is always received. This dll just has one method called socket_write_message, but is the message send if the connection is too slow as well? I still think it&#039;s a bug in my code because messages from the host are always received.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_1066"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Pavelgms</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_1066">Comment #81</a>: Thu, 6 Oct 2016, 21:34 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=1066">Quote</a></p>
+<hr>
+<p>Hi, your dll very cool <br>
+But I have problem with &quot;https&quot; adresses, it&#039;s not work. When i write http://site.com/ i have 302 status code with header &quot;location:https://site.com/&quot;<br>
+Sory for my english :))</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_1067"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_1067">Comment #82</a>: Fri, 7 Oct 2016, 2:59 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=1067">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Pavelgms</div>
+<div class="quote">
+<p>Hi, your dll very cool <br>
+But I have problem with &quot;https&quot; adresses, it&#039;s not work. When i write http://site.com/ i have 302 status code with header &quot;location:https://site.com/&quot;<br>
+Sory for my english :))</p>
+</div>
+
+<p>This DLL does not support HTTPS, only regular HTTP.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_1068"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Pavelgms</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_1068">Comment #83</a>: Fri, 7 Oct 2016, 16:02 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=1068">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Maarten Baert</div>
+<div class="quote">
+<div class="quoteheader">Quote: Pavelgms</div>
+<div class="quote">
+<p>Hi, your dll very cool <br>
+But I have problem with &quot;https&quot; adresses, it&#039;s not work. When i write http://site.com/ i have 302 status code with header &quot;location:https://site.com/&quot;<br>
+Sory for my english :))</p>
+</div>
+
+<p>This DLL does not support HTTPS, only regular HTTP.</p>
+</div>
+
+<p>Thanks for quick response!) <br>
+It is a pity that there is no support for https, in this case, I do not fit<br>
+But dll is very good for any other purpose, thank you very much! </p>
+</td>
+</tr>
+</table>
+
+<a name="comment_1325"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Chip</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_1325">Comment #84</a>: Fri, 22 Dec 2017, 22:23 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=1325">Quote</a></p>
+<hr>
+<p>Hi Maarten Baert!<br>
+Is it possible to add a some function to the TCP protocol for port definition?<br>
+This would be useful for circumventing NAT using the TCP</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_1326"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_1326">Comment #85</a>: Sat, 23 Dec 2017, 17:37 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=1326">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Chip</div>
+<div class="quote">
+<p>Hi Maarten Baert!<br>
+Is it possible to add a some function to the TCP protocol for port definition?<br>
+This would be useful for circumventing NAT using the TCP</p>
+</div>
+
+<p>What exactly do you mean, and how do you expect that it will circumvent NAT?</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_1327"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Chip</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_1327">Comment #86</a>: Sun, 24 Dec 2017, 23:51 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=1327">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Maarten Baert</div>
+<div class="quote">
+<div class="quoteheader">Quote: Chip</div>
+<div class="quote">
+<p>Hi Maarten Baert!<br>
+Is it possible to add a some function to the TCP protocol for port definition?<br>
+This would be useful for circumventing NAT using the TCP</p>
+</div>
+
+<p>What exactly do you mean, and how do you expect that it will circumvent NAT?</p>
+</div>
+
+<p>this is for P2P - based on the master server.<br>
+under the control of the master server - in order to &quot;punched&quot; the NAT, it is necessary for the server (player) to send a packet to the client (player), and client (player) send to the server (player), they will send each other packets, and NAT is punched! like UDP</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_1330"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_1330">Comment #87</a>: Mon, 8 Jan 2018, 0:46 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=1330">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Chip</div>
+<div class="quote">
+<p>this is for P2P - based on the master server.<br>
+under the control of the master server - in order to &quot;punched&quot; the NAT, it is necessary for the server (player) to send a packet to the client (player), and client (player) send to the server (player), they will send each other packets, and NAT is punched! like UDP</p>
+</div>
+
+<p>UDP hole punching is a lot more complicated than that. You still need an intermediate server to initialize the connection. Port numbers behind the NAT do not necessarily match the one you set. You need an intermediate server without NAT to receive the initial packet, get the IP and port with <span class="code">udpsocket_get_last_address</span> and <span class="code">udpsocket_get_last_port</span>, and send this information to the other side. Everything you need already exists, this does not require any new functions.</p>
+
+<p>TCP hole punching is much harder. It&#039;s not guaranteed to work at all, it depends on the type of NAT you use. It&#039;s non-standard behaviour. In order to get the ports to work, you either need to create a new connection on an existing port (which breaks the TCP standard and probably will fail with many NATs) or you need to pray that the NAT has preserved the port number (very unreliable) or you need to brute-force the port numbers (very slow, and since it looks like a port scan or DDoS attach, it may trigger firewalls).</p>
+
+<p>My advice: just get a real server and don&#039;t worry about all this stuff. A VPS with a dedicated static IP is very cheap and can even be rented at hourly rates.</p>
+
+<p class="commenteditdate">Last modified: Mon, 8 Jan 2018, 0:58 (GMT+1, DST)</p>
+</td>
+</tr>
+</table>
+
+<p><a href="https://www.maartenbaert.be/writecomment.php?article=66">Write a comment</a></p>
+
+</div>
+
+</td>
+</tr>
+</table>
+
+<div class="footer">
+<p>Copyright 2009-2026 Maarten Baert</p>
+</div>
+
+</body>
+
+</html>

@@ -1,8 +1,8 @@
 use crate::{
-    asset::{assert_ver, Asset, Error, PascalString, ReadChunk, ReadPascalString, WritePascalString},
     GameVersion,
+    asset::{Asset, Error, PascalString, ReadChunk, ReadPascalString, WritePascalString, assert_ver},
 };
-use byteorder::{ReadBytesExt, WriteBytesExt, LE};
+use byteorder::{LE, ReadBytesExt, WriteBytesExt};
 use std::io::{self, Read};
 
 pub const VERSION1: u32 = 710;

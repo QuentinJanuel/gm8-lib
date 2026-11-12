@@ -1,4 +1,4 @@
-use byteorder::{ReadBytesExt, LE};
+use byteorder::{LE, ReadBytesExt};
 use std::io::{self, Read, Seek, SeekFrom};
 
 /// The settings used to decrypt antidec2-protected data, usually extracted from machine code

@@ -1,0 +1,971 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+<link rel="shortcut icon" href="https://www.maartenbaert.be/favicon.ico">
+<link rel="stylesheet" href="https://www.maartenbaert.be/stylesheet.css" type="text/css">
+<link rel="alternate" href="https://www.maartenbaert.be/feed-comments.php" type="application/atom+xml" title="Atom feed (comments)">
+
+<title>Http requests - Game Maker DLLs - Maarten Baert's website</title>
+
+</head>
+
+<body>
+
+<table class="header" cellspacing="0">
+<tr>
+<td class="headertitle" colspan="10">
+<h1>Maarten Baert's website</h1>
+<p>Game Maker / C++ projects</p>
+</td>
+</tr>
+<tr>
+<td class="headerbuttonleft"><a href="https://www.maartenbaert.be/"><span>Home</span></a></td>
+<td class="headerbuttonleft"><a href="https://www.maartenbaert.be/model-creator/"><span>Model Creator</span></a></td>
+<td class="headerbuttonleft"><a href="https://www.maartenbaert.be/extremephysics/"><span>ExtremePhysics</span></a></td>
+<td class="headerbuttonleftactive"><a href="https://www.maartenbaert.be/game-maker-dlls/"><span>Game Maker DLLs</span></a></td>
+<td class="headerbuttonleft"><a href="https://www.maartenbaert.be/simplescreenrecorder/"><span>SimpleScreenRecorder</span></a></td>
+<td class="headerbuttonleft"><a href="https://www.maartenbaert.be/alterpcb/"><span>AlterPCB</span></a></td>
+<td class="headerbuttonleft"><a href="https://www.maartenbaert.be/quadcopters/"><span>Quadcopters</span></a></td>
+<td class="headerbuttonempty">&nbsp;</td>
+<td class="headerbuttonright"><a href="https://www.maartenbaert.be/recentcomments.php"><span>Recent comments</span></a></td>
+<td class="headerbuttonright"><a href="https://www.maartenbaert.be/search.php"><span>Search</span></a></td>
+</tr>
+</table>
+
+<table class="main">
+<tr>
+<td class="mainmenu">
+
+<div class="block">
+<h5>Navigation</h5>
+<p><a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/">&bull; <span>Main page</span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/gm-gmp/">&bull; <span>GM-GMP</span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/">&bull; <span>Http Dll 2</span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/buffers/">&nbsp;&nbsp;&nbsp;&bull; <span>Buffers</span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/md5-and-sha-1/">&nbsp;&nbsp;&nbsp;&bull; <span>MD5 and SHA-1</span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/sockets/">&nbsp;&nbsp;&nbsp;&bull; <span>Sockets</span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/udp-sockets/">&nbsp;&nbsp;&nbsp;&bull; <span>UDP sockets</span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/http-requests/">&nbsp;&nbsp;&nbsp;&bull; <span><strong>Http requests</strong></span></a>
+<a class="blocklink" href="https://www.maartenbaert.be/game-maker-dlls/ds_bin/">&bull; <span>ds_bin</span></a></p>
+<hr>
+<p>
+<a class="blocklink" href="https://www.maartenbaert.be/offlineversion.php?category=4">&bull; <span>Offline version</span></a>
+</p>
+</div>
+
+<div class="block">
+<h5>Log in</h5>
+<form method="post" action="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/http-requests/">
+<p><label>Username:<br><input class="textbox" type="text" name="login_username" size="18"></label></p>
+<p><label>Password:<br><input class="textbox" type="password" name="login_password" size="18"></label></p>
+<p><input type="submit" value="Log in"></p>
+</form>
+
+<p>No account yet? <a href="https://www.maartenbaert.be/register.php">Register!</a></p>
+</div>
+
+<p class="center"><a href="http://validator.w3.org/check?uri=https%3A%2F%2Fwww.maartenbaert.be%2Fgame-maker-dlls%2Fhttp-dll-2%2Fhttp-requests%2F" target="_blank"><img src="https://www.maartenbaert.be/img/valid-html.png" alt="Valid HTML 4.01 Transitional" height="31" width="88" border="0"></a></p>
+<p class="center"><a href="http://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fwww.maartenbaert.be%2Fgame-maker-dlls%2Fhttp-dll-2%2Fhttp-requests%2F" target="_blank"><img src="https://www.maartenbaert.be/img/valid-css.png" alt="Valid CSS!" height="31" width="88" border="0"></a></p>
+
+</td>
+
+<td class="maincontent">
+
+<div class="content">
+
+<p class="articlebuttons">Last modified: Wed, 17 Dec 2014<br>
+<a href="https://www.maartenbaert.be/game-maker-dlls/http-dll-2/http-requests/">Refresh</a></p>
+
+<h1>Http requests</h1>
+
+<ul>
+<li><p><a href="#about-http-requests">About http requests</a></p>
+<li><p><a href="#simple-scripts">Simple scripts</a></p>
+<li><p><a href="#usage-example">Usage example</a></p>
+<li><p><a href="#functions">Functions</a></p>
+<ul>
+<li><p><a href="#httprequest_create">httprequest_create</a></p>
+<li><p><a href="#httprequest_destroy">httprequest_destroy</a></p>
+<li><p><a href="#httprequest_exists">httprequest_exists</a></p>
+<li><p><a href="#httprequest_get_state">httprequest_get_state</a></p>
+<li><p><a href="#httprequest_set_request_header">httprequest_set_request_header</a></p>
+<li><p><a href="#httprequest_remove_request_header">httprequest_remove_request_header</a></p>
+<li><p><a href="#httprequest_clear_request_headers">httprequest_clear_request_headers</a></p>
+<li><p><a href="#httprequest_set_post_parameter">httprequest_set_post_parameter</a></p>
+<li><p><a href="#httprequest_set_post_parameter_file">httprequest_set_post_parameter_file</a></p>
+<li><p><a href="#httprequest_remove_post_parameter">httprequest_remove_post_parameter</a></p>
+<li><p><a href="#httprequest_clear_post_parameters">httprequest_clear_post_parameters</a></p>
+<li><p><a href="#httprequest_reset">httprequest_reset</a></p>
+<li><p><a href="#httprequest_connect">httprequest_connect</a></p>
+<li><p><a href="#httprequest_update">httprequest_update</a></p>
+<li><p><a href="#httprequest_get_status_code">httprequest_get_status_code</a></p>
+<li><p><a href="#httprequest_get_response_header_count">httprequest_get_response_header_count</a></p>
+<li><p><a href="#httprequest_get_response_header_name">httprequest_get_response_header_name</a></p>
+<li><p><a href="#httprequest_get_response_header_value">httprequest_get_response_header_value</a></p>
+<li><p><a href="#httprequest_find_response_header">httprequest_find_response_header</a></p>
+<li><p><a href="#httprequest_get_message_body">httprequest_get_message_body</a></p>
+<li><p><a href="#httprequest_get_message_body_length">httprequest_get_message_body_length</a></p>
+<li><p><a href="#httprequest_get_message_body_buffer">httprequest_get_message_body_buffer</a></p>
+<li><p><a href="#httprequest_urlencode">httprequest_urlencode</a></p>
+<li><p><a href="#httprequest_urldecode">httprequest_urldecode</a></p>
+</ul>
+</ul>
+
+<hr>
+
+<a name="about-http-requests"></a>
+<h2>About http requests</h2>
+
+<p>Http requests are used to download web pages or files from the internet. It can also be used to send data to a web server, just like webforms do. If you have a web server that supports dynamic web pages, you can use it to create online highscores and access them with http requests.</p>
+
+<p>None of the functions will block the game, so it is possible to download things in the background without freezing the game. It is also possible to use multiple http requests at the same time.</p>
+
+<p>Downloading webpages requires a number of steps:</p>
+
+<ol type="1">
+
+<li>
+<p>Create a http request.</p>
+
+<li>
+<p>Set request headers and post parameters (optional).</p>
+
+<li>
+<p>Connect to the web server.</p>
+
+<li>
+<p>Wait until the request completes.</p>
+
+<li>
+<p>Read the response (response headers and message body).</p>
+
+<li>
+<p>Destroy the http request.</p>
+
+</ol>
+
+<a name="simple-scripts"></a>
+<h2>Simple scripts</h2>
+
+<p>You can use these scripts if you simply want to download a file and you don&#039;t need any special options. Note that these scripts will freeze your game until the download completes (or an error occurs).</p>
+
+<pre class="code">// download(url, destination)
+// downloads a file and saves it at the destination
+// returns whether successful
+var st, result, b;
+httprequest = httprequest_create();
+httprequest_connect(httprequest, argument0, false);
+while true {
+    httprequest_update(httprequest);
+    st = httprequest_get_state(httprequest);
+    if st=4 or st=5 {
+        break;
+    }
+    sleep(10);
+}
+if st=5 {
+    result = false;
+} else {
+    result = true;
+    b = buffer_create();
+    httprequest_get_message_body_buffer(httprequest, b);
+    buffer_write_to_file(b, argument1);
+    buffer_destroy(b);
+}
+httprequest_destroy(httprequest);
+return result;</pre>
+
+<pre class="code">// netread(url)
+// loads a webpage and returns the content (i.e. the source code for HTML pages)
+// returns &quot;ERROR&quot; if an error occurred
+var st, result;
+httprequest = httprequest_create();
+httprequest_connect(httprequest, argument0, false);
+while true {
+    httprequest_update(httprequest);
+    st = httprequest_get_state(httprequest);
+    if st=4 or st=5 {
+        break;
+    }
+    sleep(10);
+}
+if st=5 {
+    result = &quot;ERROR&quot;;
+} else {
+    result = httprequest_get_message_body(httprequest);
+}
+httprequest_destroy(httprequest);
+return result;</pre>
+
+<a name="usage-example"></a>
+<h2>Usage example</h2>
+
+<p>Normal (GET) request:</p>
+
+<pre class="code">var httprequest, st;
+httprequest = httprequest_create();
+httprequest_connect(httprequest, &quot;http://www.maartenbaert.be/game-maker-dlls/&quot;, false);
+while true {
+    httprequest_update(httprequest);
+    st = httprequest_get_state(httprequest);
+    if st=4 or st=5 {
+        break;
+    }
+    sleep(10);
+}
+if st=5 {
+    show_message(&quot;Downloading failed.&quot;);
+} else {
+    show_message(&quot;Downloading succeeded.&quot;);
+    contents = httprequest_get_message_body(httprequest);
+}
+httprequest_destroy(httprequest);</pre>
+
+<p>POST request:</p>
+
+<pre class="code">var httprequest, st;
+httprequest = httprequest_create();
+httprequest_set_post_parameter(httprequest, &quot;username&quot;, &quot;John Smith&quot;);
+httprequest_set_post_parameter(httprequest, &quot;password&quot;, &quot;secret&quot;);
+// the third argument of httprequest_connect should be &#039;true&#039; to post data:
+httprequest_connect(httprequest, &quot;http://www.maartenbaert.be/game-maker-dlls/&quot;, true);
+// everything else is the same ...</pre>
+
+<p>Normal request without blocking the game:</p>
+
+<pre class="code">// create event
+httprequest = httprequest_create();
+httprequest_connect(httprequest, &quot;http://www.maartenbaert.be/game-maker-dlls/&quot;, false);
+
+// room end event
+if httprequest!=-1 {
+    httprequest_destroy(httprequest);
+}
+
+// step event
+var st;
+if httprequest!=-1 {
+    httprequest_update(httprequest);
+    st = httprequest_get_state(httprequest);
+    if st=4 {
+        show_message(&quot;Downloading succeeded.&quot;);
+        contents = httprequest_get_message_body(httprequest);
+    }
+    if st=5 {
+        show_message(&quot;Downloading failed.&quot;);
+    }
+    if st=4 or st=5 {
+        httprequest_destroy(httprequest);
+        httprequest = -1;
+    }
+}</pre>
+
+<a name="functions"></a>
+<h2>Functions</h2>
+
+<a name="httprequest_create"></a>
+<h3>httprequest_create</h3>
+
+<pre class="code">httprequest_create()</pre>
+
+<p>Creates a new http request and returns the id.</p>
+
+<a name="httprequest_destroy"></a>
+<h3>httprequest_destroy</h3>
+
+<pre class="code">httprequest_destroy(id)</pre>
+
+<p>Destroys a http request.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the http request.</p>
+</ul>
+
+<a name="httprequest_exists"></a>
+<h3>httprequest_exists</h3>
+
+<pre class="code">httprequest_exists(id)</pre>
+
+<p>Returns whether a http request exists.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the http request.</p>
+</ul>
+
+<a name="httprequest_get_state"></a>
+<h3>httprequest_get_state</h3>
+
+<pre class="code">httprequest_get_state(id)</pre>
+
+<p>Returns the current state of the http request.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the http request.</p>
+</ul>
+
+<p>Return value:</p>
+
+<ul>
+<li>
+<p>0 = httprequest_state_notconnected (not connected)</p>
+
+<li>
+<p>1 = httprequest_state_wait_statuscode (connecting or waiting for status code)</p>
+
+<li>
+<p>2 = httprequest_state_wait_headers (waiting for headers)</p>
+
+<li>
+<p>3 = httprequest_state_wait_messagebody (waiting for message body)</p>
+
+<li>
+<p>4 = httprequest_state_closed (the request has been completed)</p>
+
+<li>
+<p>5 = httprequest_state_error (an error occurred)</p>
+</ul>
+
+<p>These constants are only available if you&#039;re using the extension (GEX), you have to use the numbers if you&#039;re using the scripts and DLL.</p>
+
+<a name="httprequest_set_request_header"></a>
+<h3>httprequest_set_request_header</h3>
+
+<pre class="code">httprequest_set_request_header(id, name, value, replace)</pre>
+
+<p>Sets the value of a request header.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the http request.</p>
+
+<li>
+<p><b>name</b>: The name of the header (without the colon at the end, e.g. &quot;Cookie&quot;). The name is case-insensitive.</p>
+
+<li>
+<p><b>value</b>: The value of the header.</p>
+
+<li>
+<p><b>replace</b>: If <i>replace</i> is true, then the new value will replace the old value if the header exists already. If <i>replace</i> is false, a new header with the same name will be added. Sometimes the same header has to be used several times (e.g. cookies), but most of the time it makes no sense to send the same header more than once, so <i>replace</i> should normally be true.</p>
+</ul>
+
+<a name="httprequest_remove_request_header"></a>
+<h3>httprequest_remove_request_header</h3>
+
+<pre class="code">httprequest_remove_request_header(id, name)</pre>
+
+<p>Removes a request header from the list, if it exists. If multiple headers with the same name exist, they are all removed.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the http request.</p>
+
+<li>
+<p><b>name</b>: The name of the header (without the colon at the end, e.g. &quot;Cookie&quot;). The name is case-insensitive.</p>
+</ul>
+
+<a name="httprequest_clear_request_headers"></a>
+<h3>httprequest_clear_request_headers</h3>
+
+<pre class="code">httprequest_clear_request_headers(id)</pre>
+
+<p>Removes all request headers.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the http request.</p>
+</ul>
+
+<a name="httprequest_set_post_parameter"></a>
+<h3>httprequest_set_post_parameter</h3>
+
+<pre class="code">httprequest_set_post_parameter(id, name, value)</pre>
+
+<p>Sets the value of a post parameter.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the http request.</p>
+
+<li>
+<p><b>name</b>: The name of the post parameter. The name is case-insensitive.</p>
+
+<li>
+<p><b>value</b>: The value. Special characters are allowed, they will be url-encoded automatically (and the server software will decode them).</p>
+</ul>
+
+<a name="httprequest_set_post_parameter_file"></a>
+<h3>httprequest_set_post_parameter_file</h3>
+
+<pre class="code">httprequest_set_post_parameter_file(id, name, filename, buffer_id)</pre>
+
+<p>Sets the value of a post parameter, as a file. This can be used to upload files to the server. If you want to know how to read uploaded files in PHP, read <a href="http://www.php.net/manual/en/features.file-upload.post-method.php" target="_blank">this</a>.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the http request.</p>
+
+<li>
+<p><b>name</b>: The name of the post parameter. The name is case-insensitive.</p>
+
+<li>
+<p><b>filename</b>: The filename. This is the filename the server will receive, it doesn&#039;t have to be an existing file. The actual data is stored in the buffer.</p>
+
+<li>
+<p><b>buffer_id</b>: The id of a buffer that holds the file data.</p>
+</ul>
+
+<a name="httprequest_remove_post_parameter"></a>
+<h3>httprequest_remove_post_parameter</h3>
+
+<pre class="code">httprequest_remove_post_parameter(id, name)</pre>
+
+<p>Removes a post parameter from the list, if it exists.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the http request.</p>
+
+<li>
+<p><b>name</b>: The name of the post parameter. The name is case-insensitive.</p>
+</ul>
+
+<a name="httprequest_clear_post_parameters"></a>
+<h3>httprequest_clear_post_parameters</h3>
+
+<pre class="code">httprequest_clear_post_parameters(id)</pre>
+
+<p>Removes all post parameters.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the http request.</p>
+</ul>
+
+<a name="httprequest_reset"></a>
+<h3>httprequest_reset</h3>
+
+<pre class="code">httprequest_reset(id)</pre>
+
+<p>Resets the http request to its initial state. If the http request was still connected, it is disconnected.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the http request.</p>
+</ul>
+
+<a name="httprequest_connect"></a>
+<h3>httprequest_connect</h3>
+
+<pre class="code">httprequest_connect(id, url, post)</pre>
+
+<p>Makes a connection with the server. This should be done after setting all request headers and post parameters.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the http request.</p>
+
+<li>
+<p><b>url</b>: The url that will be requested. A port number is allowed.</p>
+
+<li>
+<p><b>post</b>: Whether a POST request should be sent (instead of a GET request). You have to set this to true to use post parameters.</p>
+</ul>
+
+<a name="httprequest_update"></a>
+<h3>httprequest_update</h3>
+
+<pre class="code">httprequest_update(id)</pre>
+
+<p>Updates the http request, i.e. receives data from the server.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the http request.</p>
+</ul>
+
+<a name="httprequest_get_status_code"></a>
+<h3>httprequest_get_status_code</h3>
+
+<pre class="code">httprequest_get_status_code(id)</pre>
+
+<p>Returns the status code of the http request. You can find a list of status codes <a href="http://en.wikipedia.org/wiki/List_of_HTTP_status_codes" target="_blank">here</a>.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the http request.</p>
+</ul>
+
+<a name="httprequest_get_response_header_count"></a>
+<h3>httprequest_get_response_header_count</h3>
+
+<pre class="code">httprequest_get_response_header_count(id)</pre>
+
+<p>Returns the number of response headers that were received.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the http request.</p>
+</ul>
+
+<a name="httprequest_get_response_header_name"></a>
+<h3>httprequest_get_response_header_name</h3>
+
+<pre class="code">httprequest_get_response_header_name(id, index)</pre>
+
+<p>Returns the name of a response header, based on the index of the response header.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the http request.</p>
+
+<li>
+<p><b>index</b>: The index of the response header (0 is the first index).</p>
+</ul>
+
+<a name="httprequest_get_response_header_value"></a>
+<h3>httprequest_get_response_header_value</h3>
+
+<pre class="code">httprequest_get_response_header_value(id, index)</pre>
+
+<p>Returns the value of a response header, based on the index of the response header.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the http request.</p>
+
+<li>
+<p><b>index</b>: The index of the response header (0 is the first index).</p>
+</ul>
+
+<a name="httprequest_find_response_header"></a>
+<h3>httprequest_find_response_header</h3>
+
+<pre class="code">httprequest_find_response_header(id, name)</pre>
+
+<p>Returns the value of a response header, based on the name of the response header.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the http request.</p>
+
+<li>
+<p><b>name</b>: The name of the response header (without the colon at the end, e.g. &quot;Content-Type&quot;). The name is case-insensitive.</p>
+</ul>
+
+<a name="httprequest_get_message_body"></a>
+<h3>httprequest_get_message_body</h3>
+
+<pre class="code">httprequest_get_message_body(id)</pre>
+
+<p>Returns the message body (the source code of the web page or the contents of the file) as a string. This function is not binary-safe, use <i>httprequest_get_message_body_buffer</i> for binary files.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the http request.</p>
+</ul>
+
+<a name="httprequest_get_message_body_length"></a>
+<h3>httprequest_get_message_body_length</h3>
+
+<pre class="code">httprequest_get_message_body_length(id)</pre>
+
+<p>Returns the length of the message body. You can also use this to display a progress bar while the download is running by comparing the return value to the value of the Content-Length header (if the Content-Length header exists).</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the http request.</p>
+</ul>
+
+<a name="httprequest_get_message_body_buffer"></a>
+<h3>httprequest_get_message_body_buffer</h3>
+
+<pre class="code">httprequest_get_message_body_buffer(id, buffer_id)</pre>
+
+<p>Copies the message body (the source code of the web page or the contents of the file) to a buffer. This function is binary-safe.</p>
+
+<ul>
+<li>
+<p><b>id</b>: The id of the http request.</p>
+
+<li>
+<p><b>buffer_id</b>: The id of the destination buffer.</p>
+</ul>
+
+<a name="httprequest_urlencode"></a>
+<h3>httprequest_urlencode</h3>
+
+<pre class="code">httprequest_urlencode(string, keepspecialchars)</pre>
+
+<p><a href="http://en.wikipedia.org/wiki/Percent-encoding" target="_blank">Url-encodes</a> a string. This can be used to send special characters (e.g. spaces) as parameters in a url. </p>
+
+<ul>
+<li>
+<p><b>string</b>: The string.</p>
+
+<li>
+<p><b>keepspecialchars</b>: Indicates whether special characters (like &#039;=&#039;, &#039;&amp;&#039;, &#039;?&#039;) should be ignored. If the value is a parameter in a url, you should set this to false. If the value is a complete URL but might contain some characters that have to be encoded, you should set this to true.</p>
+</ul>
+
+<p>Example:</p>
+
+<pre class="code">search = &quot;game maker&quot;;
+url = &quot;http://www.google.com/search?q=&quot;+httprequest_urlencode(search, false);</pre>
+
+<a name="httprequest_urldecode"></a>
+<h3>httprequest_urldecode</h3>
+
+<pre class="code">httprequest_urldecode(string)</pre>
+
+<p>Decodes a <a href="http://en.wikipedia.org/wiki/Percent-encoding" target="_blank">url-encoded</a> string.</p>
+
+<ul>
+<li>
+<p><b>string</b>: The string.</p>
+</ul><hr>
+
+<h2>Comments</h2>
+
+
+
+<a name="comment_151"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Game Fortress</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_151">Comment #1</a>: Mon, 11 Jun 2012, 18:19 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=151">Quote</a></p>
+<hr>
+<p>Example code for http without freezing the game = epic</p>
+
+<p>much love.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_314"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Didi</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_314">Comment #2</a>: Thu, 20 Jun 2013, 3:15 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=314">Quote</a></p>
+<hr>
+<p>Hi<br>
+I am using this helpful dll but I have an issue. It saves the file as ANSI, and because of that, GM can&#039;t understand accents like é è à. How can I force it to save in UTF-8 ?<br>
+Please help.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_318"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Abeing</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_318">Comment #3</a>: Thu, 11 Jul 2013, 17:28 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=318">Quote</a></p>
+<hr>
+<p>Hi Maarten, great DLL you have there!</p>
+
+<p>But I&#039;m always getting an error when using your simple script example &quot;GET request without blocking&quot; when requesting raw-output of &quot;pastebin&quot; sites, like this: http://pastebin.com/raw.php?i=iZ7nV8rn</p>
+
+<p>can you please tell me why this is not working? I would love to call an url and just get the plain text.</p>
+
+<p>It also seems like after my script finished, I crased the whole pastebin site for a minute or two o.0</p>
+
+<p>thanks in advance!</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_322"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_322">Comment #4</a>: Tue, 23 Jul 2013, 20:03 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=322">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Didi</div>
+<div class="quote">
+<p>Hi<br>
+I am using this helpful dll but I have an issue. It saves the file as ANSI, and because of that, GM can&#039;t understand accents like é è à. How can I force it to save in UTF-8 ?<br>
+Please help.</p>
+</div>
+
+<p>The DLL saves whatever it gets from the server, it doesn&#039;t do any conversions (it can&#039;t even do this because it doesn&#039;t know what encoding the server uses, it&#039;s not a HTML parser). If you get some extended ASCII format and not UTF-8, that&#039;s because the server isn&#039;t sending UTF-8. If it&#039;s your server, you can probably change it. If it&#039;s not, you will have to keep a list of all extended ASCII values (128 in total) and translate those to UTF-8 yourself.</p>
+
+<div class="quoteheader">Quote: Abeing</div>
+<div class="quote">
+<p>Hi Maarten, great DLL you have there!</p>
+
+<p>But I&#039;m always getting an error when using your simple script example &quot;GET request without blocking&quot; when requesting raw-output of &quot;pastebin&quot; sites, like this: http://pastebin.com/raw.php?i=iZ7nV8rn</p>
+
+<p>can you please tell me why this is not working? I would love to call an url and just get the plain text.</p>
+
+<p>It also seems like after my script finished, I crased the whole pastebin site for a minute or two o.0</p>
+
+<p>thanks in advance!</p>
+</div>
+
+<p>I haven&#039;t tested this, but you can try to change the User-Agent header so your program looks like a real browser. Example:</p>
+
+<pre class="code">httprequest_set_request_header(httprequest, &quot;User-Agent&quot;, &quot;Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:23.0) Gecko/20131011 Firefox/23.0&quot;, true);</pre>
+
+<p>This imitates Firefox 23 on 64-bit Windows. I don&#039;t know whether that&#039;s good enough though, it could also be checking other things.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_367"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Doubleparallax</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_367">Comment #5</a>: Sat, 12 Oct 2013, 21:13 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=367">Quote</a></p>
+<hr>
+<p>Hey, I&#039;m trying to use this with Game Maker Studio, but it seems to just... not work at all... Nothing happens, no errors, no nothing, just doesn&#039;t even start.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_368"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Doubleparallax</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_368">Comment #6</a>: Sat, 12 Oct 2013, 21:34 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=368">Quote</a></p>
+<hr>
+<p>Never mind the YOYOCompiler for Windows was causing multiple errors.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_413"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Yelly</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_413">Comment #7</a>: Tue, 12 Nov 2013, 10:52 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=413">Quote</a></p>
+<hr>
+<p>Thanks for this dll.<br>
+It has worked for me but since today I get number 5 as my httprequest state.<br>
+So there is an error, but is there a way to find out what the error is? I really have no idea :(</p>
+
+<p>The status code says 0..</p>
+
+<p class="commenteditdate">Last modified: Tue, 12 Nov 2013, 10:56 (GMT+1, DST)</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_416"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_416">Comment #8</a>: Tue, 12 Nov 2013, 12:58 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=416">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Yelly</div>
+<div class="quote">
+<p>Thanks for this dll.<br>
+It has worked for me but since today I get number 5 as my httprequest state.<br>
+So there is an error, but is there a way to find out what the error is? I really have no idea :(</p>
+
+<p>The status code says 0..</p>
+</div>
+
+<p>If you think it&#039;s a problem with the connection, try running <a href="https://wireshark.org/" target="_blank">wireshark</a> to find out what&#039;s happening. If you think it&#039;s a problem with your code, post it here :).</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_421"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Yelly</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_421">Comment #9</a>: Fri, 15 Nov 2013, 18:41 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=421">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Maarten Baert</div>
+<div class="quote">
+<div class="quoteheader">Quote: Yelly</div>
+<div class="quote">
+<p>Thanks for this dll.<br>
+It has worked for me but since today I get number 5 as my httprequest state.<br>
+So there is an error, but is there a way to find out what the error is? I really have no idea :(</p>
+
+<p>The status code says 0..</p>
+</div>
+
+<p>If you think it&#039;s a problem with the connection, try running <a href="https://wireshark.org/" target="_blank">wireshark</a> to find out what&#039;s happening. If you think it&#039;s a problem with your code, post it here :).</p>
+</div>
+
+<p>I have no idea why it wasn&#039;t working but it only happens at our school.. don&#039;t ask me why :P.</p>
+
+<p>But I have a new problem. The host has always worked fine(apart from that it was often down) but 000webhost is now really fucking. In the browser is everything working fine but when I try to connect from GameMaker I get a proxy 502 error. Please help! :(</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_425"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_425">Comment #10</a>: Sat, 16 Nov 2013, 21:56 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=425">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Yelly</div>
+<div class="quote">
+<p>I have no idea why it wasn&#039;t working but it only happens at our school.. don&#039;t ask me why :P.</p>
+</div>
+
+<p>That could be a very restrictive firewall. Some networks require that you use a proxy for all HTTP traffic, and Http Dll 2 has no proxy support. School networks are not the best place to test your programs :).</p>
+
+<div class="quoteheader">Quote: Yelly</div>
+<div class="quote">
+<p>But I have a new problem. The host has always worked fine(apart from that it was often down) but 000webhost is now really fucking. In the browser is everything working fine but when I try to connect from GameMaker I get a proxy 502 error. Please help! :(</p>
+</div>
+
+<p>Is this still on the school network? Your browser may be configured to use a proxy, if that&#039;s the case there&#039;s not much you can do.</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_496"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Vensilver</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_496">Comment #11</a>: Thu, 9 Jan 2014, 20:42 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=496">Quote</a></p>
+<hr>
+<p>hi i download your project but the sample is not working on game maker 8.1</p>
+
+<p>http://gmc.yoyogames.com/index.php?showtopic=600254&amp;page=2</p>
+
+<p>what to do ??</p>
+
+<p class="commenteditdate">Last modified: Thu, 9 Jan 2014, 20:52 (GMT+1, DST)</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_498"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_498">Comment #12</a>: Fri, 10 Jan 2014, 0:45 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=498">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Vensilver</div>
+<div class="quote">
+<p>hi i download your project but the sample is not working on game maker 8.1</p>
+
+<p>http://gmc.yoyogames.com/index.php?showtopic=600254&amp;page=2</p>
+
+<p>what to do ??</p>
+</div>
+
+<p>That&#039;s not one of my examples. You should ask the creator of the example, not me :).</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_999"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabel">
+<h5>Silica</h5>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_999">Comment #13</a>: Sun, 17 Apr 2016, 17:00 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=999">Quote</a></p>
+<hr>
+<p>Hello im trying to use this to download a file<br>
+that file is 74MB and its only downloading 7MB the file is an EXE and is hosted on my own server. im using your simple script thingy, how can i change it to download an .EXE properly?</p>
+</td>
+</tr>
+</table>
+
+<a name="comment_1000"></a>
+<table class="comment" cellspacing="0">
+<tr>
+<td class="commentlabeladmin">
+<h5>Maarten Baert</h5>
+<p>Administrator</p>
+</td>
+<td class="commenttext">
+<p class="commentdate"><a href="#comment_1000">Comment #14</a>: Sun, 17 Apr 2016, 22:58 (GMT+1, DST)</p>
+<p class="commentbuttons"><a href="https://www.maartenbaert.be/writecomment.php?quote=1000">Quote</a></p>
+<hr>
+<div class="quoteheader">Quote: Silica</div>
+<div class="quote">
+<p>Hello im trying to use this to download a file<br>
+that file is 74MB and its only downloading 7MB the file is an EXE and is hosted on my own server. im using your simple script thingy, how can i change it to download an .EXE properly?</p>
+</div>
+
+<p>I&#039;ve successfully downloaded much larger files, so I suspect it&#039;s a problem with the server configuration, not the DLL. If you want to know what went wrong, look at the server log, or look at the traffic in <a href="https://www.wireshark.org/" target="_blank">Wireshark</a>.</p>
+</td>
+</tr>
+</table>
+
+<p><a href="https://www.maartenbaert.be/writecomment.php?article=71">Write a comment</a></p>
+
+</div>
+
+</td>
+</tr>
+</table>
+
+<div class="footer">
+<p>Copyright 2009-2026 Maarten Baert</p>
+</div>
+
+</body>
+
+</html>
