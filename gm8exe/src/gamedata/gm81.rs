@@ -30,20 +30,23 @@ pub struct Header {
     pub data_start: u64,
 }
 
-/// The 8.1 loading sequence, and where in the runner it sits. The dword straight after it is where
-/// the runner starts looking for the data header.
-const LOADING_SEQUENCE_POS: usize = 0x00226CF3;
-const LOADING_SEQUENCE: [u8; 8] = [0xE8, 0x80, 0xF2, 0xDD, 0xFF, 0xC7, 0x45, 0xF0];
+/// The 8.1 loading sequence, and where in the runner it sits, for each runner build seen. The dword
+/// straight after it is where the runner starts looking for the data header.
+///
+/// The sequence opens with a relative CALL, so a build that moves the function also changes the
+/// call's operand. A runner built 2011-12-20 has it 0x84 bytes earlier than the common one.
+const LOADING_SEQUENCES: [(usize, [u8; 8]); 2] = [
+    (0x00226CF3, [0xE8, 0x80, 0xF2, 0xDD, 0xFF, 0xC7, 0x45, 0xF0]),
+    (0x00226C6F, [0xE8, 0x04, 0xF3, 0xDD, 0xFF, 0xC7, 0x45, 0xF0]),
+];
 
 /// The CMP against the header magic: 125 bytes past the header-start dword.
-const MAGIC_CMP_POS: usize = LOADING_SEQUENCE_POS + 12 + 125;
+const MAGIC_CMP_OFFSET: usize = 12 + 125;
 
-/// SUDALV's re-encryption, recognised by the machine code that performs it.
+/// SUDALV's re-encryption, recognised by the machine code that performs it. This part of the
+/// runner does not move between the builds above.
 const SUDALV_POS: usize = 0x0010BB83;
 const SUDALV_SEQUENCE: [u8; 8] = [0x8B, 0x02, 0xC1, 0xE0, 0x10, 0x8B, 0x11, 0x81];
-
-/// The shortest file that could hold all of the above.
-const MIN_LEN: usize = 0x226D8A;
 
 fn read_u32(exe: &[u8], at: usize) -> Option<u32> {
     let bytes = exe.get(at..at + 4)?;
@@ -60,22 +63,16 @@ where
 {
     log!(logger, "Checking for standard GM8.1 format");
 
-    // Verify size is large enough to do the following checks - otherwise it can't be this format
-    if exe.len() < MIN_LEN {
-        log!(logger, "File too short for this format (0x{:X} bytes)", exe.len());
-        return None
-    }
+    // Check for a known 8.1 loading sequence
+    let &(sequence_pos, _) =
+        LOADING_SEQUENCES.iter().find(|(pos, seq)| exe.get(*pos..*pos + 8) == Some(&seq[..]))?;
+    let header_start = u64::from(read_u32(exe, sequence_pos + 8)?);
+    let magic_cmp_pos = sequence_pos + MAGIC_CMP_OFFSET;
 
-    // Check for the standard 8.1 loading sequence
-    if exe[LOADING_SEQUENCE_POS..LOADING_SEQUENCE_POS + 8] != LOADING_SEQUENCE {
-        return None
-    }
-    let header_start = u64::from(read_u32(exe, LOADING_SEQUENCE_POS + 8)?);
-
-    let magic: Option<u32> = match exe[MAGIC_CMP_POS..MAGIC_CMP_POS + 3] {
-        [0x81, 0x7D, 0xEC] => {
-            let magic = read_u32(exe, MAGIC_CMP_POS + 3)?;
-            if exe[MAGIC_CMP_POS + 7] == 0x74 {
+    let magic: Option<u32> = match exe.get(magic_cmp_pos..magic_cmp_pos + 8)? {
+        [0x81, 0x7D, 0xEC, _, _, _, _, jump] => {
+            let magic = read_u32(exe, magic_cmp_pos + 3)?;
+            if *jump == 0x74 {
                 log!(logger, "GM8.1 magic check looks intact - value is 0x{:X}", magic);
                 Some(magic)
             } else {
@@ -83,13 +80,13 @@ where
                 None
             }
         },
-        ref b => {
-            log!(logger, "GM8.1 magic check's CMP is patched out ({:?})", b);
+        b => {
+            log!(logger, "GM8.1 magic check's CMP is patched out ({:?})", &b[..3]);
             None
         },
     };
 
-    let xor_method = if exe[SUDALV_POS..SUDALV_POS + 8] == SUDALV_SEQUENCE {
+    let xor_method = if exe.get(SUDALV_POS..SUDALV_POS + 8) == Some(&SUDALV_SEQUENCE[..]) {
         log!(logger, "Found SUDALV re-encryption");
         XorMethod::Sudalv
     } else {
@@ -317,5 +314,32 @@ impl<I: Iterator<Item = u16>> Iterator for SudalvMaskGenerator<I> {
         self.seed1 = (0xFFFF & self.seed1) * u32::from(self.iter.next().unwrap()) + (self.seed1 >> 16);
         self.seed2 = (0xFFFF & self.seed2) * u32::from(self.iter.next().unwrap()) + (self.seed2 >> 16);
         Some((self.seed1 << 16) + (self.seed2 & 0xFFFF))
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// Every known runner layout is found, with the header read through that layout's own offsets.
+    #[test]
+    fn finds_each_known_runner_layout() {
+        for (pos, sequence) in LOADING_SEQUENCES {
+            let header_start = 0x0023_0000usize;
+            let mut exe = vec![0u8; header_start + 64];
+            exe[pos..pos + 8].copy_from_slice(&sequence);
+            exe[pos + 8..pos + 12].copy_from_slice(&(header_start as u32).to_le_bytes());
+            // The magic CMP, intact, hunting for the stock header magic.
+            let cmp = pos + MAGIC_CMP_OFFSET;
+            exe[cmp..cmp + 3].copy_from_slice(&[0x81, 0x7D, 0xEC]);
+            exe[cmp + 3..cmp + 7].copy_from_slice(&0xF7140067u32.to_le_bytes());
+            exe[cmp + 7] = 0x74;
+            // 0xF7140067 split across two dwords by byte, as the runner stores it.
+            let magic_pos = header_start + 16;
+            exe[magic_pos..magic_pos + 8].copy_from_slice(&[0x00, 0x00, 0x00, 0xF7, 0x67, 0x00, 0x14, 0x00]);
+
+            let header = find(&exe, None::<fn(&str)>).expect("known layout not found");
+            assert_eq!(header.data_start, magic_pos as u64 + 8 + 8 + 20);
+        }
     }
 }
