@@ -135,7 +135,7 @@ where
     F: Copy + Fn(&str),
 {
     log!(logger, "Searching for default GM8.1 data header");
-    exe.set_position(3800004);
+    exe.set_position(LAZY_SEARCH_FROM);
     let found_header = seek_value(exe, 0xF7140067)?.is_some();
     if found_header {
         decrypt(exe, logger, XorMethod::Normal)?;
@@ -144,6 +144,15 @@ where
     } else {
         Ok(false)
     }
+}
+
+const LAZY_SEARCH_FROM: u64 = 3800004;
+
+/// [`check_lazy`] without touching a byte: for the runners [`find`] does not recognise (a release
+/// candidate's, say) whose data header is simply the default one, somewhere past the runner.
+pub fn find_lazy(exe: &[u8]) -> Option<Header> {
+    let pos = find_value(exe, LAZY_SEARCH_FROM, 0xF7140067)?;
+    header_at(exe, pos, XorMethod::Normal)
 }
 
 /// Scans for a GM81-style magic value from `from`, returning the offset of the eight bytes it was
