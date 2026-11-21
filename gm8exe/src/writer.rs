@@ -384,19 +384,34 @@ const GM81_DATA_CHECK_JZ: usize = 0x10BD49;
 /// machine code -- so it is left alone and the caller is told, which beats shipping a game that
 /// exits on launch for a reason nobody can see.
 pub fn disarm_gm81_data_check(exe: &mut [u8]) -> io::Result<()> {
-    match exe.get_mut(GM81_DATA_CHECK_JZ) {
-        Some(byte @ 0x74) => {
-            *byte = 0xEB;
-            Ok(())
-        },
-        // Already unconditional: another tool has been here, or this game shipped that way.
-        Some(0xEB) => Ok(()),
-        _ => Err(io::Error::new(
-            io::ErrorKind::InvalidData,
-            "this GameMaker 8.1 runner does not carry its data check where every other one does, \
-             so the check cannot be disarmed and a patched build of it would not start",
-        )),
+    let at = match exe.get(GM81_DATA_CHECK_JZ) {
+        Some(0x74 | 0xEB) => GM81_DATA_CHECK_JZ,
+        // A runner built differently (a release candidate's sits at 0x108935): the same code, so
+        // found by what surrounds the branch -- the compare of the two checksums, then the `JZ`.
+        _ => find_data_check(exe).ok_or_else(|| {
+            io::Error::new(
+                io::ErrorKind::InvalidData,
+                "this GameMaker 8.1 runner does not carry its data check where every other one does, \
+                 so the check cannot be disarmed and a patched build of it would not start",
+            )
+        })?,
+    };
+    // 0x74 is the `JZ`; 0xEB means another tool has been here, or this game shipped that way.
+    if exe[at] == 0x74 {
+        exe[at] = 0xEB;
     }
+    Ok(())
+}
+
+/// `MOV EAX,[EBP-4]; CALL ..; CMP EAX,[EBP-8]; JZ +5; CALL ..`: the check's compare and branch.
+/// The `JZ` is the byte after the third dword's tail; only one match counts, or it is not trusted.
+fn find_data_check(exe: &[u8]) -> Option<usize> {
+    const BEFORE: [u8; 12] = [0x8B, 0x45, 0xFC, 0xE8, 0xEE, 0xFD, 0xFF, 0xFF, 0x3B, 0x45, 0xF8, 0x74];
+    let mut found = exe.windows(BEFORE.len() + 2).enumerate().filter(|(_, w)| {
+        w[..BEFORE.len()] == BEFORE && w[BEFORE.len()] == 0x05 && w[BEFORE.len() + 1] == 0xE8
+    });
+    let (start, _) = found.next()?;
+    found.next().is_none().then_some(start + BEFORE.len() - 1)
 }
 
 /// Identifies a standard GameMaker 8 executable and says where its data begins.
@@ -407,7 +422,9 @@ pub fn disarm_gm81_data_check(exe: &mut [u8]) -> io::Result<()> {
 pub fn find_layout(exe: &[u8]) -> Option<Layout> {
     match find_gamedata_start(exe) {
         Some(start) => Some(Layout::Gm80 { start }),
-        None => gm81::find(exe, None::<fn(&str)>).map(|header| Layout::Gm81 { header }),
+        None => gm81::find(exe, None::<fn(&str)>)
+            .or_else(|| gm81::find_lazy(exe))
+            .map(|header| Layout::Gm81 { header }),
     }
 }
 
@@ -501,6 +518,17 @@ mod tests {
             seen[*value as usize] = true;
         }
         true
+    }
+
+    #[test]
+    fn disarm_finds_the_data_check_in_a_runner_built_differently() {
+        let mut exe = vec![0u8; 0x200];
+        let check = [0x8B, 0x45, 0xFC, 0xE8, 0xEE, 0xFD, 0xFF, 0xFF, 0x3B, 0x45, 0xF8, 0x74, 0x05, 0xE8];
+        exe[0x100..0x100 + check.len()].copy_from_slice(&check);
+        disarm_gm81_data_check(&mut exe).unwrap();
+        assert_eq!(exe[0x100 + 11], 0xEB);
+        // Nothing like it anywhere: refused, not guessed.
+        assert!(disarm_gm81_data_check(&mut vec![0u8; 0x200]).is_err());
     }
 
     #[test]
